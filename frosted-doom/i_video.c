@@ -17,7 +17,7 @@
 //
 
 
-#include "SDL.h"
+#include "SDL/SDL.h"
 #include <stdlib.h>
 #include <ctype.h>
 #include <math.h>

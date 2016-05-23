@@ -1608,6 +1608,7 @@ static const int scantokey[128] =
 
 static void SaveDefaultCollection(default_collection_t *collection)
 {
+#if ORIGCODE
     default_t *defaults;
     int i, v;
     FILE *f;
@@ -1707,6 +1708,7 @@ static void SaveDefaultCollection(default_collection_t *collection)
     }
 
     fclose (f);
+#endif
 }
 
 // Parses integer values in the configuration file
@@ -1768,6 +1770,7 @@ static void SetVariable(default_t *def, char *value)
 
 static void LoadDefaultCollection(default_collection_t *collection)
 {
+#if ORIGCODE
     FILE *f;
     default_t *def;
     char defname[80];
@@ -1825,6 +1828,7 @@ static void LoadDefaultCollection(default_collection_t *collection)
     }
 
     fclose (f);
+#endif
 }
 
 // Set the default filenames to use for configuration files.
@@ -2047,7 +2051,8 @@ static char *GetDefaultConfigDir(void)
     char *homedir;
     char *result;
 
-    homedir = getenv("HOME");
+    // frosted HACK - homedir = getenv("HOME");
+    homedir = "/mnt";
 
     if (homedir != NULL)
     {
@@ -2062,7 +2067,7 @@ static char *GetDefaultConfigDir(void)
     else
 #endif /* #ifndef _WIN32 */
     {
-        return strdup("");
+        return strdup(FILES_DIR"/");
     }
 }
 
@@ -2104,7 +2109,9 @@ void M_SetConfigDir(char *dir)
 char *M_GetSaveGameDir(char *iwadname)
 {
     char *savegamedir;
+#if ORIGCODE
     char *topdir;
+#endif
 
     // If not "doing" a configuration directory (Windows), don't "do"
     // a savegame directory, either.
@@ -2115,9 +2122,10 @@ char *M_GetSaveGameDir(char *iwadname)
     }
     else
     {
+#if ORIGCODE
         // ~/.chocolate-doom/savegames
 
-        topdir = M_StringJoin(configdir, "savegames", NULL);
+        topdir = M_StringJoin(configdir, "savegame", NULL);
         M_MakeDirectory(topdir);
 
         // eg. ~/.chocolate-doom/savegames/doom2.wad/
@@ -2128,6 +2136,13 @@ char *M_GetSaveGameDir(char *iwadname)
         M_MakeDirectory(savegamedir);
 
         free(topdir);
+#else
+        savegamedir = M_StringJoin(configdir, "savegame/", NULL);
+
+        M_MakeDirectory(savegamedir);
+
+        printf ("Using %s for savegames\n", savegamedir);
+#endif
     }
 
     return savegamedir;

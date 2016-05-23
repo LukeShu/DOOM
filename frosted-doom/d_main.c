@@ -664,12 +664,12 @@ static char *GetGameName(char *gamename)
             M_snprintf(gamename, gamename_size, deh_sub,
                        version / 100, version % 100);
 
-            while (gamename[0] != '\0' && isspace(gamename[0]))
+            while (gamename[0] != '\0' && isspace((int)gamename[0]))
             {
                 memmove(gamename, gamename + 1, gamename_size - 1);
             }
 
-            while (gamename[0] != '\0' && isspace(gamename[strlen(gamename)-1]))
+            while (gamename[0] != '\0' && isspace((int)gamename[strlen(gamename)-1]))
             {
                 gamename[strlen(gamename) - 1] = '\0';
             }
@@ -1081,6 +1081,7 @@ static void D_Endoom(void)
     I_Endoom(endoom);
 }
 
+#if ORIGCODE
 // Load dehacked patches needed for certain IWADs.
 static void LoadIwadDeh(void)
 {
@@ -1150,6 +1151,7 @@ static void LoadIwadDeh(void)
         }
     }
 }
+#endif
 
 //
 // D_DoomMain
@@ -1159,7 +1161,9 @@ void D_DoomMain (void)
     int p;
     char file[256];
     char demolumpname[9];
+#if ORIGCODE
     int numiwadlumps;
+#endif
 
     I_AtExit(D_Endoom, false);
 
@@ -1369,7 +1373,9 @@ void D_DoomMain (void)
 
     DEH_printf("W_Init: Init WADfiles.\n");
     D_AddFile(iwadfile);
+#if ORIGCODE
     numiwadlumps = numlumps;
+#endif
 
     W_CheckCorrectIWAD(doom);
 
@@ -1378,6 +1384,7 @@ void D_DoomMain (void)
     D_IdentifyVersion();
     InitGameVersion();
 
+#if ORIGCODE
     //!
     // @category mod
     //
@@ -1390,6 +1397,7 @@ void D_DoomMain (void)
         // them to be played properly.
         LoadIwadDeh();
     }
+#endif
 
     // Doom 3: BFG Edition includes modified versions of the classic
     // IWADs which can be identified by an additional DMENUPIC lump.
@@ -1506,6 +1514,7 @@ void D_DoomMain (void)
     // Load DEHACKED lumps from WAD files - but only if we give the right
     // command line parameter.
 
+#if ORIGCODE
     //!
     // @category mod
     //
@@ -1527,6 +1536,7 @@ void D_DoomMain (void)
 
         printf("  loaded %i DEHACKED lumps from PWAD files.\n", loaded);
     }
+#endif
 
     // Set the gamedescription string. This is only possible now that
     // we've finished loading Dehacked patches.

@@ -125,7 +125,7 @@ char			savegamestrings[10][SAVESTRINGSIZE];
 
 char	endstring[160];
 
-static boolean opldev;
+//static boolean opldev;
 
 //
 // MENU TYPEDEFS
@@ -1909,6 +1909,7 @@ void M_StartControlPanel (void)
 
 // Display OPL debug messages - hack for GENMIDI development.
 
+#if 0
 static void M_DrawOPLDev(void)
 {
     extern void I_OPL_DevMessages(char *, size_t);
@@ -1916,7 +1917,7 @@ static void M_DrawOPLDev(void)
     char *curr, *p;
     int line;
 
-    I_OPL_DevMessages(debug, sizeof(debug));
+    //XXX I_OPL_DevMessages(debug, sizeof(debug));
     curr = debug;
     line = 0;
 
@@ -1940,6 +1941,7 @@ static void M_DrawOPLDev(void)
         curr = p + 1;
     }
 }
+#endif
 
 //
 // M_Drawer
@@ -1998,10 +2000,10 @@ void M_Drawer (void)
 	return;
     }
 
-    if (opldev)
-    {
-        M_DrawOPLDev();
-    }
+    //if (opldev)
+    //{
+    //    M_DrawOPLDev();
+    //}
 
     if (!menuactive)
 	return;
@@ -2118,6 +2120,6 @@ void M_Init (void)
 	EpiDef.numitems--;
     }
 
-    opldev = M_CheckParm("-opldev") > 0;
+    //opldev = M_CheckParm("-opldev") > 0;
 }
 

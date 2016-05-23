@@ -15,9 +15,10 @@
 //       SDL Joystick code.
 //
 
-
+#ifdef ORIGCODE
 #include "SDL.h"
 #include "SDL_joystick.h"
+#endif
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -36,7 +37,9 @@
 
 #define DEAD_ZONE (32768 / 3)
 
+#ifdef ORIGCODE
 static SDL_Joystick *joystick = NULL;
+#endif
 
 // Configuration variables:
 
@@ -73,14 +76,17 @@ static int joystick_physical_buttons[NUM_VIRTUAL_BUTTONS] = {
 
 void I_ShutdownJoystick(void)
 {
+#ifdef ORIGCODE
     if (joystick != NULL)
     {
         SDL_JoystickClose(joystick);
         joystick = NULL;
         SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
     }
+#endif
 }
 
+#ifdef ORIGCODE
 static boolean IsValidAxis(int axis)
 {
     int num_axes;
@@ -104,9 +110,11 @@ static boolean IsValidAxis(int axis)
 
     return axis < num_axes;
 }
+#endif
 
 void I_InitJoystick(void)
 {
+#ifdef ORIGCODE
     if (!usejoystick)
     {
         return;
@@ -156,8 +164,10 @@ void I_InitJoystick(void)
     printf("I_InitJoystick: %s\n", SDL_JoystickName(joystick_index));
 
     I_AtExit(I_ShutdownJoystick, true);
+#endif
 }
 
+#ifdef ORIGCODE
 static boolean IsAxisButton(int physbutton)
 {
     if (IS_BUTTON_AXIS(joystick_x_axis))
@@ -307,9 +317,10 @@ static int GetAxisState(int axis, int invert)
 
     return result;
 }
-
+#endif
 void I_UpdateJoystick(void)
 {
+#ifdef ORIGCODE
     if (joystick != NULL)
     {
         event_t ev;
@@ -322,6 +333,7 @@ void I_UpdateJoystick(void)
 
         D_PostEvent(&ev);
     }
+#endif
 }
 
 void I_BindJoystickVariables(void)

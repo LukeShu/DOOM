@@ -21,6 +21,7 @@
 #include <ctype.h>
 #include <string.h>
 
+#include "config.h"
 #include "deh_str.h"
 #include "doomkeys.h"
 #include "d_iwad.h"
@@ -37,7 +38,7 @@ static const iwad_t iwads[] =
     { "plutonia.wad", pack_plut, commercial, "Final Doom: Plutonia Experiment" },
     { "tnt.wad",      pack_tnt,  commercial, "Final Doom: TNT: Evilution" },
     { "doom.wad",     doom,      retail,     "Doom" },
-    { "doom1.wad",    doom,      shareware,  "Doom Shareware" },
+    { "DOOM1.WAD",    doom,      shareware,  "Doom Shareware" },
     { "chex.wad",     pack_chex, shareware,  "Chex Quest" },
     { "hacx.wad",     pack_hacx, commercial, "Hacx" },
     { "freedm.wad",   doom2,     commercial, "FreeDM" },
@@ -505,6 +506,7 @@ static GameMission_t IdentifyIWADByName(char *name, int mask)
     return mission;
 }
 
+#if ORIGCODE
 //
 // Add directories from the list in the DOOMWADPATH environment variable.
 //
@@ -554,6 +556,7 @@ static void AddDoomWadPath(void)
     }
 }
 
+#endif
 
 //
 // Build a list of IWAD files
@@ -561,6 +564,7 @@ static void AddDoomWadPath(void)
 
 static void BuildIWADDirList(void)
 {
+#if ORIGCODE
     char *doomwaddir;
 
     if (iwad_dirs_built)
@@ -606,10 +610,13 @@ static void BuildIWADDirList(void)
     AddIWADDir("/usr/local/share/games/doom");
 
 #endif
+#else
+    AddIWADDir (FILES_DIR);
 
     // Don't run this function again.
 
     iwad_dirs_built = true;
+#endif
 }
 
 //

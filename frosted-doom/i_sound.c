@@ -18,13 +18,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef ORIGCODE
 #include "SDL_mixer.h"
+#endif
 
 #include "config.h"
 #include "doomfeatures.h"
 #include "doomtype.h"
 
+#ifdef ORIGCODE
 #include "gusconf.h"
+#endif
 #include "i_sound.h"
 #include "i_video.h"
 #include "m_argv.h"
@@ -76,10 +80,12 @@ extern char *timidity_cfg_path;
 // so that the config file can be shared between chocolate
 // doom and doom.exe
 
+#if ORIGCODE
 static int snd_sbport = 0;
 static int snd_sbirq = 0;
 static int snd_sbdma = 0;
 static int snd_mport = 0;
+#endif
 
 // Compiled-in sound modules:
 
@@ -431,6 +437,7 @@ boolean I_MusicIsPlaying(void)
 
 void I_BindSoundVariables(void)
 {
+#ifdef ORIGCODE
     extern int use_libsamplerate;
     extern float libsamplerate_scale;
 
@@ -469,6 +476,7 @@ void I_BindSoundVariables(void)
             snd_musicdevice = SNDDEVICE_NONE;
         }
     }
+#endif
 #endif
 }
 

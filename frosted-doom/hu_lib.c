@@ -105,7 +105,7 @@ HUlib_drawTextLine
     x = l->x;
     for (i=0;i<l->len;i++)
     {
-	c = toupper(l->l[i]);
+	c = toupper((int)l->l[i]);
 	if (c != ' '
 	    && c >= l->sc
 	    && c <= '_')

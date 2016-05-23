@@ -77,7 +77,7 @@ unsigned int W_LumpNameHash(const char *s)
 
     for (i=0; i < 8 && s[i] != '\0'; ++i)
     {
-        result = ((result << 5) ^ result ) ^ toupper(s[i]);
+        result = ((result << 5) ^ result ) ^ toupper((int)s[i]);
     }
 
     return result;
@@ -505,7 +505,7 @@ void W_Profile (void)
 	info[i][profilecount] = ch;
     }
     profilecount++;
-	
+#if ORIGCODE
     f = fopen ("waddump.txt","w");
     name[8] = 0;
 
@@ -528,6 +528,7 @@ void W_Profile (void)
 	fprintf (f,"\n");
     }
     fclose (f);
+#endif
 }
 
 

@@ -20,8 +20,6 @@
 
 #include <stdio.h>
 
-#include "SDL.h"
-
 #include "doomtype.h"
 #include "i_system.h"
 #include "m_argv.h"
@@ -44,7 +42,7 @@ int main(int argc, char **argv)
     M_FindResponseFile();
 
     // start doom
-
+    printf("Starting D_DoomMain\r\n");
     D_DoomMain ();
 
     return 0;

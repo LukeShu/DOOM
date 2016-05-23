@@ -20,6 +20,7 @@
 #ifndef __I_SWAP__
 #define __I_SWAP__
 
+#ifdef ORIGCODE
 #include "SDL_endian.h"
 
 // Endianess handling.
@@ -41,5 +42,13 @@
 #define SYS_BIG_ENDIAN
 #endif
 
+#else
+	
+#define SHORT(x)  ((signed short) (x))
+#define LONG(x)   ((signed int) (x))
+
+#define SYS_LITTLE_ENDIAN
+
+#endif
 #endif
 

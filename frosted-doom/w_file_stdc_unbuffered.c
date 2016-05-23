@@ -17,6 +17,11 @@
 //
 
 #include <stdio.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #include "m_misc.h"
 #include "w_file.h"
@@ -25,19 +30,36 @@
 typedef struct
 {
     wad_file_t wad;
-    FILE *fstream;
+    int fd;
 } stdc_wad_file_t;
 
 extern wad_file_class_t stdc_wad_file;
 
+static unsigned int W_StdC_FileLength(int fd)
+{
+    long savedpos;
+    long length;
+
+    // save the current position in the file
+    savedpos = lseek(fd, 0, SEEK_CUR);
+    
+    // jump to the end and find the length
+    length = lseek(fd, 0, SEEK_END);
+
+    // go back to the old location
+    lseek(fd, savedpos, SEEK_SET);
+
+    return length;
+}
+
 static wad_file_t *W_StdC_OpenFile(char *path)
 {
     stdc_wad_file_t *result;
-    FILE *fstream;
+    int fd;
 
-    fstream = fopen(path, "rb");
+    fd = open(path, O_RDONLY);
 
-    if (fstream == NULL)
+    if (fd <= 0)
     {
         return NULL;
     }
@@ -47,8 +69,8 @@ static wad_file_t *W_StdC_OpenFile(char *path)
     result = Z_Malloc(sizeof(stdc_wad_file_t), PU_STATIC, 0);
     result->wad.file_class = &stdc_wad_file;
     result->wad.mapped = NULL;
-    result->wad.length = M_FileLength(fstream);
-    result->fstream = fstream;
+    result->wad.length = W_StdC_FileLength(fd);
+    result->fd = fd;
 
     return &result->wad;
 }
@@ -59,7 +81,7 @@ static void W_StdC_CloseFile(wad_file_t *wad)
 
     stdc_wad = (stdc_wad_file_t *) wad;
 
-    fclose(stdc_wad->fstream);
+    close(stdc_wad->fd);
     Z_Free(stdc_wad);
 }
 
@@ -76,11 +98,11 @@ size_t W_StdC_Read(wad_file_t *wad, unsigned int offset,
 
     // Jump to the specified position in the file.
 
-    fseek(stdc_wad->fstream, offset, SEEK_SET);
+    lseek(stdc_wad->fd, offset, SEEK_SET);
 
     // Read into the buffer.
 
-    result = fread(buffer, 1, buffer_len, stdc_wad->fstream);
+    result = read(stdc_wad->fd, buffer, buffer_len);
 
     return result;
 }
