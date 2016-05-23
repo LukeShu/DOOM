@@ -1100,7 +1100,7 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     // key cards
     for (i=0;i<NUMCARDS;i++)
     {
-	DEH_snprintf(namebuf, 9, "STKEYS%d", i);
+    	DEH_snprintf(namebuf, 9, "STKEYS%d", i);
         callback(namebuf, &keys[i]);
     }
 
@@ -1110,13 +1110,13 @@ static void ST_loadUnloadGraphics(load_callback_t callback)
     // arms ownership widgets
     for (i=0; i<6; i++)
     {
-	DEH_snprintf(namebuf, 9, "STGNUM%d", i+2);
+    	DEH_snprintf(namebuf, 9, "STGNUM%d", i+2);
 
-	// gray #
+    	// gray #
         callback(namebuf, &arms[i][0]);
 
-	// yellow #
-	arms[i][1] = shortnum[i+2]; 
+        // yellow #
+        arms[i][1] = shortnum[i+2];
     }
 
     // face backgrounds for different color players

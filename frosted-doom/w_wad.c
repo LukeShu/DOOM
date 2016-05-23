@@ -154,55 +154,55 @@ wad_file_t *W_AddFile (char *filename)
 
     if (wad_file == NULL)
     {
-	printf (" couldn't open %s\n", filename);
-	return NULL;
+		printf (" couldn't open %s\n", filename);
+		return NULL;
     }
 
     newnumlumps = numlumps;
 
     if (strcasecmp(filename+strlen(filename)-3 , "wad" ) )
     {
-	// single lump file
+    	// single lump file
 
         // fraggle: Swap the filepos and size here.  The WAD directory
         // parsing code expects a little-endian directory, so will swap
         // them back.  Effectively we're constructing a "fake WAD directory"
         // here, as it would appear on disk.
 
-	fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
-	fileinfo->filepos = LONG(0);
-	fileinfo->size = LONG(wad_file->length);
+		fileinfo = Z_Malloc(sizeof(filelump_t), PU_STATIC, 0);
+		fileinfo->filepos = LONG(0);
+		fileinfo->size = LONG(wad_file->length);
 
         // Name the lump after the base of the filename (without the
         // extension).
 
-	M_ExtractFileBase (filename, fileinfo->name);
-	newnumlumps++;
+		M_ExtractFileBase (filename, fileinfo->name);
+		newnumlumps++;
     }
     else 
     {
-	// WAD file
+    	// WAD file
         W_Read(wad_file, 0, &header, sizeof(header));
 
-	if (strncmp(header.identification,"IWAD",4))
-	{
-	    // Homebrew levels?
-	    if (strncmp(header.identification,"PWAD",4))
-	    {
-		I_Error ("Wad file %s doesn't have IWAD "
-			 "or PWAD id\n", filename);
-	    }
-	    
-	    // ???modifiedgame = true;		
-	}
+		if (strncmp(header.identification,"IWAD",4))
+		{
+			// Homebrew levels?
+			if (strncmp(header.identification,"PWAD",4))
+			{
+			I_Error ("Wad file %s doesn't have IWAD "
+				 "or PWAD id\n", filename);
+			}
 
-	header.numlumps = LONG(header.numlumps);
-	header.infotableofs = LONG(header.infotableofs);
-	length = header.numlumps*sizeof(filelump_t);
-	fileinfo = Z_Malloc(length, PU_STATIC, 0);
+			// ???modifiedgame = true;
+		}
+
+		header.numlumps = LONG(header.numlumps);
+		header.infotableofs = LONG(header.infotableofs);
+		length = header.numlumps*sizeof(filelump_t);
+		fileinfo = Z_Malloc(length, PU_STATIC, 0);
 
         W_Read(wad_file, header.infotableofs, fileinfo, length);
-	newnumlumps += header.numlumps;
+        newnumlumps += header.numlumps;
     }
 
     // Increase size of numlumps array to accomodate the new file.
@@ -215,14 +215,14 @@ wad_file_t *W_AddFile (char *filename)
 
     for (i=startlump; i<numlumps; ++i)
     {
-	lump_p->wad_file = wad_file;
-	lump_p->position = LONG(filerover->filepos);
-	lump_p->size = LONG(filerover->size);
-        lump_p->cache = NULL;
-	strncpy(lump_p->name, filerover->name, 8);
+		lump_p->wad_file = wad_file;
+		lump_p->position = LONG(filerover->filepos);
+		lump_p->size = LONG(filerover->size);
+			lump_p->cache = NULL;
+		strncpy(lump_p->name, filerover->name, 8);
 
-        ++lump_p;
-        ++filerover;
+			++lump_p;
+			++filerover;
     }
 
     Z_Free(fileinfo);
@@ -308,7 +308,7 @@ int W_GetNumForName (char* name)
     int	i;
 
     i = W_CheckNumForName (name);
-    
+
     if (i < 0)
     {
         I_Error ("W_GetNumForName: %s not found!", name);

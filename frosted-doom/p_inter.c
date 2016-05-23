@@ -164,48 +164,50 @@ P_GiveWeapon
 {
     boolean	gaveammo;
     boolean	gaveweapon;
+
+    if (netgame && (deathmatch!=2) && !dropped )
+	{
+		// leave placed weapons forever on net games
+		if (player->weaponowned[weapon])
+			return false;
+
+		player->bonuscount += BONUSADD;
+		player->weaponowned[weapon] = true;
 	
-    if (netgame
-	&& (deathmatch!=2)
-	 && !dropped )
-    {
-	// leave placed weapons forever on net games
-	if (player->weaponowned[weapon])
-	    return false;
+		if (deathmatch)
+			P_GiveAmmo (player, weaponinfo[weapon].ammo, 5);
+		else
+			P_GiveAmmo (player, weaponinfo[weapon].ammo, 2);
+		player->pendingweapon = weapon;
 
-	player->bonuscount += BONUSADD;
-	player->weaponowned[weapon] = true;
-
-	if (deathmatch)
-	    P_GiveAmmo (player, weaponinfo[weapon].ammo, 5);
-	else
-	    P_GiveAmmo (player, weaponinfo[weapon].ammo, 2);
-	player->pendingweapon = weapon;
-
-	if (player == &players[consoleplayer])
-	    S_StartSound (NULL, sfx_wpnup);
-	return false;
+		if (player == &players[consoleplayer])
+			S_StartSound (NULL, sfx_wpnup);
+		return false;
     }
 	
     if (weaponinfo[weapon].ammo != am_noammo)
     {
-	// give one clip with a dropped weapon,
-	// two clips with a found weapon
-	if (dropped)
-	    gaveammo = P_GiveAmmo (player, weaponinfo[weapon].ammo, 1);
-	else
-	    gaveammo = P_GiveAmmo (player, weaponinfo[weapon].ammo, 2);
+		// give one clip with a dropped weapon,
+		// two clips with a found weapon
+		if (dropped)
+			gaveammo = P_GiveAmmo (player, weaponinfo[weapon].ammo, 1);
+		else
+			gaveammo = P_GiveAmmo (player, weaponinfo[weapon].ammo, 2);
     }
     else
-	gaveammo = false;
+    {
+    	gaveammo = false;
+    }
 	
     if (player->weaponowned[weapon])
-	gaveweapon = false;
+    {
+    	gaveweapon = false;
+    }
     else
     {
-	gaveweapon = true;
-	player->weaponowned[weapon] = true;
-	player->pendingweapon = weapon;
+		gaveweapon = true;
+		player->weaponowned[weapon] = true;
+		player->pendingweapon = weapon;
     }
 	
     return (gaveweapon || gaveammo);
@@ -603,9 +605,8 @@ P_TouchSpecialThing
 	break;
 	
       case SPR_MGUN:
-        if (!P_GiveWeapon(player, wp_chaingun,
-                          (special->flags & MF_DROPPED) != 0))
-            return;
+	if (!P_GiveWeapon (player, wp_chaingun, (special->flags&MF_DROPPED) != 0) )
+	    return;
 	player->message = DEH_String(GOTCHAINGUN);
 	sound = sfx_wpnup;	
 	break;
@@ -632,17 +633,15 @@ P_TouchSpecialThing
 	break;
 	
       case SPR_SHOT:
-        if (!P_GiveWeapon(player, wp_shotgun,
-                          (special->flags & MF_DROPPED) != 0))
-            return;
+	if (!P_GiveWeapon (player, wp_shotgun, (special->flags&MF_DROPPED) != 0 ) )
+	    return;
 	player->message = DEH_String(GOTSHOTGUN);
 	sound = sfx_wpnup;	
 	break;
 		
       case SPR_SGN2:
-        if (!P_GiveWeapon(player, wp_supershotgun,
-                          (special->flags & MF_DROPPED) != 0))
-            return;
+	if (!P_GiveWeapon (player, wp_supershotgun, (special->flags&MF_DROPPED) != 0 ) )
+	    return;
 	player->message = DEH_String(GOTSHOTGUN2);
 	sound = sfx_wpnup;	
 	break;

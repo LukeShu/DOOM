@@ -2118,7 +2118,7 @@ char *M_GetSaveGameDir(char *iwadname)
 
     if (!strcmp(configdir, ""))
     {
-	savegamedir = strdup("");
+    	savegamedir = strdup("");
     }
     else
     {

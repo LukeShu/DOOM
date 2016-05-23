@@ -976,7 +976,7 @@ void G_Ticker (void)
 			S_ResumeSound (); 
 		    break; 
 					 
-		  case BTS_SAVEGAME: 
+		  case BTS_SAVEGAME:
 		    if (!savedescription[0]) 
                     {
                         M_StringCopy(savedescription, "NET GAME",
@@ -1546,7 +1546,7 @@ void G_LoadGame (char* name)
 
 
 void G_DoLoadGame (void) 
-{ 
+{
     int savedleveltime;
 	 
     gameaction = ga_nothing; 
@@ -1555,7 +1555,7 @@ void G_DoLoadGame (void)
 
     if (save_stream == NULL)
     {
-        return;
+    	return;
     }
 
     savegame_error = false;
@@ -1585,10 +1585,10 @@ void G_DoLoadGame (void)
     fclose(save_stream);
     
     if (setsizeneeded)
-	R_ExecuteSetViewSize ();
+    	R_ExecuteSetViewSize ();
     
     // draw the pattern into the back screen
-    R_FillBackScreen ();   
+    R_FillBackScreen (); 
 } 
  
 
@@ -1619,7 +1619,7 @@ void G_DoSaveGame (void)
 
     // Open the savegame file for writing.  We write to a temporary file
     // and then rename it at the end if it was successfully written.
-    // This prevents an existing savegame from being overwritten by
+    // This prevents an existing savegame from being overwritten by 
     // a corrupted one, or if a savegame buffer overrun occurs.
     save_stream = fopen(temp_savegame_file, "wb");
 
@@ -1639,22 +1639,22 @@ void G_DoSaveGame (void)
     savegame_error = false;
 
     P_WriteSaveGameHeader(savedescription);
-
-    P_ArchivePlayers ();
-    P_ArchiveWorld ();
-    P_ArchiveThinkers ();
-    P_ArchiveSpecials ();
-
+ 
+    P_ArchivePlayers (); 
+    P_ArchiveWorld (); 
+    P_ArchiveThinkers (); 
+    P_ArchiveSpecials (); 
+	 
     P_WriteSaveGameEOF();
-
-    // Enforce the same savegame size limit as in Vanilla Doom,
+	 
+    // Enforce the same savegame size limit as in Vanilla Doom, 
     // except if the vanilla_savegame_limit setting is turned off.
 
     if (vanilla_savegame_limit && ftell(save_stream) > SAVEGAMESIZE)
     {
-        I_Error("Savegame buffer overrun");
+        I_Error ("Savegame buffer overrun");
     }
-
+    
     // Finish up, close the savegame file.
 
     fclose(save_stream);
@@ -1674,15 +1674,15 @@ void G_DoSaveGame (void)
 
     remove(savegame_file);
     rename(temp_savegame_file, savegame_file);
-
+    
     gameaction = ga_nothing;
     M_StringCopy(savedescription, "", sizeof(savedescription));
 
     players[consoleplayer].message = DEH_String(GGSAVED);
 
     // draw the pattern into the back screen
-    R_FillBackScreen ();
-}
+    R_FillBackScreen ();	
+} 
  
 
 //
