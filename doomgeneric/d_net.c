@@ -38,6 +38,8 @@
 
 #include "d_loop.h"
 
+#include "doomgeneric_aalib.h"
+
 ticcmd_t *netcmds;
 
 // Called when a player leaves the game

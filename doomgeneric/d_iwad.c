@@ -32,6 +32,8 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#include "doomgeneric_aalib.h"
+
 static const iwad_t iwads[] =
 {
     { "doom2.wad",    doom2,     commercial, "Doom II" },

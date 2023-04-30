@@ -28,6 +28,8 @@
 #include "m_argv.h"
 #include "z_zone.h"
 
+#include "doomgeneric_aalib.h"
+
 #if defined(_MSC_VER) && !defined(__cplusplus)
 #define inline __inline
 #endif
@@ -375,9 +377,9 @@ static void I_InitStretchTables(byte *palette)
     // mix 100% =  just write line 2
 
     printf("I_InitStretchTables: Generating lookup tables..");
-    fflush(stdout);
+    fflush(stderr);
     stretch_tables[0] = GenerateStretchTable(palette, 20);
-    printf(".."); fflush(stdout);
+    printf(".."); fflush(stderr);
     stretch_tables[1] = GenerateStretchTable(palette, 40);
     puts("");
 }
@@ -392,7 +394,7 @@ static void I_InitSquashTable(byte *palette)
     }
 
     printf("I_InitSquashTable: Generating lookup table..");
-    fflush(stdout);
+    fflush(stderr);
     half_stretch_table = GenerateStretchTable(palette, 50);
     puts("");
 }

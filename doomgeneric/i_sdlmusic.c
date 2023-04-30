@@ -41,6 +41,8 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#include "doomgeneric_aalib.h"
+
 #define MAXMIDLENGTH (96 * 1024)
 #define MID_HEADER_MAGIC "MThd"
 #define MUS_HEADER_MAGIC "MUS\x1a"

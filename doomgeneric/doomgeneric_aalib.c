@@ -12,7 +12,8 @@ static aa_context *context = NULL;
 #define div_roundup(n, d) ((n + d - 1) / d)
 
 int main(int argc, char **argv) {
-	if (!aa_parseoptions(NULL, NULL, &argc, argv)) {
+	/* AAOPTS */
+	if (!aa_parseoptions(NULL, NULL, NULL, NULL)) {
 		puts(aa_help);
 		return 2;
 	}
@@ -40,6 +41,7 @@ void DG_DrawFrame() {
 			aa_close(context);
 			error(1, 0, "failed to initialize aalib keyboard");
 		}
+		aa_hidecursor(context);
 	}
 
 	unsigned char *out_buffer = aa_image(context);
@@ -69,11 +71,11 @@ void DG_DrawFrame() {
 		}
 	}
 
-	aa_render(context, &aa_defrenderparams,
-	          /* TTY X1 */ 0,
-	          /* TTY Y1 */ 0,
-	          /* TTY X2 */ aa_scrwidth(context),
-	          /* TTY Y2 */ aa_scrheight(context));
+	/* aa_render(context, &aa_defrenderparams, */
+	/*           /\* TTY X1 *\/ out_xoff, */
+	/*           /\* TTY Y1 *\/ 0, */
+	/*           /\* TTY X2 *\/ out_xoff + out_resx, */
+	/*           /\* TTY Y2 *\/ out_resy); */
 
 	aa_flush(context);
 }
@@ -86,7 +88,7 @@ int DG_GetKey(int *pressed, unsigned char *doomKey) {
 	if (!event)
 		return 0;
 
-	*pressed = event >= AA_RELEASE;
+	*pressed = event < AA_RELEASE;
 	event &= ~AA_RELEASE;
 
 	switch (event) {
@@ -113,6 +115,10 @@ int DG_GetKey(int *pressed, unsigned char *doomKey) {
 		if (event >= 127)
 			aa_printf(context, 0, aa_scrheight(context)-1, AA_NORMAL,
 			          "unknown keycode: %d", event);
+	}
+	for (int i = 0; i <= aa_scrheight(context); i++) {
+	aa_printf(context, 0, i, AA_NORMAL,
+	          "%d: doomkey=%d pressed=%d                    ", i, *doomKey, *pressed);
 	}
 	return 1;
 }

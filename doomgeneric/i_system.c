@@ -55,6 +55,8 @@
 #include <CoreFoundation/CFUserNotification.h>
 #endif
 
+#include "doomgeneric_aalib.h"
+
 #define DEFAULT_RAM 6 /* MiB */
 #define MIN_RAM     6  /* MiB */
 
@@ -209,16 +211,7 @@ void I_PrintStartupBanner(char *gamedescription)
 
 boolean I_ConsoleStdout(void)
 {
-#ifdef _WIN32
-    // SDL "helpfully" always redirects stdout to a file.
-    return 0;
-#else
-#if ORIGCODE
-    return isatty(fileno(stdout));
-#else
-	return 0;
-#endif
-#endif
+	return 1;
 }
 
 //

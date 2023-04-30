@@ -36,6 +36,8 @@
 
 #include "w_wad.h"
 
+#include "doomgeneric_aalib.h"
+
 typedef struct
 {
     // Should be "IWAD" or "PWAD".

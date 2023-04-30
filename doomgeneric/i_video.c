@@ -44,6 +44,8 @@
 
 #include <sys/types.h>
 
+#include "doomgeneric_aalib.h"
+
 //#define CMAP256
 
 struct FB_BitField

@@ -38,6 +38,8 @@
 
 #include "r_data.h"
 
+#include "doomgeneric_aalib.h"
+
 //
 // Graphics.
 // DOOM graphics for walls and sprites

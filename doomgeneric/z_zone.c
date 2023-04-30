@@ -21,6 +21,8 @@
 #include "i_system.h"
 #include "doomtype.h"
 
+#include "doomgeneric_aalib.h"
+
 
 //
 // ZONE MEMORY ALLOCATION

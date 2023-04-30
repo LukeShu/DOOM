@@ -74,6 +74,8 @@
 
 #include "d_main.h"
 
+#include "doomgeneric_aalib.h"
+
 //
 // D-DoomLoop()
 // Not a globally visible function,

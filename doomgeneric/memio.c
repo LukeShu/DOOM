@@ -24,6 +24,8 @@
 
 #include "z_zone.h"
 
+#include "doomgeneric_aalib.h"
+
 typedef enum {
 	MODE_READ,
 	MODE_WRITE,

@@ -40,6 +40,8 @@
 #include "net_sdl.h"
 #include "net_loop.h"
 
+#include "doomgeneric_aalib.h"
+
 // The complete set of data for a particular tic.
 
 typedef struct

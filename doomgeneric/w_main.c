@@ -24,6 +24,8 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#include "doomgeneric_aalib.h"
+
 // Parse the command line, merging WAD files that are sppecified.
 // Returns true if at least one file was added.
 

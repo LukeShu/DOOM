@@ -29,6 +29,8 @@
 
 #include "statdump.h"
 
+#include "doomgeneric_aalib.h"
+
 #if ORIGCODE
 /* Par times for E1M1-E1M9. */
 static const int doom1_par_times[] =
