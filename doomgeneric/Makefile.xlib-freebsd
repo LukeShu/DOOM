@@ -6,7 +6,7 @@ endif
 
 CC = clang  # gcc or g++
 LD = $(CC)
-CFLAGS  += -ggdb3 -Os -I/usr/local/include -Wall -DNORMALUNIX -DLINUX -DSNDSERV # -DUSEASM
+CFLAGS  += -ggdb3 -Os -I/usr/local/include -Wall
 LDFLAGS += $(CFLAGS) -Wl,--gc-sections -L/usr/local/lib -Wl,-Map,$(OUTPUT).map
 LIBS    += -lm -lc -lX11
 
