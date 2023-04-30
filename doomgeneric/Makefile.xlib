@@ -4,9 +4,9 @@ else
 	VB=@
 endif
 
-CC = clang  # gcc or g++
+CC = gcc
 LD = $(CC)
-CFLAGS  += -ggdb3 -Os -Wall -D_DEFAULT_SOURCE
+CFLAGS  += -ggdb3 -Os -Wall -Werror -Wno-pointer-to-int-cast -Wno-format-truncation -Wno-deprecated-declarations -D_DEFAULT_SOURCE
 LDFLAGS += $(CFLAGS) -Wl,--gc-sections
 LIBS    += -lm -lc -lX11
 

@@ -14,7 +14,7 @@
 #include <X11/XKBlib.h>
 
 static Display *s_Display = NULL;
-static Window s_Window = NULL;
+static Window s_Window = 0;
 static int s_Screen = 0;
 static GC s_Gc = 0;
 static XImage *s_Image = NULL;
@@ -196,7 +196,7 @@ void DG_SetWindowTitle(const char * title)
 {
     if (s_Window)
     {
-        XChangeProperty(s_Display, s_Window, XA_WM_NAME, XA_STRING, 8, PropModeReplace, title, strlen(title));
+        XChangeProperty(s_Display, s_Window, XA_WM_NAME, XA_STRING, 8, PropModeReplace, (unsigned char *)title, strlen(title));
     }
 }
 
