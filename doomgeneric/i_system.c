@@ -211,16 +211,7 @@ void I_PrintStartupBanner(char *gamedescription)
 
 boolean I_ConsoleStdout(void)
 {
-#ifdef _WIN32
-    // SDL "helpfully" always redirects stdout to a file.
-    return 0;
-#else
-#if ORIGCODE
-    return isatty(fileno(stdout));
-#else
-    return 0;
-#endif
-#endif
+	return 1;
 }
 
 #if 0
