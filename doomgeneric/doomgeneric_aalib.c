@@ -48,6 +48,7 @@ void DG_DrawFrame() {
 	int out_resx = DOOMGENERIC_RESX / doomx_per_outx;
 	int out_resy = DOOMGENERIC_RESY / doomy_per_outy;
 	int full_out_resx = aa_imgwidth(context);
+	int out_xoff = (full_out_resx - out_resx) / 2;
 
 	//aa_close(context);
 	//error(1, 0, "resx=%d resy=%d", out_resx, out_resy);
@@ -64,7 +65,7 @@ void DG_DrawFrame() {
 					v += (r + g + b) / 3;
 				}
 			}
-			out_buffer[oy*full_out_resx+ox] = v/(doomx_per_outx*doomy_per_outy);
+			out_buffer[out_xoff+oy*full_out_resx+ox] = v/(doomx_per_outx*doomy_per_outy);
 		}
 	}
 
