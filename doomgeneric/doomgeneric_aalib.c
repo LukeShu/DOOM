@@ -62,7 +62,7 @@ void DG_DrawFrame() {
 					r = (DG_ScreenBuffer[dy*DOOMGENERIC_RESX+dx] >> 24) & 0xFF;
 					g = (DG_ScreenBuffer[dy*DOOMGENERIC_RESX+dx] >> 16) & 0xFF;
 					b = (DG_ScreenBuffer[dy*DOOMGENERIC_RESX+dx] >>  8) & 0xFF;
-					v += (r + g + b) / 3;
+					v += (r*30 + g*59 + b*11) / 100;
 				}
 			}
 			out_buffer[out_xoff+oy*full_out_resx+ox] = v/(doomx_per_outx*doomy_per_outy);
