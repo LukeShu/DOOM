@@ -196,7 +196,7 @@ void DG_SetWindowTitle(const char * title)
 {
     if (s_Window)
     {
-        XChangeProperty(s_Display, s_Window, XA_WM_NAME, XA_STRING, 8, PropModeReplace, title, strlen(title));
+        XChangeProperty(s_Display, s_Window, XA_WM_NAME, XA_STRING, 8, PropModeReplace, (unsigned char *)title, strlen(title));
     }
 }
 
