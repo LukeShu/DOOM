@@ -6,6 +6,8 @@
 .vs/
 Debug/
 Release/
-aadoom
 *.map
 *.wad
+
+/doomgeneric/aadoom
+/doomgeneric/doomgeneric
