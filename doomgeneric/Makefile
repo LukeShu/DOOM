@@ -6,7 +6,7 @@ endif
 
 CC = gcc
 LD = $(CC)
-CFLAGS  += -ggdb3 -Os -Wall -Werror -Wno-pointer-to-int-cast -Wno-format-truncation -D_DEFAULT_SOURCE
+CFLAGS  += -ggdb3 -O0 -Wall -Werror -Wno-pointer-to-int-cast -Wno-format-truncation -D_DEFAULT_SOURCE
 LDFLAGS += $(CFLAGS) -Wl,--gc-sections
 LIBS    += -lm -lc -laa
 
