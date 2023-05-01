@@ -9,7 +9,7 @@
 
 static aa_context *context = NULL;
 
-#define div_roundup(n, d) ((n + d - 1) / d)
+#define div_roundup(n, d) (((n) + (d) - 1) / (d))
 
 int main(int argc, char **argv) {
 	/* AAOPTS */
@@ -45,15 +45,13 @@ void DG_DrawFrame() {
 	}
 
 	unsigned char *out_buffer = aa_image(context);
+
 	int doomx_per_outx = div_roundup(DOOMGENERIC_RESX, aa_imgwidth(context));
 	int doomy_per_outy = div_roundup(DOOMGENERIC_RESY, aa_imgheight(context)-1);
 	int out_resx = DOOMGENERIC_RESX / doomx_per_outx;
 	int out_resy = DOOMGENERIC_RESY / doomy_per_outy;
 	int full_out_resx = aa_imgwidth(context);
 	int out_xoff = (full_out_resx - out_resx) / 2;
-
-	//aa_close(context);
-	//error(1, 0, "resx=%d resy=%d", out_resx, out_resy);
 
 	uint32_t v, r, g, b;
 	for (int oy = 0; oy < out_resy; oy++) {
@@ -67,15 +65,15 @@ void DG_DrawFrame() {
 					v += (r*30 + g*59 + b*11) / 100;
 				}
 			}
-			out_buffer[out_xoff+oy*full_out_resx+ox] = v/(doomx_per_outx*doomy_per_outy);
+			out_buffer[oy*full_out_resx+out_xoff+ox] = v/(doomx_per_outx*doomy_per_outy);
 		}
 	}
 
-	/* aa_render(context, &aa_defrenderparams, */
-	/*           /\* TTY X1 *\/ out_xoff, */
-	/*           /\* TTY Y1 *\/ 0, */
-	/*           /\* TTY X2 *\/ out_xoff + out_resx, */
-	/*           /\* TTY Y2 *\/ out_resy); */
+	aa_render(context, &aa_defrenderparams,
+	          /* TTY X1 */ out_xoff,
+	          /* TTY Y1 */ 0,
+	          /* TTY X2 */ out_xoff + out_resx,
+	          /* TTY Y2 */ out_resy);
 
 	aa_flush(context);
 }
@@ -84,7 +82,9 @@ int DG_GetKey(int *pressed, unsigned char *doomKey) {
 	if (context == NULL)
 		return 0;
 
+	printf("aaa\r");
 	int event = aa_getevent(context, 0);
+	printf("bbb\r");
 	if (!event)
 		return 0;
 
@@ -116,9 +116,7 @@ int DG_GetKey(int *pressed, unsigned char *doomKey) {
 			aa_printf(context, 0, aa_scrheight(context)-1, AA_NORMAL,
 			          "unknown keycode: %d", event);
 	}
-	for (int i = 0; i <= aa_scrheight(context); i++) {
-	aa_printf(context, 0, i, AA_NORMAL,
-	          "%d: doomkey=%d pressed=%d                    ", i, *doomKey, *pressed);
-	}
+	aa_printf(context, 0, aa_scrheight(context)-1, AA_NORMAL,
+	          "doomkey=%d pressed=%d                    ", *doomKey, *pressed);
 	return 1;
 }
