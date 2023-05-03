@@ -1,5 +1,6 @@
 *.log
 *.user
+*.wad
 
 # Windows / Visual Studio output
 *.obj
@@ -11,4 +12,17 @@ Release/
 *.DS_Store
 
 # *nix output
+build/
 *.o
+*.map
+
+# emscripten output
+*.html
+*.js
+*.wasm
+*.data
+
+# Final executables
+/doomgeneric/doomgeneric
+/doomgeneric/fbdoom
+/doomgeneric/doom
