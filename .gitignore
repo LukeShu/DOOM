@@ -1,8 +1,14 @@
-*.o
-*.obj
-*.DS_Store
 *.log
 *.user
+
+# Windows / Visual Studio output
+*.obj
 .vs/
 Debug/
 Release/
+
+# macOS files
+*.DS_Store
+
+# *nix output
+*.o
