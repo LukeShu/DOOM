@@ -9,11 +9,9 @@
 
 static aa_context *context = NULL;
 
-#define div_roundup(n, d) (((n) + (d) - 1) / (d))
-
 int main(int argc, char **argv) {
 	/* AAOPTS */
-	if (!aa_parseoptions(NULL, NULL, NULL, NULL)) {
+	if (!aa_parseoptions(NULL, NULL, &argc, argv)) {
 		puts(aa_help);
 		return 2;
 	}
@@ -32,6 +30,14 @@ void DG_Init() {}
 
 void DG_SetWindowTitle(const char *title) {}
 
+#define div_roundup(n, d) (((n) + (d) - 1) / (d))
+#define min(a, b) (((a) < (b)) ? (a) : (b))
+
+// Wrapper to discard the return value.
+void my_resize(aa_context *context) {
+	aa_resize(context);
+}
+
 void DG_DrawFrame() {
 	if (context == NULL) {
 		context = aa_autoinit(&aa_defparams);
@@ -42,15 +48,27 @@ void DG_DrawFrame() {
 			error(1, 0, "failed to initialize aalib keyboard");
 		}
 		aa_hidecursor(context);
+		aa_resizehandler(context, my_resize);
 	}
 
 	unsigned char *out_buffer = aa_image(context);
 
-	int doomx_per_outx = div_roundup(DOOMGENERIC_RESX, aa_imgwidth(context));
-	int doomy_per_outy = div_roundup(DOOMGENERIC_RESY, aa_imgheight(context)-1);
-	int out_resx = DOOMGENERIC_RESX / doomx_per_outx;
-	int out_resy = DOOMGENERIC_RESY / doomy_per_outy;
 	int full_out_resx = aa_imgwidth(context);
+	int full_out_resy = aa_imgheight(context);
+
+	int out_resx = full_out_resx;
+	int out_resy = full_out_resy - 1;
+
+	int doomx_per_outx = div_roundup(DOOMGENERIC_RESX, out_resx);
+	int doomy_per_outy = div_roundup(DOOMGENERIC_RESY, out_resy);
+	// Maybe shrink out_resx and/or out_resy due to rounding.
+	out_resx = DOOMGENERIC_RESX / doomx_per_outx;
+	out_resy = DOOMGENERIC_RESY / doomy_per_outy;
+
+	// Shrink one of out_resx or out_resy to get a 4:3 aspect ratio.
+	//out_resx = min(out_resx, ((4*out_resy)/3));
+	//out_resy = min(out_resy, ((3*out_resx)/4));
+
 	int out_xoff = (full_out_resx - out_resx) / 2;
 
 	uint32_t v, r, g, b;
@@ -78,18 +96,39 @@ void DG_DrawFrame() {
 	aa_flush(context);
 }
 
+unsigned char lastDoomKey = 0;
+int nextKeyEvent = 0;
+
 int DG_GetKey(int *pressed, unsigned char *doomKey) {
 	if (context == NULL)
 		return 0;
 
-	printf("aaa\r");
-	int event = aa_getevent(context, 0);
-	printf("bbb\r");
-	if (!event)
+	int event;
+ retry:
+	if (nextKeyEvent) {
+		event = nextKeyEvent;
+		nextKeyEvent = 0;
+	} else
+		event = aa_getkey(context, 0);
+	if (!event) {
+		if (lastDoomKey) {
+			*pressed = 0;
+			*doomKey = lastDoomKey;
+			lastDoomKey = 0;
+			return 1;
+		}
 		return 0;
+	}
+	if (event >= AA_RELEASE)
+		goto retry;
 
-	*pressed = event < AA_RELEASE;
-	event &= ~AA_RELEASE;
+	if (lastDoomKey) {
+		*pressed = 0;
+		*doomKey = lastDoomKey;
+		lastDoomKey = 0;
+		nextKeyEvent = event;
+		return 1;
+	}
 
 	switch (event) {
 	case AA_UP:
@@ -116,7 +155,9 @@ int DG_GetKey(int *pressed, unsigned char *doomKey) {
 			aa_printf(context, 0, aa_scrheight(context)-1, AA_NORMAL,
 			          "unknown keycode: %d", event);
 	}
+	*pressed = 1;
+	lastDoomKey = *doomKey;
 	aa_printf(context, 0, aa_scrheight(context)-1, AA_NORMAL,
-	          "doomkey=%d pressed=%d                    ", *doomKey, *pressed);
+	          "doomkey=%d                    ", *doomKey);
 	return 1;
 }
