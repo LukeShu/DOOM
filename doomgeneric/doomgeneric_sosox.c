@@ -132,10 +132,10 @@ void DG_Init()
                         GR_WM_PROPS_BUFFER_MMAP |
                         GR_WM_PROPS_BUFFER_BGRA,
                         "Doom",
-                        GR_ROOT_WINDOW_ID, 
+                        GR_ROOT_WINDOW_ID,
                         50, 50, winSizeX, winSizeY, MWRGB( 255, 255, 255 ));
 
-    GrSelectEvents(wid, GR_EVENT_MASK_EXPOSURE | 
+    GrSelectEvents(wid, GR_EVENT_MASK_EXPOSURE |
                         GR_EVENT_MASK_TIMER |
                         GR_EVENT_MASK_CLOSE_REQ |
                         GR_EVENT_MASK_BUTTON_DOWN |
@@ -207,7 +207,7 @@ void DG_DrawFrame()
         case GR_EVENT_TYPE_EXPOSURE:
             break;
         case GR_EVENT_TYPE_TIMER:
-            
+
             break;
         }
     }
@@ -266,7 +266,7 @@ int main(int argc, char **argv)
     {
         doomgeneric_Tick();
     }
-    
+
 
     return 0;
 }

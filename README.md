@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     {
         doomgeneric_Tick();
     }
-    
+
     return 0;
 }
 ```

@@ -81,7 +81,7 @@ void W_Checksum(sha1_digest_t digest)
     {
         ChecksumAddLump(&sha1_context, &lumpinfo[i]);
     }
-    
+
     SHA1_Final(digest, &sha1_context);
 }
 

@@ -215,6 +215,6 @@ int main(int argc, char **argv)
     doomgeneric_Create(argc, argv);
 
     emscripten_set_main_loop(doomgeneric_Tick, 0, 1);
-    
+
     return 0;
 }
