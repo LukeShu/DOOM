@@ -29,6 +29,8 @@
 #include "w_wad.h"
 #include "z_zone.h"
 
+#include "doomgeneric_aalib.h"
+
 #define MAX_INSTRUMENTS 256
 
 typedef struct

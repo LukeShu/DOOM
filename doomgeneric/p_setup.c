@@ -40,6 +40,8 @@
 
 #include "doomstat.h"
 
+#include "doomgeneric_aalib.h"
+
 
 void	P_SpawnMapThing (mapthing_t*	mthing);
 

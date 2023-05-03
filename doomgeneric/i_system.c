@@ -55,6 +55,8 @@
 #include <CoreFoundation/CFUserNotification.h>
 #endif
 
+#include "doomgeneric_aalib.h"
+
 #define DEFAULT_RAM 6 /* MiB */
 #define MIN_RAM     6  /* MiB */
 

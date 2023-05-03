@@ -35,6 +35,8 @@
 #include "r_local.h"
 #include "r_sky.h"
 
+#include "doomgeneric_aalib.h"
+
 
 
 

@@ -26,6 +26,8 @@
 #include "m_misc.h"
 #include "m_argv.h"  // haleyjd 20110212: warning fix
 
+#include "doomgeneric_aalib.h"
+
 int		myargc;
 char**		myargv;
 

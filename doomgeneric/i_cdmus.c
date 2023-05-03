@@ -27,6 +27,8 @@
 
 #include "i_cdmus.h"
 
+#include "doomgeneric_aalib.h"
+
 #ifdef ORIGCODE
 static SDL_CD *cd_handle = NULL;
 static char *startup_error = NULL;

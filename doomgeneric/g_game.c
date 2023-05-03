@@ -72,6 +72,8 @@
 
 #include "g_game.h"
 
+#include "doomgeneric_aalib.h"
+
 
 #define SAVEGAMESIZE	0x2c000
 

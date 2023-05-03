@@ -32,6 +32,8 @@
 #include "m_config.h"
 #include "m_misc.h"
 
+#include "doomgeneric_aalib.h"
+
 // When an axis is within the dead zone, it is set to zero.
 // This is 5% of the full range:
 

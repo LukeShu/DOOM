@@ -35,6 +35,8 @@
 
 #include "z_zone.h"
 
+#include "doomgeneric_aalib.h"
+
 //
 // DEFAULTS
 //

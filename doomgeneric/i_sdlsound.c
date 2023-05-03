@@ -42,6 +42,8 @@
 
 #include "doomtype.h"
 
+#include "doomgeneric_aalib.h"
+
 #define LOW_PASS_FILTER 1
 //#define DEBUG_DUMP_WAVS
 #define NUM_CHANNELS 16

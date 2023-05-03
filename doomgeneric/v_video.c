@@ -41,6 +41,8 @@
 #include <png.h>
 #endif
 
+#include "doomgeneric_aalib.h"
+
 // TODO: There are separate RANGECHECK defines for different games, but this
 // is common code. Fix this.
 #define RANGECHECK
