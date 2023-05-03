@@ -59,5 +59,3 @@ event_t *D_PopEvent(void)
 
     return result;
 }
-
-

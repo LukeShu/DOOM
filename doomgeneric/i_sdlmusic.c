@@ -1313,4 +1313,3 @@ music_module_t DG_music_module =
     I_SDL_MusicIsPlaying,
     I_SDL_PollMusic,
 };
-

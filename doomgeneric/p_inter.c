@@ -919,4 +919,3 @@ P_DamageMobj
     }
 
 }
-

@@ -971,5 +971,3 @@ void R_DrawViewBorder (void)
     // ?
     V_MarkRect (0,0,SCREENWIDTH, SCREENHEIGHT-SBARHEIGHT);
 }
-
-

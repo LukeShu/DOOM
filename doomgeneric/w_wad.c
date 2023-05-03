@@ -609,4 +609,3 @@ void W_CheckCorrectIWAD(GameMission_t mission)
         }
     }
 }
-

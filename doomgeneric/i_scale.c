@@ -1448,5 +1448,3 @@ screen_mode_t mode_squash_5x = {
     I_Squash5x,
     false,
 };
-
-

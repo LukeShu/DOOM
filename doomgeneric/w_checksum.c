@@ -84,4 +84,3 @@ void W_Checksum(sha1_digest_t digest)
 
     SHA1_Final(digest, &sha1_context);
 }
-

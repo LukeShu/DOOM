@@ -47,4 +47,3 @@ typedef struct
 typedef post_t	column_t;
 
 #endif
-

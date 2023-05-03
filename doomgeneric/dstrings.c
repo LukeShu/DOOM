@@ -67,7 +67,3 @@ char* endmsg[] =
 };
 
 #endif
-
-
-
-

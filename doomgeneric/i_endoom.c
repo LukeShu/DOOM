@@ -78,4 +78,3 @@ void I_Endoom(byte *endoom_data)
     TXT_Shutdown();
 #endif
 }
-

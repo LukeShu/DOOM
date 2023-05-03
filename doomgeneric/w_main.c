@@ -195,4 +195,3 @@ boolean W_ParseCommandLine(void)
 
     return modifiedgame;
 }
-

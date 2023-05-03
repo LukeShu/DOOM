@@ -268,4 +268,3 @@ boolean GUS_WriteConfig(char *path)
 
     return result;
 }
-

@@ -543,4 +543,3 @@ EV_BuildStairs
     }
     return rtn;
 }
-

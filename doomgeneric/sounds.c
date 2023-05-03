@@ -226,4 +226,3 @@ sfxinfo_t S_sfx[] =
   SOUND("skeatk", 70),
   SOUND("radio",  60),
 };
-

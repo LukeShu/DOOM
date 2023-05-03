@@ -1445,4 +1445,3 @@ static void SpechitOverrun(line_t *ld)
             break;
     }
 }
-

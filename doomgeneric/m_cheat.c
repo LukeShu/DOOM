@@ -85,5 +85,3 @@ cht_GetParam
 {
     memcpy(buffer, cht->parameter_buf, cht->parameter_chars);
 }
-
-

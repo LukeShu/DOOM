@@ -2125,4 +2125,3 @@ char *M_GetSaveGameDir(char *iwadname)
 
     return savegamedir;
 }
-

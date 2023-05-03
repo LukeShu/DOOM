@@ -1073,4 +1073,3 @@ sound_module_t DG_sound_module =
     I_SDL_SoundIsPlaying,
     I_SDL_PrecacheSounds,
 };
-

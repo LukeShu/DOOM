@@ -118,11 +118,3 @@ weaponinfo_t	weaponinfo[NUMWEAPONS] =
 	S_DSGUNFLASH1
     },
 };
-
-
-
-
-
-
-
-

@@ -714,5 +714,3 @@ void F_Drawer (void)
             break;
     }
 }
-
-

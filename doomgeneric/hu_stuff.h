@@ -56,4 +56,3 @@ void HU_Erase(void);
 extern char *chat_macros[10];
 
 #endif
-

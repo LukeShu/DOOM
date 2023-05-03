@@ -206,4 +206,3 @@ char *D_GameMissionString(GameMission_t mission)
             return "strife";
     }
 }
-

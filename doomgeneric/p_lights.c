@@ -347,4 +347,3 @@ void P_SpawnGlowingLight(sector_t*	sector)
 
     sector->special = 0;
 }
-

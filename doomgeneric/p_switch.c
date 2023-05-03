@@ -645,4 +645,3 @@ P_UseSpecialLine
 
     return true;
 }
-

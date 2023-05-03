@@ -1046,4 +1046,3 @@ P_SpawnPlayerMissile
 
     P_CheckMissileSpawn (th);
 }
-

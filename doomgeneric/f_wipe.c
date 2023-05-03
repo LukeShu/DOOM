@@ -291,4 +291,3 @@ wipe_ScreenWipe
 
     return !go;
 }
-

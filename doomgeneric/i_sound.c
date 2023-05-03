@@ -435,4 +435,3 @@ void I_BindSoundVariables(void)
     // to crash when it looped.  If this is an old SDL_mixer version,
     // disable MIDI.
 }
-

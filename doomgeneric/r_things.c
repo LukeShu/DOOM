@@ -977,6 +977,3 @@ void R_DrawMasked (void)
     if (!viewangleoffset)
 	R_DrawPlayerSprites ();
 }
-
-
-
