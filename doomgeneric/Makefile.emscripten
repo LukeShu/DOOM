@@ -31,6 +31,8 @@ clean:
 $(OUTPUT)$(EXEEXT):	$(OBJS)
 	@echo [Linking $@]
 	$(VB)$(LD) $(LDFLAGS) $(OBJS) -o $(OUTPUT)$(EXEEXT) $(LIBS)
+	@echo [Size]
+	-$(CROSS_COMPILE)size $(OUTPUT)$(EXEEXT)
 
 $(OBJS): | $(OBJDIR)
 

@@ -1,4 +1,8 @@
-VB=@
+ifeq ($(V),1)
+	VB=''
+else
+	VB=@
+endif
 
 CC = clang  # gcc or g++
 LD = $(CC)
