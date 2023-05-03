@@ -4,11 +4,11 @@ else
 	VB=@
 endif
 
-CC=soso-clang  # gcc or g++
-CFLAGS+=-O3
-LDFLAGS+=$(SOSO_ROOT)/lib/crt1.o $(SOSO_ROOT)/lib/crti.o $(SOSO_ROOT)/lib/crtn.o
-CFLAGS+=-I$(SOSO_ROOT)/include/nano-x -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
-LIBS+=-lnano-X -lm -lc /usr/lib/llvm-10/lib/clang/10.0.0/lib/linux/libclang_rt.builtins-i386.a
+CC = soso-clang  # gcc or g++
+CFLAGS  += -O3
+LDFLAGS += $(SOSO_ROOT)/lib/crt1.o $(SOSO_ROOT)/lib/crti.o $(SOSO_ROOT)/lib/crtn.o
+CFLAGS  += -I$(SOSO_ROOT)/include/nano-x -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
+LIBS    += -lnano-X -lm -lc /usr/lib/llvm-10/lib/clang/10.0.0/lib/linux/libclang_rt.builtins-i386.a
 
 # subdirectory for objects
 OBJDIR=build

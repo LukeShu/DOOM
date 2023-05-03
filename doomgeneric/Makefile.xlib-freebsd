@@ -1,10 +1,10 @@
 VB=@
 
-CC=clang  # gcc or g++
-CFLAGS+=-ggdb3 -Os -I/usr/local/include
-LDFLAGS+=-Wl,--gc-sections -L/usr/local/lib
-CFLAGS+=-ggdb3 -Wall -DNORMALUNIX -DLINUX -DSNDSERV # -DUSEASM
-LIBS+=-lm -lc -lX11
+CC = clang  # gcc or g++
+CFLAGS  += -ggdb3 -Os -I/usr/local/include
+LDFLAGS += -Wl,--gc-sections -L/usr/local/lib
+CFLAGS  += -ggdb3 -Wall -DNORMALUNIX -DLINUX -DSNDSERV # -DUSEASM
+LIBS    += -lm -lc -lX11
 
 # subdirectory for objects
 OBJDIR=build

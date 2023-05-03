@@ -4,10 +4,10 @@ else
 	VB=@
 endif
 
-CC=clang  # gcc or g++
-CFLAGS+=-DFEATURE_SOUND `sdl2-config --cflags`
-LDFLAGS+=
-LIBS+=-lm -lc `sdl2-config --cflags --libs` -lSDL2_mixer
+CC = clang  # gcc or g++
+CFLAGS  += -DFEATURE_SOUND `sdl2-config --cflags`
+LDFLAGS +=
+LIBS    += -lm -lc `sdl2-config --cflags --libs` -lSDL2_mixer
 
 # subdirectory for objects
 OBJDIR=build
