@@ -2,9 +2,8 @@ VB=@
 
 CC = clang  # gcc or g++
 LD = $(CC)
-CFLAGS  += -ggdb3 -Os -I/usr/local/include
+CFLAGS  += -ggdb3 -Os -I/usr/local/include -Wall -DNORMALUNIX -DLINUX -DSNDSERV # -DUSEASM
 LDFLAGS += -Wl,--gc-sections -L/usr/local/lib
-CFLAGS  += -ggdb3 -Wall -DNORMALUNIX -DLINUX -DSNDSERV # -DUSEASM
 LIBS    += -lm -lc -lX11
 
 # subdirectory for objects

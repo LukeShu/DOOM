@@ -6,9 +6,8 @@ endif
 
 CC = soso-clang  # gcc or g++
 LD = i386-soso-ld
-CFLAGS  += -O3
+CFLAGS  += -O3 -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
 LDFLAGS += $(SOSO_ROOT)/lib/crt1.o $(SOSO_ROOT)/lib/crti.o $(SOSO_ROOT)/lib/crtn.o
-CFLAGS  += -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
 LIBS    += -lm -lc /usr/lib/llvm-10/lib/clang/10.0.0/lib/linux/libclang_rt.builtins-i386.a
 
 # subdirectory for objects
