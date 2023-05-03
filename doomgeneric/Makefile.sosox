@@ -30,7 +30,6 @@ $(OUTPUT):	$(OBJS)
 	i386-soso-ld -v $(LDFLAGS) $(OBJS) -o $(OUTPUT) $(LIBS)
 	@echo [Size]
 	-$(CROSS_COMPILE)size $(OUTPUT)
-	cp $(OUTPUT) ~/git/soso/userspace/bin/
 
 $(OBJS): | $(OBJDIR)
 
