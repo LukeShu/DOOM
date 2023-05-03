@@ -4,13 +4,10 @@ else
 	VB=@
 endif
 
-SDL_CFLAGS = `sdl2-config --cflags`
-SDL_LIBS = `sdl2-config --cflags --libs` -lSDL2_mixer
-
 CC=emcc
-CFLAGS+=-DFEATURE_SOUND -s SDL2_MIXER_FORMATS='["mid"]' $(SDL_CFLAGS)
+CFLAGS+=-DFEATURE_SOUND -s SDL2_MIXER_FORMATS='["mid"]' `sdl2-config --cflags`
 LDFLAGS+=--preload-file doom1.wad #--preload-file timidity.cfg --preload-file dgguspat
-LIBS+=-lm -lc $(SDL_LIBS)
+LIBS+=-lm -lc `sdl2-config --cflags --libs` -lSDL2_mixer
 
 # subdirectory for objects
 OBJDIR=build
