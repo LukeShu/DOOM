@@ -5,6 +5,7 @@ else
 endif
 
 CC = clang  # gcc or g++
+LD = $(CC)
 CFLAGS  += -DFEATURE_SOUND `sdl2-config --cflags`
 LDFLAGS +=
 LIBS    += -lm -lc `sdl2-config --cflags --libs` -lSDL2_mixer
@@ -27,7 +28,7 @@ clean:
 
 $(OUTPUT):	$(OBJS)
 	@echo [Linking $@]
-	$(VB)$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(OUTPUT) $(LIBS)
+	$(VB)$(LD) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(OUTPUT) $(LIBS)
 
 $(OBJS): | $(OBJDIR)
 

@@ -1,6 +1,7 @@
 VB=@
 
 CC = clang  # gcc or g++
+LD = $(CC)
 CFLAGS  += -ggdb3 -Os -I/usr/local/include
 LDFLAGS += -Wl,--gc-sections -L/usr/local/lib
 CFLAGS  += -ggdb3 -Wall -DNORMALUNIX -DLINUX -DSNDSERV # -DUSEASM
@@ -24,7 +25,7 @@ clean:
 
 $(OUTPUT):	$(OBJS)
 	@echo [Linking $@]
-	$(VB)$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(OUTPUT) $(LIBS) -Wl,-Map,$(OUTPUT).map
+	$(VB)$(LD) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(OUTPUT) $(LIBS) -Wl,-Map,$(OUTPUT).map
 	@echo [Size]
 	-$(CROSS_COMPILE)size $(OUTPUT)
 

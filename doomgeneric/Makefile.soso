@@ -5,6 +5,7 @@ else
 endif
 
 CC = soso-clang  # gcc or g++
+LD = i386-soso-ld
 CFLAGS  += -O3
 LDFLAGS += $(SOSO_ROOT)/lib/crt1.o $(SOSO_ROOT)/lib/crti.o $(SOSO_ROOT)/lib/crtn.o
 CFLAGS  += -Wall -DNORMALUNIX -DLINUX -DSNDSERV -D_DEFAULT_SOURCE # -DUSEASM
@@ -28,7 +29,7 @@ clean:
 
 $(OUTPUT):	$(OBJS)
 	@echo [Linking $@]
-	i386-soso-ld -v $(LDFLAGS) $(OBJS) -o $(OUTPUT) $(LIBS)
+	$(VB)$(LD) -v $(LDFLAGS) $(OBJS) -o $(OUTPUT) $(LIBS)
 	@echo [Size]
 	-$(CROSS_COMPILE)size $(OUTPUT)
 
