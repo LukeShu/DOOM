@@ -1,20 +1,11 @@
-################################################################
-#
-# $Id:$
-#
-# $Log:$
-#
-
 ifeq ($(V),1)
 	VB=''
 else
 	VB=@
 endif
 
-
 SDL_CFLAGS = `sdl2-config --cflags`
 SDL_LIBS = `sdl2-config --cflags --libs` -lSDL2_mixer
-
 
 CC=clang  # gcc or g++
 CFLAGS+=-DFEATURE_SOUND $(SDL_CFLAGS)
