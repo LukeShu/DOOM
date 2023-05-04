@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+emacs \
+	--batch \
+	--load "${0%/*}/indent-init.el" \
+	--file "$1" \
+	--eval '(indent-region (point-min) (point-max) nil)' \
+	--funcall save-buffer
+# Hack around https://reddit.com/r/emacs/comments/138dr0c/adjusting_the_indentation_of_c_macros/
+sed -i 's/^ "/"/' -- "$1"
