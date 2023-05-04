@@ -274,7 +274,7 @@ void I_FinishUpdate (void)
         for (i = 0; i < fb_scaling; i++) {
             line_out += x_offset;
 #ifdef CMAP256
-            for (fb_scaling == 1) {
+            if (fb_scaling == 1) {
                 memcpy(line_out, line_in, SCREENWIDTH); /* fb_width is bigger than Doom SCREENWIDTH... */
             } else {
                 //XXX FIXME fb_scaling support!
