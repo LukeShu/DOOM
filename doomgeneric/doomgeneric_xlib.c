@@ -214,9 +214,23 @@ void DG_DrawFrame()
                 g_Framebuffer[y*DOOMGENERIC_RESX+x] = (unsigned char) g;
             }
 
-        for (int y = 0; y < DOOMGENERIC_RESY; y++)
-            for (int x = 0; x < DOOMGENERIC_RESX; x++)
-                s_Framebuffer[y*DOOMGENERIC_RESX+x] = g_Framebuffer[y*DOOMGENERIC_RESX+x];
+#define AA_RESX 133
+#define AA_RESY 48
+        double xscale = ((double)DOOMGENERIC_RESX)/((double)AA_RESX);
+        double yscale = ((double)DOOMGENERIC_RESY)/((double)AA_RESY);
+        for (int y = 0; y < AA_RESY; y++)
+            for (int x = 0; x < AA_RESX; x++)
+            {
+                int lo_x = floor(x*xscale);
+                int hi_x = ceil((x+1)*xscale);
+                int lo_y = floor(y*yscale);
+                int hi_y = ceil((y+1)*yscale);
+                int sum = 0;
+                for (int s_y = lo_y; s_y < hi_y; s_y++)
+                    for (int s_x = lo_x; s_x < hi_x; s_x++)
+                        sum += g_Framebuffer[s_y*DOOMGENERIC_RESX+s_x];
+                s_Framebuffer[y*DOOMGENERIC_RESX+x] = sum / ( (hi_x-lo_x) * (hi_y-lo_y) );
+            }
 
         for (int y = 0; y < DOOMGENERIC_RESY*XSCALE; y++)
             for (int x = 0; x < DOOMGENERIC_RESX*XSCALE; x++)
