@@ -26,6 +26,9 @@ static unsigned short s_KeyQueue[KEYQUEUE_SIZE];
 static unsigned int s_KeyQueueWriteIndex = 0;
 static unsigned int s_KeyQueueReadIndex = 0;
 
+#define AA_RESX 133
+#define AA_RESY 48
+
 #define XSCALE 3
 
 static unsigned char *g_Framebuffer;
@@ -108,8 +111,8 @@ void DG_Init()
                                    DefaultRootWindow(s_Display), // parent
                                    0,                            // x
                                    0,                            // y
-                                   DOOMGENERIC_RESX*XSCALE,      // width
-                                   DOOMGENERIC_RESY*XSCALE,      // height
+                                   AA_RESX*XSCALE,               // width
+                                   AA_RESY*XSCALE,               // height
                                    0,                            // border_width
                                    blackColor,                   // border
                                    blackColor);                  // background
@@ -137,8 +140,8 @@ void DG_Init()
     }
 
     g_Framebuffer = calloc(1, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
-    s_Framebuffer = calloc(1, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
-    x_Framebuffer = calloc(4, DOOMGENERIC_RESX*XSCALE * DOOMGENERIC_RESY*XSCALE);
+    s_Framebuffer = calloc(1, AA_RESX * AA_RESY);
+    x_Framebuffer = calloc(4, AA_RESX*XSCALE * AA_RESY*XSCALE);
 
     s_Image = XCreateImage(s_Display,                          // display
                            DefaultVisual(s_Display, s_Screen), // visual
@@ -146,8 +149,8 @@ void DG_Init()
                            ZPixmap,                            // format
                            0,                                  // offset
                            x_Framebuffer,                      // data
-                           DOOMGENERIC_RESX*XSCALE,            // width
-                           DOOMGENERIC_RESY*XSCALE,            // height
+                           AA_RESX*XSCALE,                     // width
+                           AA_RESY*XSCALE,                     // height
                            32,                                 // bitmap_pad
                            0);                                 // bytes_per_line
 }
@@ -214,8 +217,6 @@ void DG_DrawFrame()
                 g_Framebuffer[y*DOOMGENERIC_RESX+x] = (unsigned char) g;
             }
 
-#define AA_RESX 133
-#define AA_RESY 48
         double xscale = ((double)DOOMGENERIC_RESX)/((double)AA_RESX);
         double yscale = ((double)DOOMGENERIC_RESY)/((double)AA_RESY);
         for (int y = 0; y < AA_RESY; y++)
@@ -229,14 +230,14 @@ void DG_DrawFrame()
                 for (int s_y = lo_y; s_y < hi_y; s_y++)
                     for (int s_x = lo_x; s_x < hi_x; s_x++)
                         sum += g_Framebuffer[s_y*DOOMGENERIC_RESX+s_x];
-                s_Framebuffer[y*DOOMGENERIC_RESX+x] = sum / ( (hi_x-lo_x) * (hi_y-lo_y) );
+                s_Framebuffer[y*AA_RESX+x] = sum / ( (hi_x-lo_x) * (hi_y-lo_y) );
             }
 
-        for (int y = 0; y < DOOMGENERIC_RESY*XSCALE; y++)
-            for (int x = 0; x < DOOMGENERIC_RESX*XSCALE; x++)
+        for (int y = 0; y < AA_RESY*XSCALE; y++)
+            for (int x = 0; x < AA_RESX*XSCALE; x++)
             {
-                int src_idx = (y/XSCALE)*DOOMGENERIC_RESX+(x/XSCALE);
-                int dst_idx = y*(DOOMGENERIC_RESX*XSCALE)+x;
+                int src_idx = (y/XSCALE)*AA_RESX+(x/XSCALE);
+                int dst_idx = y*(AA_RESX*XSCALE)+x;
                 x_Framebuffer[dst_idx*4 + 0] = s_Framebuffer[src_idx];
                 x_Framebuffer[dst_idx*4 + 1] = s_Framebuffer[src_idx];
                 x_Framebuffer[dst_idx*4 + 2] = s_Framebuffer[src_idx];
@@ -251,8 +252,8 @@ void DG_DrawFrame()
                   0,                 // src_y
                   0,                 // dest_x
                   0,                 // dest_y
-                  DOOMGENERIC_RESX*XSCALE,  // width
-                  DOOMGENERIC_RESY*XSCALE); // height
+                  AA_RESX*XSCALE,    // width
+                  AA_RESY*XSCALE);   // height
 
         //XFlush(s_Display);
     }
