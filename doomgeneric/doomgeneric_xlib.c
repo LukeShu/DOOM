@@ -205,7 +205,7 @@ void DG_DrawFrame()
                 for (int dy = -1; dy <= 1; dy++)
                     for (int dx = -1; dx <= 1; dx++)
                     {
-                        unsigned char px = DG_ScreenBuffer[(y+dy)*DOOMGENERIC_RESX+(x+dx)];
+                        unsigned char px = g_Framebuffer[(y+dy)*DOOMGENERIC_RESX+(x+dx)];
                         gx += px * sobel_x[dy+1][dx+1];
                         gy += px * sobel_y[dy+1][dx+1];
                     }
