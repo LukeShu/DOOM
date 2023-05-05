@@ -25,6 +25,9 @@ static unsigned short s_KeyQueue[KEYQUEUE_SIZE];
 static unsigned int s_KeyQueueWriteIndex = 0;
 static unsigned int s_KeyQueueReadIndex = 0;
 
+static unsigned char *g_Framebuffer;
+static char *x_Framebuffer;
+
 static unsigned char convertToDoomKey(unsigned int key)
 {
     switch (key)
@@ -129,12 +132,15 @@ void DG_Init()
         }
     }
 
+    g_Framebuffer = calloc(1, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
+    x_Framebuffer = calloc(4, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
+
     s_Image = XCreateImage(s_Display,                          // display
                            DefaultVisual(s_Display, s_Screen), // visual
                            depth,                              // depth
                            ZPixmap,                            // format
                            0,                                  // offset
-                           (char *)DG_ScreenBuffer,            // data
+                           x_Framebuffer,                      // data
                            DOOMGENERIC_RESX,                   // width
                            DOOMGENERIC_RESY,                   // height
                            32,                                 // bitmap_pad
@@ -162,6 +168,30 @@ void DG_DrawFrame()
                 KeySym sym = XKeycodeToKeysym(s_Display, e.xkey.keycode, 0);
                 //printf("KeyRelease:%d sym:%d\n", e.xkey.keycode, sym);
                 addKeyToQueue(0, sym);
+            }
+        }
+
+        uint32_t r, g, b;
+        for (int y = 0; y < DOOMGENERIC_RESY; y++)
+        {
+            for (int x = 0; x < DOOMGENERIC_RESX; x++)
+            {
+                r = (DG_ScreenBuffer[y*DOOMGENERIC_RESX+x] >> 24) & 0xFF;
+                g = (DG_ScreenBuffer[y*DOOMGENERIC_RESX+x] >> 16) & 0xFF;
+                b = (DG_ScreenBuffer[y*DOOMGENERIC_RESX+x] >>  8) & 0xFF;
+                g_Framebuffer[y*DOOMGENERIC_RESX+x] = (r*30 + g*59 + b*11) / 100;
+            }
+        }
+
+        for (int y = 0; y < DOOMGENERIC_RESY; y++)
+        {
+            for (int x = 0; x < DOOMGENERIC_RESX; x++)
+            {
+                int idx = y*DOOMGENERIC_RESX+x;
+                x_Framebuffer[idx*4 + 0] = g_Framebuffer[idx];
+                x_Framebuffer[idx*4 + 1] = g_Framebuffer[idx];
+                x_Framebuffer[idx*4 + 2] = g_Framebuffer[idx];
+                x_Framebuffer[idx*4 + 3] = g_Framebuffer[idx];
             }
         }
 
