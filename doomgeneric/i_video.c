@@ -310,19 +310,21 @@ void I_ReadScreen (byte* scr)
 void I_SetPalette (byte* palette)
 {
 	int i;
-	//col_t* c;
 
-	//for (i = 0; i < 256; i++)
-	//{
-	//	c = (col_t*)palette;
+#if 0
+	col_t* c;
 
-	//	rgb565_palette[i] = GFX_RGB565(gammatable[usegamma][c->r],
-	//								   gammatable[usegamma][c->g],
-	//								   gammatable[usegamma][c->b]);
+	for (i = 0; i < 256; i++)
+	{
+		c = (col_t*)palette;
 
-	//	palette += 3;
-	//}
+		rgb565_palette[i] = GFX_RGB565(gammatable[usegamma][c->r],
+									   gammatable[usegamma][c->g],
+									   gammatable[usegamma][c->b]);
 
+		palette += 3;
+	}
+#endif
 
     /* performance boost:
      * map to the right pixel format over here! */

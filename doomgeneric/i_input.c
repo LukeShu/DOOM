@@ -228,15 +228,17 @@ static unsigned char TranslateKey(unsigned char key)
 {
 	return key;
 
-	/*
+#if 0
     if (key < sizeof(at_to_doom))
         return at_to_doom[key];
     else
         return 0x0;
-	*/
+#endif
 
-    //default:
-    //  return tolower(key);
+#if 0
+    default:
+      return tolower(key);
+#endif
 }
 
 // Get the equivalent ASCII (Unicode?) character for a keypress.
@@ -326,7 +328,7 @@ void I_GetEvent(void)
     }
 
 
-                /*
+#if 0
             case SDL_MOUSEMOTION:
                 event.type = ev_mouse;
                 event.data1 = mouse_button_state;
@@ -334,7 +336,7 @@ void I_GetEvent(void)
                 event.data3 = -AccelerateMouse(sdlevent.motion.yrel);
                 D_PostEvent(&event);
                 break;
-                */
+#endif
 }
 
 void I_InitInput(void)

@@ -263,8 +263,10 @@ static void ParseFlacStreaminfo(file_metadata_t *metadata, FILE *fs)
                             | (buf[12] >> 4);
     // Song length is actually a 36 bit field, but 32 bits should be
     // enough for everybody.
-    //metadata->song_length = (buf[14] << 24) | (buf[15] << 16)
-    //                      | (buf[16] << 8) | buf[17];
+#if 0
+    metadata->song_length = (buf[14] << 24) | (buf[15] << 16)
+                          | (buf[16] << 8) | buf[17];
+#endif
 }
 
 static void ParseFlacFile(file_metadata_t *metadata, FILE *fs)

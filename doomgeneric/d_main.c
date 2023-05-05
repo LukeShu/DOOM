@@ -99,9 +99,11 @@ boolean         nomonsters;	// checkparm of -nomonsters
 boolean         respawnparm;	// checkparm of -respawn
 boolean         fastparm;	// checkparm of -fast
 
-//extern int soundVolume;
-//extern  int	sfxVolume;
-//extern  int	musicVolume;
+#if 0
+extern int soundVolume;
+extern  int	sfxVolume;
+extern  int	musicVolume;
+#endif
 
 extern  boolean	inhelpscreens;
 

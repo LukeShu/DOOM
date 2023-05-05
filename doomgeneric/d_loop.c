@@ -362,12 +362,14 @@ void D_StartNetGame(net_gamesettings_t *settings,
     else
         settings->new_sync = 0;
 
+#if 0
     // TODO: New sync code is not enabled by default because it's
     // currently broken.
-    //if (M_CheckParm("-oldsync") > 0)
-    //    settings->new_sync = 0;
-    //else
-    //    settings->new_sync = 1;
+    if (M_CheckParm("-oldsync") > 0)
+        settings->new_sync = 0;
+    else
+        settings->new_sync = 1;
+#endif
 
     //!
     // @category net
@@ -431,11 +433,13 @@ void D_StartNetGame(net_gamesettings_t *settings,
     ticdup = settings->ticdup;
     new_sync = settings->new_sync;
 
+#if 0
     // TODO: Message disabled until we fix new_sync.
-    //if (!new_sync)
-    //{
-    //    printf("Syncing netgames like Vanilla Doom.\n");
-    //}
+    if (!new_sync)
+    {
+        printf("Syncing netgames like Vanilla Doom.\n");
+    }
+#endif
 #else
     settings->consoleplayer = 0;
 	settings->num_players = 1;

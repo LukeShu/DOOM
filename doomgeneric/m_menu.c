@@ -2000,10 +2000,12 @@ void M_Drawer (void)
 	return;
     }
 
-    //if (opldev)
-    //{
-    //    M_DrawOPLDev();
-    //}
+#if 0
+    if (opldev)
+    {
+        M_DrawOPLDev();
+    }
+#endif
 
     if (!menuactive)
 	return;

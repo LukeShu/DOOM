@@ -221,10 +221,10 @@ boolean I_ConsoleStdout(void)
 #endif
 }
 
+#if 0
 //
 // I_Init
 //
-/*
 void I_Init (void)
 {
     I_CheckIsScreensaver();
@@ -237,7 +237,7 @@ void I_BindVariables(void)
     I_BindJoystickVariables();
     I_BindSoundVariables();
 }
-*/
+#endif
 
 //
 // I_Quit

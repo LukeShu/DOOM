@@ -1238,13 +1238,13 @@ static void DonutOverrun(fixed_t *s3_floorheight, short *s3_floorpic,
         }
     }
 
-    /*
+#if 0
     fprintf(stderr,
             "Linedef: %d; Sector: %d; "
             "New floor height: %d; New floor pic: %d\n",
             line->iLineID, pillar_sector->iSectorID,
             tmp_s3_floorheight >> 16, tmp_s3_floorpic);
-     */
+#endif
 
     *s3_floorheight = (fixed_t) tmp_s3_floorheight;
     *s3_floorpic = (short) tmp_s3_floorpic;
