@@ -188,14 +188,17 @@ void DG_DrawFrame()
             }
         }
 
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
+#define bound(lo, a, hi) min(max(a, lo), hi)
+#define get_rgb_(x, y) (DG_ScreenBuffer[bound(0, y, DOOMGENERIC_RESY-1)*DOOMGENERIC_RESX+bound(0, x, DOOMGENERIC_RESX-1)])
+#define get_r(x, y) ((get_rgb_(x, y) >> 24) & 0xFF)
+#define get_g(x, y) ((get_rgb_(x, y) >> 16) & 0xFF)
+#define get_b(x, y) ((get_rgb_(x, y) >>  8) & 0xFF)
+#define get_l(x, y) ((unsigned char)((get_r(x,y)*30 + get_g(x,y)*59 + get_b(x,y)*11) / 100))
         for (int y = 0; y < DOOMGENERIC_RESY; y++)
             for (int x = 0; x < DOOMGENERIC_RESX; x++)
-            {
-                uint32_t r = (DG_ScreenBuffer[y*DOOMGENERIC_RESX+x] >> 24) & 0xFF;
-                uint32_t g = (DG_ScreenBuffer[y*DOOMGENERIC_RESX+x] >> 16) & 0xFF;
-                uint32_t b = (DG_ScreenBuffer[y*DOOMGENERIC_RESX+x] >>  8) & 0xFF;
-                g_Framebuffer[y*DOOMGENERIC_RESX+x] = (r*30 + g*59 + b*11) / 100;
-            }
+                g_Framebuffer[y*DOOMGENERIC_RESX+x] = get_l(x, y);
 
         for (int y = 1; y < DOOMGENERIC_RESY - 1; y++)
             for (int x = 1; x < DOOMGENERIC_RESX - 1; x++)
