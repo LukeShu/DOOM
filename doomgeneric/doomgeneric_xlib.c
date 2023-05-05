@@ -26,6 +26,8 @@ static unsigned short s_KeyQueue[KEYQUEUE_SIZE];
 static unsigned int s_KeyQueueWriteIndex = 0;
 static unsigned int s_KeyQueueReadIndex = 0;
 
+#define XSCALE 3
+
 static unsigned char *g_Framebuffer;
 static unsigned char *s_Framebuffer;
 static char *x_Framebuffer;
@@ -106,8 +108,8 @@ void DG_Init()
                                    DefaultRootWindow(s_Display), // parent
                                    0,                            // x
                                    0,                            // y
-                                   DOOMGENERIC_RESX,             // width
-                                   DOOMGENERIC_RESY,             // height
+                                   DOOMGENERIC_RESX*XSCALE,      // width
+                                   DOOMGENERIC_RESY*XSCALE,      // height
                                    0,                            // border_width
                                    blackColor,                   // border
                                    blackColor);                  // background
@@ -136,7 +138,7 @@ void DG_Init()
 
     g_Framebuffer = calloc(1, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
     s_Framebuffer = calloc(1, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
-    x_Framebuffer = calloc(4, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
+    x_Framebuffer = calloc(4, DOOMGENERIC_RESX*XSCALE * DOOMGENERIC_RESY*XSCALE);
 
     s_Image = XCreateImage(s_Display,                          // display
                            DefaultVisual(s_Display, s_Screen), // visual
@@ -144,8 +146,8 @@ void DG_Init()
                            ZPixmap,                            // format
                            0,                                  // offset
                            x_Framebuffer,                      // data
-                           DOOMGENERIC_RESX,                   // width
-                           DOOMGENERIC_RESY,                   // height
+                           DOOMGENERIC_RESX*XSCALE,            // width
+                           DOOMGENERIC_RESY*XSCALE,            // height
                            32,                                 // bitmap_pad
                            0);                                 // bytes_per_line
 }
@@ -213,14 +215,15 @@ void DG_DrawFrame()
                 s_Framebuffer[y*DOOMGENERIC_RESX+x] = (unsigned char) g;
             }
 
-        for (int y = 0; y < DOOMGENERIC_RESY; y++)
-            for (int x = 0; x < DOOMGENERIC_RESX; x++)
+        for (int y = 0; y < DOOMGENERIC_RESY*XSCALE; y++)
+            for (int x = 0; x < DOOMGENERIC_RESX*XSCALE; x++)
             {
-                int idx = y*DOOMGENERIC_RESX+x;
-                x_Framebuffer[idx*4 + 0] = s_Framebuffer[idx];
-                x_Framebuffer[idx*4 + 1] = s_Framebuffer[idx];
-                x_Framebuffer[idx*4 + 2] = s_Framebuffer[idx];
-                x_Framebuffer[idx*4 + 3] = s_Framebuffer[idx];
+                int src_idx = (y/XSCALE)*DOOMGENERIC_RESX+(x/XSCALE);
+                int dst_idx = y*(DOOMGENERIC_RESX*XSCALE)+x;
+                x_Framebuffer[dst_idx*4 + 0] = s_Framebuffer[src_idx];
+                x_Framebuffer[dst_idx*4 + 1] = s_Framebuffer[src_idx];
+                x_Framebuffer[dst_idx*4 + 2] = s_Framebuffer[src_idx];
+                x_Framebuffer[dst_idx*4 + 3] = s_Framebuffer[src_idx];
             }
 
         XPutImage(s_Display,         // display
@@ -231,8 +234,8 @@ void DG_DrawFrame()
                   0,                 // src_y
                   0,                 // dest_x
                   0,                 // dest_y
-                  DOOMGENERIC_RESX,  // width
-                  DOOMGENERIC_RESY); // height
+                  DOOMGENERIC_RESX*XSCALE,  // width
+                  DOOMGENERIC_RESY*XSCALE); // height
 
         //XFlush(s_Display);
     }
