@@ -1,7 +1,9 @@
 #include <ctype.h>  /* for tolower(3p) */
 #include <error.h>  /* for error(3gnu) */
-#include <stdio.h>  /* for puts(3p) */
+#include <math.h>   /* for round(3p), ceil(3p), floor(3p), sqrt(3p) */
+#include <stdio.h>  /* for puts(3p), realloc(3p) */
 #include <stdlib.h> /* for setenv(3p) and unsetenv(3p) */
+#include <string.h> /* for memset(3p) */
 
 #include <aalib.h>
 
@@ -43,46 +45,71 @@ void DG_SetWindowTitle(const char *title)
 {
 }
 
-#define div_roundup(n, d) (((n) + (d) - 1) / (d))
-#define min(a, b) (((a) < (b)) ? (a) : (b))
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
+#define bound(lo, a, hi) min(max(a, lo), hi)
 
+// We have several framebuffers in a pipeline:
+//  1. (DOOM)   DG_ScreenBuffer      is 320x200 non-square pixels at a 4:3 aspect ratio (=pixels are 5:6)
+//  2. (aadoom) context->imagebuffer is 160x48  non-square pixels at a 8:5 aspect ratio (=pixels are 12:25)
+//  3. (aalib)  context->textbuffer  is  80x24  chars             at a 8:5 aspect ratio (=chars are 12:25)
+//  4. (VT220)  <display>            is 800x240 non-square pixels at a 8:5 aspect ratio (=pixels are 12:25)
+//
+// Cropping the VT220's 8:5 to 4:3 gives us a letterboxed region of:
+//  2. (aadoom) context->imagebuffer is 133⅓x48  non-square pixels at a 8:5 aspect ratio (=pixels are 12:25)
+//  3. (aalib)  context->textbuffer  is  66⅔x24  chars             at a 8:5 aspect ratio (=chars are 12:25)
+//  4. (VT220)  <display>            is 666⅔x240 non-square pixels at a 8:5 aspect ratio (=pixels are 12:25)
+//
+// So, we need to downscale that 320x200px image to 133x48px, or a scaling factor of ~2.4x4.2.
 struct {
     // The dimensions of the full grayscale pixel framebuffer.
-    int full_out_resx;
-    int full_out_resy;
+    int full_aa_resx;
+    int full_aa_resy;
 
     // The inner portion of that framebuffer that we'll be drawing to
     // (letterboxed).
-    int out_xoff;
-    int out_resx;
-    int out_resy;
+    int aa_xoff;
+    int aa_resx;
+    int aa_resy;
 
     // How many pixels from the DG_ScreenBuffer framebuffer will
     // become one pixel in the grayscale framebuffer.
-    int doomx_per_outx;
-    int doomy_per_outy;
-} screensize;
+    double doomx_per_aax;
+    double doomy_per_aay;
+
+    unsigned char *tmpbuf;
+} screen;
 
 void my_resize(aa_context *context)
 {
     aa_resize(context);
 
-    screensize.full_out_resx = aa_imgwidth(context);
-    screensize.full_out_resy = aa_imgheight(context);
-    fprintf(stderr, "aa pixbuf: %d x %d\n", screensize.full_out_resx, screensize.full_out_resy);
+    screen.full_aa_resx = aa_imgwidth(context);
+    screen.full_aa_resy = aa_imgheight(context);
 
-    // Shrink one of dimension to get a 4:3 aspect ratio.
-    screensize.out_resx = min(screensize.full_out_resx, ((4*screensize.full_out_resy)/3));
-    screensize.out_resy = min(screensize.full_out_resy, ((3*screensize.full_out_resx)/4));
+    // Crop that 8:5 to 4:3.
+    screen.aa_resx = min(screen.full_aa_resx, (int)round(screen.full_aa_resy * (25.0/12.0) * (4.0/3.0)));
+    screen.aa_resy = min(screen.full_aa_resy, (int)round(screen.full_aa_resx * (12.0/25.0) * (3.0/4.0)));
+    screen.aa_xoff = (screen.full_aa_resx - screen.aa_resx) / 2;
 
-    screensize.doomx_per_outx = div_roundup(DOOMGENERIC_RESX, screensize.out_resx);
-    screensize.doomy_per_outy = div_roundup(DOOMGENERIC_RESY, screensize.out_resy);
-    // Maybe shrink out_resx and/or out_resy due to rounding.
-    //screensize.out_resx = DOOMGENERIC_RESX / screensize.doomx_per_outx;
-    //screensize.out_resy = DOOMGENERIC_RESY / screensize.doomy_per_outy;
+    screen.doomx_per_aax = ((float)DOOMGENERIC_RESX) / ((float)screen.aa_resx);
+    screen.doomy_per_aay = ((float)DOOMGENERIC_RESY) / ((float)screen.aa_resy);
 
-    screensize.out_xoff = (screensize.full_out_resx - screensize.out_resx) / 2;
+    screen.tmpbuf = realloc(screen.tmpbuf, screen.aa_resx * screen.aa_resy);
+    memset(screen.tmpbuf, 0, screen.aa_resx * screen.aa_resy);
 }
+
+int sobel_x[3][3] = {
+    {-1, 0, 1},
+    {-2, 0, 2},
+    {-1, 0, 1}
+};
+
+int sobel_y[3][3] = {
+    {-1, -2, -1},
+    { 0,  0,  0},
+    { 1,  2,  1}
+};
 
 void DG_DrawFrame()
 {
@@ -101,47 +128,56 @@ void DG_DrawFrame()
         my_resize(context);
     }
 
-    unsigned char *out_buffer = aa_image(context);
-
-    // We have several framebuffers in a pipeline:
-    //  1. (DOOM engine) DG_ScreenBuffer is 320x200 non-square pixels at a 4:3 aspect ratio (=pixels are 5:6)
-    //  2. (aadoom)      out_buffer      is 160x48  non-square pixels at a 8:5 aspect ratio (=pixels are 12:25)
-    //  3. (aalib)   context->textbuffer is  80x24  chars             at a 8:5 aspect ratio (=chars are 12:25)
-    //  4. (VT220)       <display>       is 800x240 non-square pixels at a 8:5 aspect ratio (=pixels are 12:25)
-    //
-    // Cropping the VT220's 8:5 to 4:3 gives us a letterboxed region of:
-    //  2. (aadoom)      out_buffer      is 133⅓x48  non-square pixels at a 8:5 aspect ratio (=pixels are 12:25)
-    //  3. (aalib)   context->textbuffer is  66⅔x24  chars             at a 8:5 aspect ratio (=chars are 12:25)
-    //  4. (VT220)       <display>       is 666⅔x240 non-square pixels at a 8:5 aspect ratio (=pixels are 12:25)
-    //
-    // So, we need to downscale that 320x200px image to 133⅓x48px, or a scaling factor of 2.4x1⅙.
-
-    for (int oy = 0; oy < screensize.out_resy; oy++)
-    {
-        for (int ox = 0; ox < screensize.out_resx; ox++)
+#define get_rgb_(x, y) (DG_ScreenBuffer[bound(0, y, DOOMGENERIC_RESY-1)*DOOMGENERIC_RESX+bound(0, x, DOOMGENERIC_RESX-1)])
+#define get_r(x, y) ((get_rgb_(x, y) >> 24) & 0xFF)
+#define get_g(x, y) ((get_rgb_(x, y) >> 16) & 0xFF)
+#define get_b(x, y) ((get_rgb_(x, y) >>  8) & 0xFF)
+#define get_luma(x, y) ((unsigned char)((get_r(x,y)*30 + get_g(x,y)*59 + get_b(x,y)*11) / 100))
+    // Convert to greyscale and downscale;
+    // Input is DG_ScreenBufferConvert, output is screen.tmpbuf.
+    for (int oy = 0; oy < screen.aa_resy; oy++)
+        for (int ox = 0; ox < screen.aa_resx; ox++)
         {
-            uint32_t v = 0;
-            for (int dy = oy*screensize.doomy_per_outy; dy < (oy+1)*screensize.doomy_per_outy; dy++)
-            {
-                for (int dx = ox*screensize.doomx_per_outx; dx < (ox+1)*screensize.doomx_per_outx; dx++)
-                {
-                    uint32_t r = (DG_ScreenBuffer[dy*DOOMGENERIC_RESX+dx] >> 24) & 0xFF;
-                    uint32_t g = (DG_ScreenBuffer[dy*DOOMGENERIC_RESX+dx] >> 16) & 0xFF;
-                    uint32_t b = (DG_ScreenBuffer[dy*DOOMGENERIC_RESX+dx] >>  8) & 0xFF;
-                    v += (r*30 + g*59 + b*11) / 100;
-                }
-            }
-            out_buffer[oy*screensize.full_out_resx+screensize.out_xoff+ox] =
-                v/(screensize.doomx_per_outx*screensize.doomy_per_outy);
+            int lo_x = floor((ox  ) * screen.doomx_per_aax);
+            int hi_x = ceil( (ox+1) * screen.doomx_per_aax);
+            int lo_y = floor((oy  ) * screen.doomy_per_aay);
+            int hi_y = ceil( (oy+1) * screen.doomy_per_aay);
+            int sum = 0;
+            for (int iy = lo_y; iy < hi_y; iy++)
+                for (int ix = lo_x; ix < hi_x; ix++)
+                    sum += get_luma(ix, iy);
+            screen.tmpbuf[oy*screen.aa_resx+ox] = sum / ( (hi_x-lo_x) * (hi_y-lo_y) );
         }
-    }
 
+    // Apply the Sobel operator and letterboxing.
+    // Input is screen.tmpbuff, output context->imagebuffer.
+    for (int y = 0; y < screen.aa_resy; y++)
+        for (int x = 0; x < screen.aa_resx; x++)
+        {
+            int gx = 0;
+            int gy = 0;
+            for (int dy = -1; dy <= 1; dy++)
+                for (int dx = -1; dx <= 1; dx++)
+                {
+                    unsigned char px = screen.tmpbuf[bound(0, y+dy, screen.aa_resy-1)*screen.aa_resx + bound(0, x+dx, screen.aa_resx-1)];
+                    gx += px * sobel_x[dy+1][dx+1];
+                    gy += px * sobel_y[dy+1][dx+1];
+                }
+            int g = (int) sqrt(gx*gx + gy*gy);
+            if (g > 255)
+                g = 255;
+            aa_image(context)[y*screen.full_aa_resx+x+screen.aa_xoff] = (unsigned char) g;
+        }
+
+    // Convert to text.
+    // Input is context->imagebuffer, output is context->textbuffer.
     aa_render(context, &aa_defrenderparams,
               /* TTY X1 */ 0,
               /* TTY Y1 */ 0,
               /* TTY X2 */ aa_scrwidth(context),
-              /* TTY Y2 */ aa_scrheight(context)-1);
+              /* TTY Y2 */ aa_scrheight(context));
 
+    // Send to the VT220.
     aa_flush(context);
 }
 
