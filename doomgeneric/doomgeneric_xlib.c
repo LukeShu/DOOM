@@ -97,7 +97,15 @@ void DG_Init()
 
     int depth = DefaultDepth(s_Display, s_Screen);
 
-    s_Window = XCreateSimpleWindow(s_Display, DefaultRootWindow(s_Display), 0, 0, DOOMGENERIC_RESX, DOOMGENERIC_RESY, 0, blackColor, blackColor);
+    s_Window = XCreateSimpleWindow(s_Display,                    // display
+                                   DefaultRootWindow(s_Display), // parent
+                                   0,                            // x
+                                   0,                            // y
+                                   DOOMGENERIC_RESX,             // width
+                                   DOOMGENERIC_RESY,             // height
+                                   0,                            // border_width
+                                   blackColor,                   // border
+                                   blackColor);                  // background
 
     XSelectInput(s_Display, s_Window, StructureNotifyMask | KeyPressMask | KeyReleaseMask);
 
@@ -121,7 +129,16 @@ void DG_Init()
         }
     }
 
-    s_Image = XCreateImage(s_Display, DefaultVisual(s_Display, s_Screen), depth, ZPixmap, 0, (char *)DG_ScreenBuffer, DOOMGENERIC_RESX, DOOMGENERIC_RESX, 32, 0);
+    s_Image = XCreateImage(s_Display,                          // display
+                           DefaultVisual(s_Display, s_Screen), // visual
+                           depth,                              // depth
+                           ZPixmap,                            // format
+                           0,                                  // offset
+                           (char *)DG_ScreenBuffer,            // data
+                           DOOMGENERIC_RESX,                   // width
+                           DOOMGENERIC_RESY,                   // height
+                           32,                                 // bitmap_pad
+                           0);                                 // bytes_per_line
 }
 
 
@@ -148,7 +165,16 @@ void DG_DrawFrame()
             }
         }
 
-        XPutImage(s_Display, s_Window, s_Gc, s_Image, 0, 0, 0, 0, DOOMGENERIC_RESX, DOOMGENERIC_RESY);
+        XPutImage(s_Display,         // display
+                  s_Window,          // drawable
+                  s_Gc,              // Graphics Context
+                  s_Image,           // image
+                  0,                 // src_x
+                  0,                 // src_y
+                  0,                 // dest_x
+                  0,                 // dest_y
+                  DOOMGENERIC_RESX,  // width
+                  DOOMGENERIC_RESY); // height
 
         //XFlush(s_Display);
     }
