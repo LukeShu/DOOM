@@ -156,6 +156,7 @@ void DG_DrawFrame()
     for (int y = 0; y < screen.aa_resy; y++)
         for (int x = 0; x < screen.aa_resx; x++)
         {
+#ifdef USE_SOBEL
             int gx = 0;
             int gy = 0;
             for (int dy = -1; dy <= 1; dy++)
@@ -170,6 +171,9 @@ void DG_DrawFrame()
             int g = (int) sqrt(gx*gx + gy*gy);
             if (g > 255)
                 g = 255;
+#else
+            unsigned char g = screen.tmpbuf[y*screen.aa_resx+x];
+#endif
             aa_image(context)[(y+screen.aa_yoff)*screen.full_aa_resx+(x+screen.aa_xoff)] = (unsigned char) g;
         }
 
