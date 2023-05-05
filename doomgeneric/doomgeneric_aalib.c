@@ -1,17 +1,19 @@
-#include "doomkeys.h"
-#include "doomgeneric.h"
-#include <aalib.h>
-
 #include <ctype.h>  /* for tolower(3p) */
 #include <error.h>  /* for error(3gnu) */
 #include <stdio.h>  /* for puts(3p) */
 #include <stdlib.h> /* for setenv(3p) and unsetenv(3p) */
 
+#include <aalib.h>
+
+#include "doomgeneric.h"
+#include "doomkeys.h"
+#include "m_argv.h"
+
 static aa_context *context = NULL;
 
 int main(int argc, char **argv)
 {
-    /* AAOPTS */
+    // aa_parseoptions looks at both argv and getenv("AAOPTS").
     if (!aa_parseoptions(NULL, NULL, &argc, argv))
     {
         puts(aa_help);
@@ -19,6 +21,11 @@ int main(int argc, char **argv)
     }
 
     doomgeneric_Create(argc, argv);
+    if (M_ParmExists("-help")) {
+        puts(aa_help);
+        return 0;
+    }
+
     for (;;)
         doomgeneric_Tick();
 
@@ -96,47 +103,31 @@ void DG_DrawFrame()
 
     unsigned char *out_buffer = aa_image(context);
 
-    // The VT220 is 800x240 non-square pixels (80x24 chars) at a 8:5 aspect ratio.
+    // We have several framebuffers in a pipeline:
+    //  1. (DOOM engine) DG_ScreenBuffer is 320x200 non-square pixels at a 4:3 aspect ratio (=pixels are 5:6)
+    //  2. (aadoom)      out_buffer      is 160x48  non-square pixels at a 8:5 aspect ratio (=pixels are 12:25)
+    //  3. (aalib)   context->textbuffer is  80x24  chars             at a 8:5 aspect ratio (=chars are 12:25)
+    //  4. (VT220)       <display>       is 800x240 non-square pixels at a 8:5 aspect ratio (=pixels are 12:25)
     //
-    // DG_ScreenBuffer is 320x200 non-square pixels at a 4:3 aspect ratio.
+    // Cropping the VT220's 8:5 to 4:3 gives us a letterboxed region of:
+    //  2. (aadoom)      out_buffer      is 133⅓x48  non-square pixels at a 8:5 aspect ratio (=pixels are 12:25)
+    //  3. (aalib)   context->textbuffer is  66⅔x24  chars             at a 8:5 aspect ratio (=chars are 12:25)
+    //  4. (VT220)       <display>       is 666⅔x240 non-square pixels at a 8:5 aspect ratio (=pixels are 12:25)
     //
-    // Cropping the VT220 to 4:3 gives us 600x240 pixels (60x24 chars).
+    // So, we need to downscale that 320x200px image to 133⅓x48px, or a scaling factor of 2.4x1⅙.
 
-    // If I instead say that a VT220 is (80*7)x240 non-square pixels, that crops to 420x240 pixels.
-    //
-    // X: 1.3 DOOM pixels per VT pixel.
-
-    //   0123456789
-    // 0 AAAAABBBBB
-    // 1 AAAAABBBBB
-    // 2 AAAAABBBBB
-    // 3 CCCCCDDDDD
-    // 4 CCCCCDDDDD
-    // 5 CCCCCDDDDD
-    // 6 EEEEEFFFFF
-    // 7 EEEEEFFFFF
-    // 8 EEEEEFFFFF
-    // 9
-
-    // x: 6  DP => 1 char : 53.3 char => 5.333"
-    // y: 10 DP => 1 char : 20   char => 4.166"
-    //
-    // 4:3   = 1.333
-    // 5⅓:4⅙ = 1.28
-
-    uint32_t v, r, g, b;
     for (int oy = 0; oy < screensize.out_resy; oy++)
     {
         for (int ox = 0; ox < screensize.out_resx; ox++)
         {
-            v = 0;
+            uint32_t v = 0;
             for (int dy = oy*screensize.doomy_per_outy; dy < (oy+1)*screensize.doomy_per_outy; dy++)
             {
                 for (int dx = ox*screensize.doomx_per_outx; dx < (ox+1)*screensize.doomx_per_outx; dx++)
                 {
-                    r = (DG_ScreenBuffer[dy*DOOMGENERIC_RESX+dx] >> 24) & 0xFF;
-                    g = (DG_ScreenBuffer[dy*DOOMGENERIC_RESX+dx] >> 16) & 0xFF;
-                    b = (DG_ScreenBuffer[dy*DOOMGENERIC_RESX+dx] >>  8) & 0xFF;
+                    uint32_t r = (DG_ScreenBuffer[dy*DOOMGENERIC_RESX+dx] >> 24) & 0xFF;
+                    uint32_t g = (DG_ScreenBuffer[dy*DOOMGENERIC_RESX+dx] >> 16) & 0xFF;
+                    uint32_t b = (DG_ScreenBuffer[dy*DOOMGENERIC_RESX+dx] >>  8) & 0xFF;
                     v += (r*30 + g*59 + b*11) / 100;
                 }
             }
