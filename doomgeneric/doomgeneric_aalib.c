@@ -69,6 +69,7 @@ struct {
     // The inner portion of that framebuffer that we'll be drawing to
     // (letterboxed).
     int aa_xoff;
+    int aa_yoff;
     int aa_resx;
     int aa_resy;
 
@@ -91,6 +92,7 @@ void my_resize(aa_context *context)
     screen.aa_resx = min(screen.full_aa_resx, (int)round(screen.full_aa_resy * (25.0/12.0) * (4.0/3.0)));
     screen.aa_resy = min(screen.full_aa_resy, (int)round(screen.full_aa_resx * (12.0/25.0) * (3.0/4.0)));
     screen.aa_xoff = (screen.full_aa_resx - screen.aa_resx) / 2;
+    screen.aa_yoff = (screen.full_aa_resy - screen.aa_resy) / 2;
 
     screen.doomx_per_aax = ((float)DOOMGENERIC_RESX) / ((float)screen.aa_resx);
     screen.doomy_per_aay = ((float)DOOMGENERIC_RESY) / ((float)screen.aa_resy);
@@ -166,7 +168,7 @@ void DG_DrawFrame()
             int g = (int) sqrt(gx*gx + gy*gy);
             if (g > 255)
                 g = 255;
-            aa_image(context)[y*screen.full_aa_resx+x+screen.aa_xoff] = (unsigned char) g;
+            aa_image(context)[(y+screen.aa_yoff)*screen.full_aa_resx+(x+screen.aa_xoff)] = (unsigned char) g;
         }
 
     // Convert to text.
