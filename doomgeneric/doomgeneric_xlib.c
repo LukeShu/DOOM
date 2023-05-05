@@ -194,8 +194,8 @@ void DG_DrawFrame()
 #define get_g(x, y) ((get_rgb_(x, y) >> 16) & 0xFF)
 #define get_b(x, y) ((get_rgb_(x, y) >>  8) & 0xFF)
 #define get_l(x, y) ((unsigned char)((get_r(x,y)*30 + get_g(x,y)*59 + get_b(x,y)*11) / 100))
-        for (int y = 1; y < DOOMGENERIC_RESY - 1; y++)
-            for (int x = 1; x < DOOMGENERIC_RESX - 1; x++)
+        for (int y = 0; y < DOOMGENERIC_RESY; y++)
+            for (int x = 0; x < DOOMGENERIC_RESX; x++)
             {
                 int gx = 0;
                 int gy = 0;
