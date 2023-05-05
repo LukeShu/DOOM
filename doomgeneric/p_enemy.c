@@ -62,8 +62,8 @@ typedef enum
 //
 dirtype_t opposite[] =
 {
-  DI_WEST, DI_SOUTHWEST, DI_SOUTH, DI_SOUTHEAST,
-  DI_EAST, DI_NORTHEAST, DI_NORTH, DI_NORTHWEST, DI_NODIR
+    DI_WEST, DI_SOUTHWEST, DI_SOUTH, DI_SOUTHEAST,
+    DI_EAST, DI_NORTHEAST, DI_NORTH, DI_NORTHWEST, DI_NODIR
 };
 
 dirtype_t diags[] =
@@ -612,7 +612,7 @@ void A_Look (mobj_t* actor)
 	return;
 
     // go into chase state
-  seeyou:
+ seeyou:
     if (actor->info->seesound)
     {
 	int		sound;
@@ -735,7 +735,7 @@ void A_Chase (mobj_t*	actor)
     }
 
     // ?
-  nomissile:
+ nomissile:
     // possibly choose another target
     if (netgame
 	&& !actor->threshold
@@ -1629,21 +1629,21 @@ static boolean CheckBossEnd(mobjtype_t motype)
 
 	switch(gameepisode)
 	{
-            case 1:
-                return gamemap == 8 && motype == MT_BRUISER;
+          case 1:
+            return gamemap == 8 && motype == MT_BRUISER;
 
-            case 2:
-                return gamemap == 8 && motype == MT_CYBORG;
+          case 2:
+            return gamemap == 8 && motype == MT_CYBORG;
 
-            case 3:
-                return gamemap == 8 && motype == MT_SPIDER;
+          case 3:
+            return gamemap == 8 && motype == MT_SPIDER;
 
-	    case 4:
-                return (gamemap == 6 && motype == MT_CYBORG)
-                    || (gamemap == 8 && motype == MT_SPIDER);
+          case 4:
+            return (gamemap == 6 && motype == MT_CYBORG)
+                || (gamemap == 8 && motype == MT_SPIDER);
 
-            default:
-                return gamemap == 8;
+          default:
+            return gamemap == 8;
 	}
     }
 }
@@ -1995,7 +1995,7 @@ void A_PlayerScream (mobj_t* mo)
     int		sound = sfx_pldeth;
 
     if ( (gamemode == commercial)
-	&& 	(mo->health < -50))
+         && 	(mo->health < -50))
     {
 	// IF THE PLAYER DIES
 	// LESS THAN -50% WITHOUT GIBBING

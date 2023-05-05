@@ -93,7 +93,7 @@ fixed_t			cachedystep[SCREENHEIGHT];
 //
 void R_InitPlanes (void)
 {
-  // Doh!
+    // Doh!
 }
 
 

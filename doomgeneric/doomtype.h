@@ -74,7 +74,7 @@ typedef enum
 {
     false	= 0,
     true	= 1,
-	undef	= 0xFFFFFFFF
+    undef	= 0xFFFFFFFF
 } boolean;
 
 #endif

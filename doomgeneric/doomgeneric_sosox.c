@@ -42,43 +42,43 @@ static unsigned char convert_to_doom_key(unsigned char scancode)
 
     switch (scancode)
     {
-    case 0x9C:
-    case 0x1C:
+      case 0x9C:
+      case 0x1C:
         key = KEY_ENTER;
         break;
-    case 0x01:
+      case 0x01:
         key = KEY_ESCAPE;
         break;
-    case 0xCB:
-    case 0x4B:
+      case 0xCB:
+      case 0x4B:
         key = KEY_LEFTARROW;
         break;
-    case 0xCD:
-    case 0x4D:
+      case 0xCD:
+      case 0x4D:
         key = KEY_RIGHTARROW;
         break;
-    case 0xC8:
-    case 0x48:
+      case 0xC8:
+      case 0x48:
         key = KEY_UPARROW;
         break;
-    case 0xD0:
-    case 0x50:
+      case 0xD0:
+      case 0x50:
         key = KEY_DOWNARROW;
         break;
-    case 0x1D:
+      case 0x1D:
         key = KEY_FIRE;
         break;
-    case 0x39:
+      case 0x39:
         key = KEY_USE;
         break;
-    case 0x2A:
-    case 0x36:
+      case 0x2A:
+      case 0x36:
         key = KEY_RSHIFT;
         break;
-    case 0x15:
+      case 0x15:
         key = 'y';
         break;
-    default:
+      default:
         break;
     }
 
@@ -101,17 +101,17 @@ struct termios orig_termios;
 
 void disable_raw_mode()
 {
-  tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
+    tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios);
 }
 
 void enable_raw_mode()
 {
-  tcgetattr(STDIN_FILENO, &orig_termios);
-  atexit(disable_raw_mode);
-  struct termios raw = orig_termios;
-  raw.c_lflag &= ~(ECHO);
-  raw.c_cc[VMIN] = 0;
-  tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+    tcgetattr(STDIN_FILENO, &orig_termios);
+    atexit(disable_raw_mode);
+    struct termios raw = orig_termios;
+    raw.c_lflag &= ~(ECHO);
+    raw.c_cc[VMIN] = 0;
+    tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
 }
 
 void DG_Init()
@@ -127,19 +127,19 @@ void DG_Init()
     GrSetGCForeground(gc, MWRGB( 255, 0, 0 ));
 
     wid = GrNewBufferedWindow(GR_WM_PROPS_APPFRAME |
-                        GR_WM_PROPS_CAPTION  |
-                        GR_WM_PROPS_CLOSEBOX |
-                        GR_WM_PROPS_BUFFER_MMAP |
-                        GR_WM_PROPS_BUFFER_BGRA,
-                        "Doom",
-                        GR_ROOT_WINDOW_ID,
-                        50, 50, winSizeX, winSizeY, MWRGB( 255, 255, 255 ));
+                              GR_WM_PROPS_CAPTION  |
+                              GR_WM_PROPS_CLOSEBOX |
+                              GR_WM_PROPS_BUFFER_MMAP |
+                              GR_WM_PROPS_BUFFER_BGRA,
+                              "Doom",
+                              GR_ROOT_WINDOW_ID,
+                              50, 50, winSizeX, winSizeY, MWRGB( 255, 255, 255 ));
 
     GrSelectEvents(wid, GR_EVENT_MASK_EXPOSURE |
-                        GR_EVENT_MASK_TIMER |
-                        GR_EVENT_MASK_CLOSE_REQ |
-                        GR_EVENT_MASK_BUTTON_DOWN |
-                        GR_EVENT_MASK_BUTTON_UP);
+                   GR_EVENT_MASK_TIMER |
+                   GR_EVENT_MASK_CLOSE_REQ |
+                   GR_EVENT_MASK_BUTTON_DOWN |
+                   GR_EVENT_MASK_BUTTON_UP);
 
     GrMapWindow (wid);
 
@@ -193,20 +193,20 @@ void DG_DrawFrame()
 
         switch (event.type)
         {
-        case GR_EVENT_TYPE_BUTTON_DOWN:
+          case GR_EVENT_TYPE_BUTTON_DOWN:
             button_down = 1;
             break;
-        case GR_EVENT_TYPE_BUTTON_UP:
+          case GR_EVENT_TYPE_BUTTON_UP:
             button_down = 0;
             break;
 
-        case GR_EVENT_TYPE_CLOSE_REQ:
+          case GR_EVENT_TYPE_CLOSE_REQ:
             GrClose();
             exit (0);
             break;
-        case GR_EVENT_TYPE_EXPOSURE:
+          case GR_EVENT_TYPE_EXPOSURE:
             break;
-        case GR_EVENT_TYPE_TIMER:
+          case GR_EVENT_TYPE_TIMER:
 
             break;
         }

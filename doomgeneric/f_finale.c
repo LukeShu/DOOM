@@ -177,18 +177,18 @@ void F_Ticker (void)
     if ( (gamemode == commercial)
       && ( finalecount > 50) )
     {
-      // go on to the next level
-      for (i=0 ; i<MAXPLAYERS ; i++)
-	if (players[i].cmd.buttons)
-	  break;
+        // go on to the next level
+        for (i=0 ; i<MAXPLAYERS ; i++)
+            if (players[i].cmd.buttons)
+                break;
 
-      if (i < MAXPLAYERS)
-      {
-	if (gamemap == 30)
-	  F_StartCast ();
-	else
-	  gameaction = ga_worlddone;
-      }
+        if (i < MAXPLAYERS)
+        {
+            if (gamemap == 30)
+                F_StartCast ();
+            else
+                gameaction = ga_worlddone;
+        }
     }
 
     // advance animation
@@ -445,7 +445,7 @@ void F_CastTicker (void)
 	if (castframes == 24
 	    ||	caststate == &states[mobjinfo[castorder[castnum].type].seestate] )
 	{
-	  stopattack:
+        stopattack:
 	    castattacking = false;
 	    castframes = 0;
 	    caststate = &states[mobjinfo[castorder[castnum].type].seestate];
@@ -670,24 +670,24 @@ static void F_ArtScreenDrawer(void)
     {
         switch (gameepisode)
         {
-            case 1:
-                if (gamemode == retail)
-                {
-                    lumpname = "CREDIT";
-                }
-                else
-                {
-                    lumpname = "HELP2";
-                }
-                break;
-            case 2:
-                lumpname = "VICTORY2";
-                break;
-            case 4:
-                lumpname = "ENDPIC";
-                break;
-            default:
-                return;
+          case 1:
+            if (gamemode == retail)
+            {
+                lumpname = "CREDIT";
+            }
+            else
+            {
+                lumpname = "HELP2";
+            }
+            break;
+          case 2:
+            lumpname = "VICTORY2";
+            break;
+          case 4:
+            lumpname = "ENDPIC";
+            break;
+          default:
+            return;
         }
 
         lumpname = DEH_String(lumpname);
@@ -703,14 +703,14 @@ void F_Drawer (void)
 {
     switch (finalestage)
     {
-        case F_STAGE_CAST:
-            F_CastDrawer();
-            break;
-        case F_STAGE_TEXT:
-            F_TextWrite();
-            break;
-        case F_STAGE_ARTSCREEN:
-            F_ArtScreenDrawer();
-            break;
+      case F_STAGE_CAST:
+        F_CastDrawer();
+        break;
+      case F_STAGE_TEXT:
+        F_TextWrite();
+        break;
+      case F_STAGE_ARTSCREEN:
+        F_ArtScreenDrawer();
+        break;
     }
 }

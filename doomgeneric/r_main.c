@@ -349,7 +349,7 @@ R_PointToAngle
 	    }
 	    else
 	    {
-		 // octant 5
+                // octant 5
 		return ANG270-1-tantoangle[ SlopeDiv(x,y)];
 	    }
 	}
@@ -458,19 +458,19 @@ fixed_t R_ScaleFromGlobalAngle (angle_t visangle)
 
     // UNUSED
 #if 0
-{
-    fixed_t		dist;
-    fixed_t		z;
-    fixed_t		sinv;
-    fixed_t		cosv;
+    {
+        fixed_t		dist;
+        fixed_t		z;
+        fixed_t		sinv;
+        fixed_t		cosv;
 
-    sinv = finesine[(visangle-rw_normalangle)>>ANGLETOFINESHIFT];
-    dist = FixedDiv (rw_distance, sinv);
-    cosv = finecosine[(viewangle-visangle)>>ANGLETOFINESHIFT];
-    z = abs(FixedMul (dist, cosv));
-    scale = FixedDiv(projection, z);
-    return scale;
-}
+        sinv = finesine[(visangle-rw_normalangle)>>ANGLETOFINESHIFT];
+        dist = FixedDiv (rw_distance, sinv);
+        cosv = finecosine[(viewangle-visangle)>>ANGLETOFINESHIFT];
+        z = abs(FixedMul (dist, cosv));
+        scale = FixedDiv(projection, z);
+        return scale;
+    }
 #endif
 
     anglea = ANG90 + (visangle-viewangle);

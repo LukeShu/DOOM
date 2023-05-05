@@ -220,8 +220,8 @@ static point_t lnodes[NUMEPISODES][NUMMAPS] =
 //
 
 #define ANIM(type, period, nanims, x, y, nexttic)            \
-   { (type), (period), (nanims), { (x), (y) }, (nexttic),    \
-     0, { NULL, NULL, NULL }, 0, 0, 0, 0 }
+    { (type), (period), (nanims), { (x), (y) }, (nexttic),    \
+            0, { NULL, NULL, NULL }, 0, 0, 0, 0 }
 
 
 static anim_t epsd0animinfo[] =
@@ -305,7 +305,7 @@ static int		acceleratestage;
 // wbs->pnum
 static int		me;
 
- // specifies current state
+// specifies current state
 static stateenum_t	state;
 
 // contains information passed into intermission
@@ -362,7 +362,7 @@ static patch_t*		entering;
 // "secret"
 static patch_t*		sp_secret;
 
- // "Kills", "Scrt", "Items", "Frags"
+// "Kills", "Scrt", "Items", "Frags"
 static patch_t*		kills;
 static patch_t*		secret;
 static patch_t*		items;
@@ -388,7 +388,7 @@ static patch_t*		p[MAXPLAYERS];
 // "gray P[1..MAXPLAYERS]"
 static patch_t*		bp[MAXPLAYERS];
 
- // Name graphics of each level (centered)
+// Name graphics of each level (centered)
 static patch_t**	lnames;
 
 // Buffer storing the backdrop
@@ -1520,9 +1520,9 @@ void WI_Ticker(void)
     {
 	// intermission music
   	if ( gamemode == commercial )
-	  S_ChangeMusic(mus_dm2int, true);
+            S_ChangeMusic(mus_dm2int, true);
 	else
-	  S_ChangeMusic(mus_inter, true);
+            S_ChangeMusic(mus_inter, true);
     }
 
     WI_checkForAccelerate();
@@ -1611,7 +1611,7 @@ static void WI_loadUnloadData(load_callback_t callback)
 
     for (i=0;i<10;i++)
     {
-	 // numbers 0-9
+        // numbers 0-9
 	DEH_snprintf(name, 9, "WINUM%d", i);
         callback(name, &num[i]);
     }
@@ -1631,7 +1631,7 @@ static void WI_loadUnloadData(load_callback_t callback)
     // "scrt"
     callback(DEH_String("WIOSTS"), &secret);
 
-     // "secret"
+    // "secret"
     callback(DEH_String("WISCRT2"), &sp_secret);
 
     // french wad uses WIOBJ (?)
@@ -1781,10 +1781,10 @@ void WI_initVariables(wbstartstruct_t* wbstartstruct)
 #ifdef RANGECHECKING
     if (gamemode != commercial)
     {
-      if ( gamemode == retail )
-	RNGCHECK(wbs->epsd, 0, 3);
-      else
-	RNGCHECK(wbs->epsd, 0, 2);
+        if ( gamemode == retail )
+            RNGCHECK(wbs->epsd, 0, 3);
+        else
+            RNGCHECK(wbs->epsd, 0, 2);
     }
     else
     {
@@ -1811,8 +1811,8 @@ void WI_initVariables(wbstartstruct_t* wbstartstruct)
 	wbs->maxsecret = 1;
 
     if ( gamemode != retail )
-      if (wbs->epsd > 2)
-	wbs->epsd -= 3;
+        if (wbs->epsd > 2)
+            wbs->epsd -= 3;
 }
 
 void WI_Start(wbstartstruct_t* wbstartstruct)

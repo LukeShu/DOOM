@@ -193,10 +193,10 @@ void I_PrintStartupBanner(char *gamedescription)
     I_PrintDivider();
 
     printf(
-    " " PACKAGE_NAME " is free software, covered by the GNU General Public\n"
-    " License.  There is NO warranty; not even for MERCHANTABILITY or FITNESS\n"
-    " FOR A PARTICULAR PURPOSE. You are welcome to change and distribute\n"
-    " copies under certain conditions. See the source for more information.\n");
+        " " PACKAGE_NAME " is free software, covered by the GNU General Public\n"
+        " License.  There is NO warranty; not even for MERCHANTABILITY or FITNESS\n"
+        " FOR A PARTICULAR PURPOSE. You are welcome to change and distribute\n"
+        " copies under certain conditions. See the source for more information.\n");
 
     I_PrintDivider();
 }
@@ -216,7 +216,7 @@ boolean I_ConsoleStdout(void)
 #if ORIGCODE
     return isatty(fileno(stdout));
 #else
-	return 0;
+    return 0;
 #endif
 #endif
 }
@@ -487,11 +487,11 @@ void I_Error (char *error, ...)
 #define DOS_MEM_DUMP_SIZE 10
 
 static const unsigned char mem_dump_dos622[DOS_MEM_DUMP_SIZE] = {
-  0x57, 0x92, 0x19, 0x00, 0xF4, 0x06, 0x70, 0x00, 0x16, 0x00};
+    0x57, 0x92, 0x19, 0x00, 0xF4, 0x06, 0x70, 0x00, 0x16, 0x00};
 static const unsigned char mem_dump_win98[DOS_MEM_DUMP_SIZE] = {
-  0x9E, 0x0F, 0xC9, 0x00, 0x65, 0x04, 0x70, 0x00, 0x16, 0x00};
+    0x9E, 0x0F, 0xC9, 0x00, 0x65, 0x04, 0x70, 0x00, 0x16, 0x00};
 static const unsigned char mem_dump_dosbox[DOS_MEM_DUMP_SIZE] = {
-  0x00, 0x00, 0x00, 0xF1, 0x00, 0x00, 0x00, 0x00, 0x07, 0x00};
+    0x00, 0x00, 0x00, 0xF1, 0x00, 0x00, 0x00, 0x00, 0x07, 0x00};
 static unsigned char mem_dump_custom[DOS_MEM_DUMP_SIZE];
 
 static const unsigned char *dos_mem_dump = mem_dump_dos622;
@@ -554,14 +554,14 @@ boolean I_GetMemoryValue(unsigned int offset, void *value, int size)
 
     switch (size)
     {
-    case 1:
+      case 1:
         *((unsigned char *) value) = dos_mem_dump[offset];
         return true;
-    case 2:
+      case 2:
         *((unsigned short *) value) = dos_mem_dump[offset]
                                     | (dos_mem_dump[offset + 1] << 8);
         return true;
-    case 4:
+      case 4:
         *((unsigned int *) value) = dos_mem_dump[offset]
                                   | (dos_mem_dump[offset + 1] << 8)
                                   | (dos_mem_dump[offset + 2] << 16)

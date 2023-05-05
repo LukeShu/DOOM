@@ -1641,67 +1641,67 @@ static void SaveDefaultCollection(default_collection_t *collection)
 
         switch (defaults[i].type)
         {
-            case DEFAULT_KEY:
+          case DEFAULT_KEY:
 
-                // use the untranslated version if we can, to reduce
-                // the possibility of screwing up the user's config
-                // file
+            // use the untranslated version if we can, to reduce
+            // the possibility of screwing up the user's config
+            // file
 
-                v = * (int *) defaults[i].location;
+            v = * (int *) defaults[i].location;
 
-                if (v == KEY_RSHIFT)
+            if (v == KEY_RSHIFT)
+            {
+                // Special case: for shift, force scan code for
+                // right shift, as this is what Vanilla uses.
+                // This overrides the change check below, to fix
+                // configuration files made by old versions that
+                // mistakenly used the scan code for left shift.
+
+                v = 54;
+            }
+            else if (defaults[i].untranslated
+                     && v == defaults[i].original_translated)
+            {
+                // Has not been changed since the last time we
+                // read the config file.
+
+                v = defaults[i].untranslated;
+            }
+            else
+            {
+                // search for a reverse mapping back to a scancode
+                // in the scantokey table
+
+                int s;
+
+                for (s=0; s<128; ++s)
                 {
-                    // Special case: for shift, force scan code for
-                    // right shift, as this is what Vanilla uses.
-                    // This overrides the change check below, to fix
-                    // configuration files made by old versions that
-                    // mistakenly used the scan code for left shift.
-
-                    v = 54;
-                }
-                else if (defaults[i].untranslated
-                      && v == defaults[i].original_translated)
-                {
-                    // Has not been changed since the last time we
-                    // read the config file.
-
-                    v = defaults[i].untranslated;
-                }
-                else
-                {
-                    // search for a reverse mapping back to a scancode
-                    // in the scantokey table
-
-                    int s;
-
-                    for (s=0; s<128; ++s)
+                    if (scantokey[s] == v)
                     {
-                        if (scantokey[s] == v)
-                        {
-                            v = s;
-                            break;
-                        }
+                        v = s;
+                        break;
                     }
                 }
+            }
 
-	        fprintf(f, "%i", v);
-                break;
+            fprintf(f, "%i", v);
+            break;
 
-            case DEFAULT_INT:
-	        fprintf(f, "%i", * (int *) defaults[i].location);
-                break;
+          case DEFAULT_INT:
+            fprintf(f, "%i", * (int *) defaults[i].location);
+            break;
 
-            case DEFAULT_INT_HEX:
-	        fprintf(f, "0x%x", * (int *) defaults[i].location);
-                break;
+          case DEFAULT_INT_HEX:
+            fprintf(f, "0x%x", * (int *) defaults[i].location);
+            break;
 
-            case DEFAULT_FLOAT:
-                fprintf(f, "%f", * (float *) defaults[i].location);
-                break;
+          case DEFAULT_FLOAT:
+            fprintf(f, "%f", * (float *) defaults[i].location);
+            break;
 
-            case DEFAULT_STRING:
-	        fprintf(f,"\"%s\"", * (char **) (defaults[i].location));
-                break;
+          case DEFAULT_STRING:
+            fprintf(f,"\"%s\"", * (char **) (defaults[i].location));
+            break;
         }
 
         fprintf(f, "\n");
@@ -1733,38 +1733,38 @@ static void SetVariable(default_t *def, char *value)
 
     switch (def->type)
     {
-        case DEFAULT_STRING:
-            * (char **) def->location = strdup(value);
-            break;
+      case DEFAULT_STRING:
+        * (char **) def->location = strdup(value);
+        break;
 
-        case DEFAULT_INT:
-        case DEFAULT_INT_HEX:
-            * (int *) def->location = ParseIntParameter(value);
-            break;
+      case DEFAULT_INT:
+      case DEFAULT_INT_HEX:
+        * (int *) def->location = ParseIntParameter(value);
+        break;
 
-        case DEFAULT_KEY:
+      case DEFAULT_KEY:
 
-            // translate scancodes read from config
-            // file (save the old value in untranslated)
+        // translate scancodes read from config
+        // file (save the old value in untranslated)
 
-            intparm = ParseIntParameter(value);
-            def->untranslated = intparm;
-            if (intparm >= 0 && intparm < 128)
-            {
-                intparm = scantokey[intparm];
-            }
-            else
-            {
-                intparm = 0;
-            }
+        intparm = ParseIntParameter(value);
+        def->untranslated = intparm;
+        if (intparm >= 0 && intparm < 128)
+        {
+            intparm = scantokey[intparm];
+        }
+        else
+        {
+            intparm = 0;
+        }
 
-            def->original_translated = intparm;
-            * (int *) def->location = intparm;
-            break;
+        def->original_translated = intparm;
+        * (int *) def->location = intparm;
+        break;
 
-        case DEFAULT_FLOAT:
-            * (float *) def->location = (float) atof(value);
-            break;
+      case DEFAULT_FLOAT:
+        * (float *) def->location = (float) atof(value);
+        break;
     }
 }
 

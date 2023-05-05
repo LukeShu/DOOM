@@ -321,8 +321,8 @@ boolean PIT_CheckThing (mobj_t* thing)
 
 	if (tmthing->target
          && (tmthing->target->type == thing->type ||
-	    (tmthing->target->type == MT_KNIGHT && thing->type == MT_BRUISER)||
-	    (tmthing->target->type == MT_BRUISER && thing->type == MT_KNIGHT) ) )
+             (tmthing->target->type == MT_KNIGHT && thing->type == MT_BRUISER)||
+             (tmthing->target->type == MT_BRUISER && thing->type == MT_KNIGHT) ) )
 	{
 	    // Don't hit same species as originator.
 	    if (thing == tmthing->target)
@@ -696,7 +696,7 @@ boolean PTR_SlideTraverse (intercept_t* in)
 
     // the line does block movement,
     // see if it is closer than best so far
-  isblocking:
+ isblocking:
     if (in->frac < bestslidefrac)
     {
 	secondslidefrac = bestslidefrac;
@@ -732,7 +732,7 @@ void P_SlideMove (mobj_t* mo)
     slidemo = mo;
     hitcount = 0;
 
-  retry:
+ retry:
     if (++hitcount == 3)
 	goto stairstep;		// don't loop forever
 
@@ -773,7 +773,7 @@ void P_SlideMove (mobj_t* mo)
     if (bestslidefrac == FRACUNIT+1)
     {
 	// the move most have hit the middle, so stairstep
-      stairstep:
+    stairstep:
 	if (!P_TryMove (mo, mo->x, mo->y + mo->momy))
 	    P_TryMove (mo, mo->x + mo->momx, mo->y);
 	return;
@@ -991,7 +991,7 @@ boolean PTR_ShootTraverse (intercept_t* in)
 
 
 	// hit line
-      hitline:
+    hitline:
 	// position a bit closer
 	frac = in->frac - FixedDiv (4*FRACUNIT,attackrange);
 	x = trace.x + FixedMul (trace.dx, frac);
@@ -1426,22 +1426,22 @@ static void SpechitOverrun(line_t *ld)
 
     switch(numspechit)
     {
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-            tmbbox[numspechit-9] = addr;
-            break;
-        case 13:
-            crushchange = addr;
-            break;
-        case 14:
-            nofit = addr;
-            break;
-        default:
-            fprintf(stderr, "SpechitOverrun: Warning: unable to emulate"
-                            "an overrun where numspechit=%i\n",
-                            numspechit);
-            break;
+      case 9:
+      case 10:
+      case 11:
+      case 12:
+        tmbbox[numspechit-9] = addr;
+        break;
+      case 13:
+        crushchange = addr;
+        break;
+      case 14:
+        nofit = addr;
+        break;
+      default:
+        fprintf(stderr, "SpechitOverrun: Warning: unable to emulate"
+                        "an overrun where numspechit=%i\n",
+                numspechit);
+        break;
     }
 }

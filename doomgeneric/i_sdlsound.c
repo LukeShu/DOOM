@@ -308,22 +308,22 @@ static int SRC_ConversionMode(void)
     {
         // 0 = disabled
 
-        default:
-        case 0:
-            return -1;
+      default:
+      case 0:
+        return -1;
 
         // Ascending numbers give higher quality
 
-        case 1:
-            return SRC_LINEAR;
-        case 2:
-            return SRC_ZERO_ORDER_HOLD;
-        case 3:
-            return SRC_SINC_FASTEST;
-        case 4:
-            return SRC_SINC_MEDIUM_QUALITY;
-        case 5:
-            return SRC_SINC_BEST_QUALITY;
+      case 1:
+        return SRC_LINEAR;
+      case 2:
+        return SRC_ZERO_ORDER_HOLD;
+      case 3:
+        return SRC_SINC_FASTEST;
+      case 4:
+        return SRC_SINC_MEDIUM_QUALITY;
+      case 5:
+        return SRC_SINC_BEST_QUALITY;
     }
 }
 
@@ -437,8 +437,8 @@ static boolean ExpandSoundData_SRC(sfxinfo_t *sfxinfo,
     if (clipped > 0)
     {
         fprintf(stderr, "Sound '%s': clipped %u samples (%0.2f %%)\n",
-                        sfxinfo->name, clipped,
-                        400.0 * clipped / chunk->alen);
+                sfxinfo->name, clipped,
+                400.0 * clipped / chunk->alen);
     }
 
     return true;
@@ -555,64 +555,64 @@ static boolean ExpandSoundData_SDL(sfxinfo_t *sfxinfo,
     }
 
     // If we can, use the standard / optimized SDL conversion routines.
-        Sint16 *expanded = (Sint16 *) chunk->abuf;
-        int expand_ratio;
-        int i;
+    Sint16 *expanded = (Sint16 *) chunk->abuf;
+    int expand_ratio;
+    int i;
 
-        // Generic expansion if conversion does not work:
-        //
-        // SDL's audio conversion only works for rate conversions that are
-        // powers of 2; if the two formats are not in a direct power of 2
-        // ratio, do this naive conversion instead.
+    // Generic expansion if conversion does not work:
+    //
+    // SDL's audio conversion only works for rate conversions that are
+    // powers of 2; if the two formats are not in a direct power of 2
+    // ratio, do this naive conversion instead.
 
-        // number of samples in the converted sound
+    // number of samples in the converted sound
 
-        expanded_length = ((uint64_t) length * mixer_freq) / samplerate;
-        expand_ratio = (length << 8) / expanded_length;
+    expanded_length = ((uint64_t) length * mixer_freq) / samplerate;
+    expand_ratio = (length << 8) / expanded_length;
 
-        for (i=0; i<expanded_length; ++i)
-        {
-            Sint16 sample;
-            int src;
+    for (i=0; i<expanded_length; ++i)
+    {
+        Sint16 sample;
+        int src;
 
-            src = (i * expand_ratio) >> 8;
+        src = (i * expand_ratio) >> 8;
 
-            sample = data[src] | (data[src] << 8);
-            sample -= 32768;
+        sample = data[src] | (data[src] << 8);
+        sample -= 32768;
 
-            // expand 8->16 bits, mono->stereo
+        // expand 8->16 bits, mono->stereo
 
-            expanded[i * 2] = expanded[i * 2 + 1] = sample;
-        }
+        expanded[i * 2] = expanded[i * 2 + 1] = sample;
+    }
 
 #ifdef LOW_PASS_FILTER
-        // Perform a low-pass filter on the upscaled sound to filter
-        // out high-frequency noise from the conversion process.
+    // Perform a low-pass filter on the upscaled sound to filter
+    // out high-frequency noise from the conversion process.
 
+    {
+        float rc, dt, alpha;
+
+        // Low-pass filter for cutoff frequency f:
+        //
+        // For sampling rate r, dt = 1 / r
+        // rc = 1 / 2*pi*f
+        // alpha = dt / (rc + dt)
+
+        // Filter to the half sample rate of the original sound effect
+        // (maximum frequency, by nyquist)
+
+        dt = 1.0f / mixer_freq;
+        rc = 1.0f / (3.14f * samplerate);
+        alpha = dt / (rc + dt);
+
+        // Both channels are processed in parallel, hence [i-2]:
+
+        for (i=2; i<expanded_length * 2; ++i)
         {
-            float rc, dt, alpha;
-
-            // Low-pass filter for cutoff frequency f:
-            //
-            // For sampling rate r, dt = 1 / r
-            // rc = 1 / 2*pi*f
-            // alpha = dt / (rc + dt)
-
-            // Filter to the half sample rate of the original sound effect
-            // (maximum frequency, by nyquist)
-
-            dt = 1.0f / mixer_freq;
-            rc = 1.0f / (3.14f * samplerate);
-            alpha = dt / (rc + dt);
-
-            // Both channels are processed in parallel, hence [i-2]:
-
-            for (i=2; i<expanded_length * 2; ++i)
-            {
-                expanded[i] = (Sint16) (alpha * expanded[i]
-                                      + (1 - alpha) * expanded[i-2]);
-            }
+            expanded[i] = (Sint16) (alpha * expanded[i]
+                                    + (1 - alpha) * expanded[i-2]);
         }
+    }
 #endif /* #ifdef LOW_PASS_FILTER */
 
     return true;
@@ -1010,7 +1010,7 @@ static boolean I_SDL_InitSound(boolean _use_sfx_prefix)
     {
         fprintf(stderr, "I_SDL_InitSound: use_libsamplerate=%i, but "
                         "libsamplerate support not compiled in.\n",
-                        use_libsamplerate);
+                use_libsamplerate);
     }
 #endif
 
@@ -1032,11 +1032,11 @@ static boolean I_SDL_InitSound(boolean _use_sfx_prefix)
         {
             setpanning_workaround = true;
             fprintf(stderr, "\n"
-              "ATTENTION: You are using an old version of SDL_mixer!\n"
-              "           This version has a bug that may cause "
-                          "your sound to stutter.\n"
-              "           Please upgrade to a newer version!\n"
-              "\n");
+                            "ATTENTION: You are using an old version of SDL_mixer!\n"
+                            "           This version has a bug that may cause "
+                            "your sound to stutter.\n"
+                            "           Please upgrade to a newer version!\n"
+                            "\n");
         }
     }
 

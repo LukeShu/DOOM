@@ -1176,33 +1176,33 @@ G_CheckSpot
 
         switch (an)
         {
-            case 4096:  // -4096:
-                xa = finetangent[2048];    // finecosine[-4096]
-                ya = finetangent[0];       // finesine[-4096]
-                break;
-            case 5120:  // -3072:
-                xa = finetangent[3072];    // finecosine[-3072]
-                ya = finetangent[1024];    // finesine[-3072]
-                break;
-            case 6144:  // -2048:
-                xa = finesine[0];          // finecosine[-2048]
-                ya = finetangent[2048];    // finesine[-2048]
-                break;
-            case 7168:  // -1024:
-                xa = finesine[1024];       // finecosine[-1024]
-                ya = finetangent[3072];    // finesine[-1024]
-                break;
-            case 0:
-            case 1024:
-            case 2048:
-            case 3072:
-                xa = finecosine[an];
-                ya = finesine[an];
-                break;
-            default:
-                I_Error("G_CheckSpot: unexpected angle %d\n", an);
-                xa = ya = 0;
-                break;
+          case 4096:  // -4096:
+            xa = finetangent[2048];    // finecosine[-4096]
+            ya = finetangent[0];       // finesine[-4096]
+            break;
+          case 5120:  // -3072:
+            xa = finetangent[3072];    // finecosine[-3072]
+            ya = finetangent[1024];    // finesine[-3072]
+            break;
+          case 6144:  // -2048:
+            xa = finesine[0];          // finecosine[-2048]
+            ya = finetangent[2048];    // finesine[-2048]
+            break;
+          case 7168:  // -1024:
+            xa = finesine[1024];       // finecosine[-1024]
+            ya = finetangent[3072];    // finesine[-1024]
+            break;
+          case 0:
+          case 1024:
+          case 2048:
+          case 3072:
+            xa = finecosine[an];
+            ya = finesine[an];
+            break;
+          default:
+            I_Error("G_CheckSpot: unexpected angle %d\n", an);
+            xa = ya = 0;
+            break;
         }
         mo = P_SpawnMobj(x + 20 * xa, y + 20 * ya,
                          ss->sector->floorheight, MT_TFOG);
@@ -1749,22 +1749,22 @@ G_InitNew
     // Supposedly hacks to make the latest edition work.
     // It might not work properly.
     if (episode < 1)
-      episode = 1;
+    episode = 1;
 
     if ( gamemode == retail )
     {
-      if (episode > 4)
-	episode = 4;
+    if (episode > 4)
+    episode = 4;
     }
     else if ( gamemode == shareware )
     {
-      if (episode > 1)
-	   episode = 1;	// only start episode 1 on shareware
+    if (episode > 1)
+    episode = 1;	// only start episode 1 on shareware
     }
     else
     {
-      if (episode > 3)
-	episode = 3;
+    if (episode > 3)
+    episode = 3;
     }
     */
 
@@ -1800,7 +1800,7 @@ G_InitNew
 
     if ( (map > 9)
 	 && ( gamemode != commercial) )
-      map = 9;
+        map = 9;
 
     M_ClearRandom ();
 
@@ -2041,17 +2041,17 @@ int G_VanillaVersionCode(void)
 {
     switch (gameversion)
     {
-        case exe_doom_1_2:
-            I_Error("Doom 1.2 does not have a version code!");
-        case exe_doom_1_666:
-            return 106;
-        case exe_doom_1_7:
-            return 107;
-        case exe_doom_1_8:
-            return 108;
-        case exe_doom_1_9:
-        default:  // All other versions are variants on v1.9:
-            return 109;
+      case exe_doom_1_2:
+        I_Error("Doom 1.2 does not have a version code!");
+      case exe_doom_1_666:
+        return 106;
+      case exe_doom_1_7:
+        return 107;
+      case exe_doom_1_8:
+        return 108;
+      case exe_doom_1_9:
+      default:  // All other versions are variants on v1.9:
+        return 109;
     }
 }
 
@@ -2118,20 +2118,20 @@ static char *DemoVersionDescription(int version)
 
     switch (version)
     {
-        case 104:
-            return "v1.4";
-        case 105:
-            return "v1.5";
-        case 106:
-            return "v1.6/v1.666";
-        case 107:
-            return "v1.7/v1.7a";
-        case 108:
-            return "v1.8";
-        case 109:
-            return "v1.9";
-        default:
-            break;
+      case 104:
+        return "v1.4";
+      case 105:
+        return "v1.5";
+      case 106:
+        return "v1.6/v1.666";
+      case 107:
+        return "v1.7/v1.7a";
+      case 108:
+        return "v1.8";
+      case 109:
+        return "v1.9";
+      default:
+        break;
     }
 
     // Unknown version.  Perhaps this is a pre-v1.4 IWAD?  If the version
@@ -2172,17 +2172,17 @@ void G_DoPlayDemo (void)
     else
     {
         char *message = "Demo is from a different game version!\n"
-                        "(read %i, should be %i)\n"
-                        "\n"
-                        "*** You may need to upgrade your version "
-                            "of Doom to v1.9. ***\n"
-                        "    See: https://www.doomworld.com/classicdoom"
-                                  "/info/patches.php\n"
-                        "    This appears to be %s.";
+            "(read %i, should be %i)\n"
+            "\n"
+            "*** You may need to upgrade your version "
+            "of Doom to v1.9. ***\n"
+            "    See: https://www.doomworld.com/classicdoom"
+            "/info/patches.php\n"
+            "    This appears to be %s.";
 
         //I_Error(message, demoversion, G_VanillaVersionCode(),
         printf(message, demoversion, G_VanillaVersionCode(),
-                         DemoVersionDescription(demoversion));
+               DemoVersionDescription(demoversion));
     }
 
     skill = *demo_p++;
@@ -2237,13 +2237,13 @@ void G_TimeDemo (char* name)
 
 
 /*
-===================
-=
-= G_CheckDemoStatus
-=
-= Called after a death or level completion to allow demos to be cleaned up
-= Returns true if a new demo loop action will take place
-===================
+  ===================
+  =
+  = G_CheckDemoStatus
+  =
+  = Called after a death or level completion to allow demos to be cleaned up
+  = Returns true if a new demo loop action will take place
+  ===================
 */
 
 boolean G_CheckDemoStatus (void)

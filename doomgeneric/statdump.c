@@ -1,23 +1,23 @@
- /*
+/*
 
- Copyright(C) 2005-2014 Simon Howard
+  Copyright(C) 2005-2014 Simon Howard
 
- This program is free software; you can redistribute it and/or
- modify it under the terms of the GNU General Public License
- as published by the Free Software Foundation; either version 2
- of the License, or (at your option) any later version.
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
- --
+  --
 
- Functions for presenting the information captured from the statistics
- buffer to a file.
+  Functions for presenting the information captured from the statistics
+  buffer to a file.
 
- */
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -180,7 +180,7 @@ static void PrintPercentage(FILE *stream, int amount, int total)
 /* Display statistics for a single player. */
 
 static void PrintPlayerStats(FILE *stream, wbstartstruct_t *stats,
-        int player_num)
+                             int player_num)
 {
     wbplayerstruct_t *player = &stats->plyr[player_num];
 
@@ -278,17 +278,17 @@ static void PrintLevelName(FILE *stream, int episode, int level)
     switch (discovered_gamemission)
     {
 
-        case doom:
-            fprintf(stream, "E%iM%i\n", episode + 1, level + 1);
-            break;
-        case doom2:
-            fprintf(stream, "MAP%02i\n", level + 1);
-            break;
-        default:
-        case none:
-            fprintf(stream, "E%iM%i / MAP%02i\n",
-                    episode + 1, level + 1, level + 1);
-            break;
+      case doom:
+        fprintf(stream, "E%iM%i\n", episode + 1, level + 1);
+        break;
+      case doom2:
+        fprintf(stream, "MAP%02i\n", level + 1);
+        break;
+      default:
+      case none:
+        fprintf(stream, "E%iM%i / MAP%02i\n",
+                episode + 1, level + 1, level + 1);
+        break;
     }
 
     PrintBanner(stream);

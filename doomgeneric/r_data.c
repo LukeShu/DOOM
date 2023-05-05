@@ -408,7 +408,7 @@ static void GenerateTextureHashTable(void)
     int key;
 
     textures_hashtable
-            = Z_Malloc(sizeof(texture_t *) * numtextures, PU_STATIC, 0);
+        = Z_Malloc(sizeof(texture_t *) * numtextures, PU_STATIC, 0);
 
     memset(textures_hashtable, 0, sizeof(texture_t *) * numtextures);
 

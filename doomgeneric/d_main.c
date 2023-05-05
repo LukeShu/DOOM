@@ -192,16 +192,16 @@ void D_Display (void)
     // change the view size if needed
     if (setsizeneeded)
     {
-		R_ExecuteSetViewSize ();
-		oldgamestate = -1;                      // force background redraw
-		borderdrawcount = 3;
+        R_ExecuteSetViewSize ();
+        oldgamestate = -1;                      // force background redraw
+        borderdrawcount = 3;
     }
 
     // save the current screen if about to wipe
     if (gamestate != wipegamestate)
-		{
-		wipe = true;
-		wipe_StartScreen(0, 0, SCREENWIDTH, SCREENHEIGHT);
+    {
+        wipe = true;
+        wipe_StartScreen(0, 0, SCREENWIDTH, SCREENHEIGHT);
     }
     else
     	wipe = false;
@@ -213,29 +213,29 @@ void D_Display (void)
     switch (gamestate)
     {
       case GS_LEVEL:
-		if (!gametic)
-			break;
-		if (automapactive)
-			AM_Drawer ();
-		if (wipe || (viewheight != 200 && fullscreen) )
-			redrawsbar = true;
-		if (inhelpscreensstate && !inhelpscreens)
-			redrawsbar = true;              // just put away the help screen
-		ST_Drawer (viewheight == 200, redrawsbar );
-		fullscreen = viewheight == 200;
-		break;
+        if (!gametic)
+            break;
+        if (automapactive)
+            AM_Drawer ();
+        if (wipe || (viewheight != 200 && fullscreen) )
+            redrawsbar = true;
+        if (inhelpscreensstate && !inhelpscreens)
+            redrawsbar = true;              // just put away the help screen
+        ST_Drawer (viewheight == 200, redrawsbar );
+        fullscreen = viewheight == 200;
+        break;
 
       case GS_INTERMISSION:
-		WI_Drawer ();
-		break;
+        WI_Drawer ();
+        break;
 
       case GS_FINALE:
-		F_Drawer ();
-		break;
+        F_Drawer ();
+        break;
 
       case GS_DEMOSCREEN:
-		D_PageDrawer ();
-		break;
+        D_PageDrawer ();
+        break;
     }
 
     // draw buffered stuff to screen
@@ -255,20 +255,20 @@ void D_Display (void)
     // see if the border needs to be initially drawn
     if (gamestate == GS_LEVEL && oldgamestate != GS_LEVEL)
     {
-		viewactivestate = false;        // view was not active
-		R_FillBackScreen ();    // draw the pattern into the back screen
+        viewactivestate = false;        // view was not active
+        R_FillBackScreen ();    // draw the pattern into the back screen
     }
 
     // see if the border needs to be updated to the screen
     if (gamestate == GS_LEVEL && !automapactive && scaledviewwidth != 320)
     {
-		if (menuactive || menuactivestate || !viewactivestate)
-			borderdrawcount = 3;
-		if (borderdrawcount)
-		{
-			R_DrawViewBorder ();    // erase old menu stuff
-			borderdrawcount--;
-		}
+        if (menuactive || menuactivestate || !viewactivestate)
+            borderdrawcount = 3;
+        if (borderdrawcount)
+        {
+            R_DrawViewBorder ();    // erase old menu stuff
+            borderdrawcount--;
+        }
     }
 
     if (testcontrols)
@@ -286,12 +286,12 @@ void D_Display (void)
     // draw pause pic
     if (paused)
     {
-		if (automapactive)
-			y = 4;
-		else
-			y = viewwindowy+4;
-		V_DrawPatchDirect(viewwindowx + (scaledviewwidth - 68) / 2, y,
-							  W_CacheLumpName (DEH_String("M_PAUSE"), PU_CACHE));
+        if (automapactive)
+            y = 4;
+        else
+            y = viewwindowy+4;
+        V_DrawPatchDirect(viewwindowx + (scaledviewwidth - 68) / 2, y,
+                          W_CacheLumpName (DEH_String("M_PAUSE"), PU_CACHE));
     }
 
 
@@ -523,9 +523,9 @@ void D_DoAdvanceDemo (void)
     // includes a fixed executable.
 
     if (gameversion == exe_ultimate || gameversion == exe_final)
-      demosequence = (demosequence+1)%7;
+        demosequence = (demosequence+1)%7;
     else
-      demosequence = (demosequence+1)%6;
+        demosequence = (demosequence+1)%6;
 
     switch (demosequence)
     {
@@ -537,9 +537,9 @@ void D_DoAdvanceDemo (void)
 	gamestate = GS_DEMOSCREEN;
 	pagename = DEH_String("TITLEPIC");
 	if ( gamemode == commercial )
-	  S_StartMusic(mus_dm2ttl);
+            S_StartMusic(mus_dm2ttl);
 	else
-	  S_StartMusic (mus_intro);
+            S_StartMusic (mus_intro);
 	break;
       case 1:
 	G_DeferedPlayDemo(DEH_String("demo1"));
@@ -565,9 +565,9 @@ void D_DoAdvanceDemo (void)
 	    pagetic = 200;
 
 	    if ( gamemode == retail )
-	      pagename = DEH_String("CREDIT");
+                pagename = DEH_String("CREDIT");
 	    else
-	      pagename = DEH_String("HELP2");
+                pagename = DEH_String("HELP2");
 	}
 	break;
       case 5:
@@ -807,7 +807,7 @@ void D_IdentifyVersion(void)
 void D_SetGameDescription(void)
 {
     boolean is_freedoom = W_CheckNumForName("FREEDOOM") >= 0,
-            is_freedm = W_CheckNumForName("FREEDM") >= 0;
+        is_freedm = W_CheckNumForName("FREEDM") >= 0;
 
     gamedescription = "Unknown";
 
@@ -980,7 +980,7 @@ static void InitGameVersion(void)
             for (i=0; gameversions[i].description != NULL; ++i)
             {
                 printf("\t%s (%s)\n", gameversions[i].cmdline,
-                        gameversions[i].description);
+                       gameversions[i].description);
             }
 
             I_Error("Unknown game version '%s'", myargv[p+1]);
@@ -1084,7 +1084,7 @@ static void D_Endoom(void)
 
     I_Endoom(endoom);
 
-	exit(0);
+    exit(0);
 }
 
 #if ORIGCODE
@@ -1807,24 +1807,24 @@ void D_DoomMain (void)
 
     if (p)
     {
-		G_RecordDemo (myargv[p+1]);
-		autostart = true;
+        G_RecordDemo (myargv[p+1]);
+        autostart = true;
     }
 
     p = M_CheckParmWithArgs("-playdemo", 1);
     if (p)
     {
-		singledemo = true;              // quit after one demo
-		G_DeferedPlayDemo (demolumpname);
-		D_DoomLoop ();
+        singledemo = true;              // quit after one demo
+        G_DeferedPlayDemo (demolumpname);
+        D_DoomLoop ();
         return;
     }
 
     p = M_CheckParmWithArgs("-timedemo", 1);
     if (p)
     {
-		G_TimeDemo (demolumpname);
-		D_DoomLoop ();
+        G_TimeDemo (demolumpname);
+        D_DoomLoop ();
         return;
     }
 
@@ -1836,10 +1836,10 @@ void D_DoomMain (void)
 
     if (gameaction != ga_loadgame )
     {
-		if (autostart || netgame)
-			G_InitNew (startskill, startepisode, startmap);
-		else
-			D_StartTitle ();                // start up intro loop
+        if (autostart || netgame)
+            G_InitNew (startskill, startepisode, startmap);
+        else
+            D_StartTitle ();                // start up intro loop
     }
 
     D_DoomLoop ();

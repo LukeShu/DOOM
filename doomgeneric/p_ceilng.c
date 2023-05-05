@@ -289,7 +289,7 @@ void P_ActivateInStasisCeiling(line_t* line)
 	{
 	    activeceilings[i]->direction = activeceilings[i]->olddirection;
 	    activeceilings[i]->thinker.function.acp1
-	      = (actionf_p1)T_MoveCeiling;
+                = (actionf_p1)T_MoveCeiling;
 	}
     }
 }

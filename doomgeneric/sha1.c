@@ -93,15 +93,15 @@ static void Transform(sha1_context_t *hd, byte *data)
 #define rol(x,n) ( ((x) << (n)) | ((x) >> (32-(n))) )
 
 #define M(i) ( tm =   x[i&0x0f] ^ x[(i-14)&0x0f] \
-		    ^ x[(i-8)&0x0f] ^ x[(i-3)&0x0f] \
+               ^ x[(i-8)&0x0f] ^ x[(i-3)&0x0f] \
 	       , (x[i&0x0f] = rol(tm,1)) )
 
 #define R(a,b,c,d,e,f,k,m)  do { e += rol( a, 5 )     \
-				      + f( b, c, d )  \
-				      + k	      \
-				      + m;	      \
-				 b = rol( b, 30 );    \
-			       } while(0)
+            + f( b, c, d )  \
+            + k	      \
+            + m;	      \
+        b = rol( b, 30 );    \
+    } while(0)
     R( a, b, c, d, e, F1, K1, x[ 0] );
     R( e, a, b, c, d, F1, K1, x[ 1] );
     R( d, e, a, b, c, F1, K1, x[ 2] );
@@ -288,7 +288,7 @@ void SHA1_Final(sha1_digest_t digest, sha1_context_t *hd)
 #define X(a) do { *(uint32_t*)p = hd->h##a ; p += 4; } while(0)
 #else /* little endian */
 #define X(a) do { *p++ = hd->h##a >> 24; *p++ = hd->h##a >> 16;	 \
-		      *p++ = hd->h##a >> 8; *p++ = hd->h##a; } while(0)
+        *p++ = hd->h##a >> 8; *p++ = hd->h##a; } while(0)
 #endif
     X(0);
     X(1);

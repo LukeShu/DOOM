@@ -256,7 +256,7 @@ void P_ActivateInStasis(int tag)
 	{
 	    (activeplats[i])->status = (activeplats[i])->oldstatus;
 	    (activeplats[i])->thinker.function.acp1
-	      = (actionf_p1) T_PlatRaise;
+                = (actionf_p1) T_PlatRaise;
 	}
 }
 

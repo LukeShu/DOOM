@@ -338,8 +338,8 @@ void HU_Start(void)
 	s = HU_TITLE;
 	break;
       case doom2:
-	 s = HU_TITLE2;
-	 break;
+        s = HU_TITLE2;
+        break;
       case pack_plut:
 	s = HU_TITLEP;
 	break;
@@ -347,8 +347,8 @@ void HU_Start(void)
 	s = HU_TITLET;
 	break;
       default:
-         s = "Unknown level";
-         break;
+        s = "Unknown level";
+        break;
     }
 
     // Chex.exe always uses the episode 1 level title
@@ -458,9 +458,9 @@ void HU_Ticker(void)
 			    message_on = true;
 			    message_counter = HU_MSGTIMEOUT;
 			    if ( gamemode == commercial )
-			      S_StartSound(0, sfx_radio);
+                                S_StartSound(0, sfx_radio);
 			    else
-			      S_StartSound(0, sfx_tink);
+                                S_StartSound(0, sfx_tink);
 			}
 			HUlib_resetIText(&w_inputbuffer[i]);
 		    }

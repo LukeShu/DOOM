@@ -160,7 +160,7 @@ R_ClipSolidWallSegment
 
     // Remove start+1 to next from the clip list,
     // because start now covers their area.
-  crunch:
+ crunch:
     if (next == start)
     {
 	// Post just extended past the bottom of one post.
@@ -340,11 +340,11 @@ void R_AddLine (seg_t*	line)
     }
 
 
-  clippass:
+ clippass:
     R_ClipPassWallSegment (x1, x2-1);
     return;
 
-  clipsolid:
+ clipsolid:
     R_ClipSolidWallSegment (x1, x2-1);
 }
 

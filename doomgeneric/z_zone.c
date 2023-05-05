@@ -136,7 +136,7 @@ void Z_Free (void* ptr)
     if (block->tag != PU_FREE && block->user != NULL)
     {
     	// clear the user's mark
-	    *block->user = 0;
+        *block->user = 0;
     }
 
     // mark as free
@@ -268,8 +268,8 @@ Z_Malloc
         base->size = size;
     }
 
-	if (user == NULL && tag >= PU_PURGELEVEL)
-	    I_Error ("Z_Malloc: an owner is required for purgable blocks");
+    if (user == NULL && tag >= PU_PURGELEVEL)
+        I_Error ("Z_Malloc: an owner is required for purgable blocks");
 
     base->user = user;
     base->tag = tag;

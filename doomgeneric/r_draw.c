@@ -920,11 +920,11 @@ R_VideoErase
 ( unsigned	ofs,
   int		count )
 {
-  // LFB copy.
-  // This might not be a good idea if memcpy
-  //  is not optiomal, e.g. byte by byte on
-  //  a 32bit CPU, as GNU GCC/Linux libc did
-  //  at one point.
+    // LFB copy.
+    // This might not be a good idea if memcpy
+    //  is not optiomal, e.g. byte by byte on
+    //  a 32bit CPU, as GNU GCC/Linux libc did
+    //  at one point.
 
     if (background_buffer != NULL)
     {

@@ -156,21 +156,21 @@ static boolean BuildNewTic(void)
 
     if (new_sync)
     {
-       // If playing single player, do not allow tics to buffer
-       // up very far
+        // If playing single player, do not allow tics to buffer
+        // up very far
 
-       if (!net_client_connected && maketic - gameticdiv > 2)
-           return false;
+        if (!net_client_connected && maketic - gameticdiv > 2)
+            return false;
 
-       // Never go more than ~200ms ahead
+        // Never go more than ~200ms ahead
 
-       if (maketic - gameticdiv > 8)
-           return false;
+        if (maketic - gameticdiv > 8)
+            return false;
     }
     else
     {
-       if (maketic - gameticdiv >= 5)
-           return false;
+        if (maketic - gameticdiv >= 5)
+            return false;
     }
 
     //printf ("mk:%i ",maketic);
@@ -442,14 +442,14 @@ void D_StartNetGame(net_gamesettings_t *settings,
 #endif
 #else
     settings->consoleplayer = 0;
-	settings->num_players = 1;
-	settings->player_classes[0] = player_class;
-	settings->new_sync = 0;
-	settings->extratics = 1;
-	settings->ticdup = 1;
+    settings->num_players = 1;
+    settings->player_classes[0] = player_class;
+    settings->new_sync = 0;
+    settings->extratics = 1;
+    settings->ticdup = 1;
 
-	ticdup = settings->ticdup;
-	new_sync = settings->new_sync;
+    ticdup = settings->ticdup;
+    new_sync = settings->new_sync;
 #endif
 }
 

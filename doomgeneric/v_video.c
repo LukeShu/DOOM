@@ -826,17 +826,17 @@ void V_ScreenShot(char *format)
 #ifdef HAVE_LIBPNG
     if (png_screenshots)
     {
-    WritePNGfile(lbmname, I_VideoBuffer,
-                 SCREENWIDTH, SCREENHEIGHT,
-                 W_CacheLumpName (DEH_String("PLAYPAL"), PU_CACHE));
+        WritePNGfile(lbmname, I_VideoBuffer,
+                     SCREENWIDTH, SCREENHEIGHT,
+                     W_CacheLumpName (DEH_String("PLAYPAL"), PU_CACHE));
     }
     else
 #endif
     {
-    // save the pcx file
-    WritePCXfile(lbmname, I_VideoBuffer,
-                 SCREENWIDTH, SCREENHEIGHT,
-                 W_CacheLumpName (DEH_String("PLAYPAL"), PU_CACHE));
+        // save the pcx file
+        WritePCXfile(lbmname, I_VideoBuffer,
+                     SCREENWIDTH, SCREENHEIGHT,
+                     W_CacheLumpName (DEH_String("PLAYPAL"), PU_CACHE));
     }
 }
 
@@ -914,7 +914,7 @@ void V_DrawMouseSpeedBox(int speed)
     if (linelen < redline_x)
     {
         V_DrawHorizLine(box_x + 1, box_y + MOUSE_SPEED_BOX_HEIGHT / 2,
-                      linelen, white);
+                        linelen, white);
     }
     else
     {
@@ -927,5 +927,5 @@ void V_DrawMouseSpeedBox(int speed)
     // Draw red line
 
     V_DrawVertLine(box_x + redline_x, box_y + 1,
-                 MOUSE_SPEED_BOX_HEIGHT - 2, red);
+                   MOUSE_SPEED_BOX_HEIGHT - 2, red);
 }

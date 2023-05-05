@@ -83,7 +83,7 @@ int			screenSize;
 // -1 = no quicksave slot picked!
 int			quickSaveSlot;
 
- // 1 = message to be printed
+// 1 = message to be printed
 int			messageToPrint;
 // ...and here is the message string!
 char*			messageString;
@@ -751,57 +751,57 @@ void M_DrawReadThis1(void)
 
     switch (gameversion)
     {
-        case exe_doom_1_666:
-        case exe_doom_1_7:
-        case exe_doom_1_8:
-        case exe_doom_1_9:
-        case exe_hacx:
+      case exe_doom_1_666:
+      case exe_doom_1_7:
+      case exe_doom_1_8:
+      case exe_doom_1_9:
+      case exe_hacx:
 
-            if (gamemode == commercial)
-            {
-                // Doom 2
-
-                lumpname = "HELP";
-
-                skullx = 330;
-                skully = 165;
-            }
-            else
-            {
-                // Doom 1
-                // HELP2 is the first screen shown in Doom 1
-
-                lumpname = "HELP2";
-
-                skullx = 280;
-                skully = 185;
-            }
-            break;
-
-        case exe_ultimate:
-        case exe_chex:
-
-            // Ultimate Doom always displays "HELP1".
-
-            // Chex Quest version also uses "HELP1", even though it is based
-            // on Final Doom.
-
-            lumpname = "HELP1";
-
-            break;
-
-        case exe_final:
-        case exe_final2:
-
-            // Final Doom always displays "HELP".
+        if (gamemode == commercial)
+        {
+            // Doom 2
 
             lumpname = "HELP";
 
-            break;
+            skullx = 330;
+            skully = 165;
+        }
+        else
+        {
+            // Doom 1
+            // HELP2 is the first screen shown in Doom 1
 
-        default:
-            I_Error("Unhandled game version");
-            break;
+            lumpname = "HELP2";
+
+            skullx = 280;
+            skully = 185;
+        }
+        break;
+
+      case exe_ultimate:
+      case exe_chex:
+
+        // Ultimate Doom always displays "HELP1".
+
+        // Chex Quest version also uses "HELP1", even though it is based
+        // on Final Doom.
+
+        lumpname = "HELP1";
+
+        break;
+
+      case exe_final:
+      case exe_final2:
+
+        // Final Doom always displays "HELP".
+
+        lumpname = "HELP";
+
+        break;
+
+      default:
+        I_Error("Unhandled game version");
+        break;
     }
 
     lumpname = DEH_String(lumpname);
@@ -967,9 +967,9 @@ void M_Episode(int choice)
     if ( (gamemode == registered)
 	 && (choice > 2))
     {
-      fprintf( stderr,
-	       "M_Episode: 4th episode requires UltimateDOOM\n");
-      choice = 0;
+        fprintf( stderr,
+                 "M_Episode: 4th episode requires UltimateDOOM\n");
+        choice = 0;
     }
 
     epi = choice;
@@ -1674,9 +1674,9 @@ boolean M_Responder (event_t* ev)
 	    M_StartControlPanel ();
 
 	    if ( gamemode == retail )
-	      currentMenu = &ReadDef2;
+                currentMenu = &ReadDef2;
 	    else
-	      currentMenu = &ReadDef1;
+                currentMenu = &ReadDef1;
 
 	    itemOn = 0;
 	    S_StartSound(NULL,sfx_swtchn);

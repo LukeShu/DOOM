@@ -432,7 +432,7 @@ void I_ResetScaleTables(byte *palette)
 //
 
 static inline void WriteBlendedLine1x(byte *dest, byte *src1, byte *src2,
-                               byte *stretch_table)
+                                      byte *stretch_table)
 {
     int x;
 
@@ -518,7 +518,7 @@ static inline void WriteLine2x(byte *dest, byte *src)
 }
 
 static inline void WriteBlendedLine2x(byte *dest, byte *src1, byte *src2,
-                               byte *stretch_table)
+                                      byte *stretch_table)
 {
     int x;
     int val;
@@ -632,7 +632,7 @@ static inline void WriteLine3x(byte *dest, byte *src)
 }
 
 static inline void WriteBlendedLine3x(byte *dest, byte *src1, byte *src2,
-                               byte *stretch_table)
+                                      byte *stretch_table)
 {
     int x;
     int val;
@@ -772,7 +772,7 @@ static inline void WriteLine4x(byte *dest, byte *src)
 }
 
 static inline void WriteBlendedLine4x(byte *dest, byte *src1, byte *src2,
-                               byte *stretch_table)
+                                      byte *stretch_table)
 {
     int x;
     int val;
@@ -1097,7 +1097,7 @@ screen_mode_t mode_squash_1x = {
 //
 
 #define DRAW_PIXEL2 \
-      *dest++ = *dest2++ = c;
+    *dest++ = *dest2++ = c;
 
 static inline void WriteSquashedLine2x(byte *dest, byte *src)
 {
@@ -1192,7 +1192,7 @@ screen_mode_t mode_squash_2x = {
 
 
 #define DRAW_PIXEL3 \
-        *dest++ = *dest2++ = *dest3++ = c
+    *dest++ = *dest2++ = *dest3++ = c
 
 static inline void WriteSquashedLine3x(byte *dest, byte *src)
 {
@@ -1274,7 +1274,7 @@ screen_mode_t mode_squash_3x = {
 };
 
 #define DRAW_PIXEL4 \
-        *dest++ = *dest2++ = *dest3++ = *dest4++ = c;
+    *dest++ = *dest2++ = *dest3++ = *dest4++ = c;
 
 static inline void WriteSquashedLine4x(byte *dest, byte *src)
 {
@@ -1385,7 +1385,7 @@ screen_mode_t mode_squash_4x = {
 };
 
 #define DRAW_PIXEL5 \
-        *dest++ = *dest2++ = *dest3++ = *dest4++ = *dest5++ = c
+    *dest++ = *dest2++ = *dest3++ = *dest4++ = *dest5++ = c
 
 static inline void WriteSquashedLine5x(byte *dest, byte *src)
 {

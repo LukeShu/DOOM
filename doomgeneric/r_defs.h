@@ -422,23 +422,23 @@ typedef struct
 //
 typedef struct
 {
-  fixed_t		height;
-  int			picnum;
-  int			lightlevel;
-  int			minx;
-  int			maxx;
+    fixed_t		height;
+    int			picnum;
+    int			lightlevel;
+    int			minx;
+    int			maxx;
 
-  // leave pads for [minx-1]/[maxx+1]
+    // leave pads for [minx-1]/[maxx+1]
 
-  byte		pad1;
-  // Here lies the rub for all
-  //  dynamic resize/change of resolution.
-  byte		top[SCREENWIDTH];
-  byte		pad2;
-  byte		pad3;
-  // See above.
-  byte		bottom[SCREENWIDTH];
-  byte		pad4;
+    byte		pad1;
+    // Here lies the rub for all
+    //  dynamic resize/change of resolution.
+    byte		top[SCREENWIDTH];
+    byte		pad2;
+    byte		pad3;
+    // See above.
+    byte		bottom[SCREENWIDTH];
+    byte		pad4;
 
 } visplane_t;
 

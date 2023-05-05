@@ -97,12 +97,12 @@
 #define ST_NUMSPECIALFACES		3
 
 #define ST_FACESTRIDE \
-          (ST_NUMSTRAIGHTFACES+ST_NUMTURNFACES+ST_NUMSPECIALFACES)
+    (ST_NUMSTRAIGHTFACES+ST_NUMTURNFACES+ST_NUMSPECIALFACES)
 
 #define ST_NUMEXTRAFACES		2
 
 #define ST_NUMFACES \
-          (ST_FACESTRIDE*ST_NUMPAINFACES+ST_NUMEXTRAFACES)
+    (ST_FACESTRIDE*ST_NUMPAINFACES+ST_NUMEXTRAFACES)
 
 #define ST_TURNOFFSET		(ST_NUMSTRAIGHTFACES)
 #define ST_OUCHOFFSET		(ST_TURNOFFSET + ST_NUMTURNFACES)
@@ -222,7 +222,7 @@
 #define ST_WEAPON4X			122
 #define ST_WEAPON4Y			181
 
- // bfg
+// bfg
 #define ST_WEAPON5X			134
 #define ST_WEAPON5Y			181
 
@@ -230,7 +230,7 @@
 #define ST_WPNSX			109
 #define ST_WPNSY			191
 
- // DETH title
+// DETH title
 #define ST_DETHX			109
 #define ST_DETHY			191
 
@@ -250,7 +250,7 @@
 
 // Width, in characters again.
 #define ST_OUTWIDTH			52
- // Height, in lines.
+// Height, in lines.
 #define ST_OUTHEIGHT		1
 
 #define ST_MAPTITLEX \
@@ -325,7 +325,7 @@ static patch_t*		faces[ST_NUMFACES];
 // face background
 static patch_t*		faceback;
 
- // main bar right
+// main bar right
 static patch_t*		armsbg;
 
 // weapon ownership patches
@@ -334,7 +334,7 @@ static patch_t*		arms[6][2];
 // ready-weapon widget
 static st_number_t	w_ready;
 
- // in deathmatch only, summary of frags stats
+// in deathmatch only, summary of frags stats
 static st_number_t	w_frags;
 
 // health widget
@@ -364,7 +364,7 @@ static st_number_t	w_maxammo[4];
 
 
 
- // number of frags so far in deathmatch
+// number of frags so far in deathmatch
 static int	st_fragscount;
 
 // used to use appopriately pained face
@@ -373,7 +373,7 @@ static int	st_oldhealth = -1;
 // used for evil grin
 static boolean	oldweaponsowned[NUMWEAPONS];
 
- // count until face changes
+// count until face changes
 static int	st_facecount = 0;
 
 // current face index, used by w_faces
@@ -438,226 +438,226 @@ void ST_refreshBackground(void)
 boolean
 ST_Responder (event_t* ev)
 {
-  int		i;
+    int		i;
 
-  // Filter automap on/off.
-  if (ev->type == ev_keyup
-      && ((ev->data1 & 0xffff0000) == AM_MSGHEADER))
-  {
-    switch(ev->data1)
+    // Filter automap on/off.
+    if (ev->type == ev_keyup
+        && ((ev->data1 & 0xffff0000) == AM_MSGHEADER))
     {
-      case AM_MSGENTERED:
-	st_gamestate = AutomapState;
-	st_firsttime = true;
-	break;
+        switch(ev->data1)
+        {
+          case AM_MSGENTERED:
+            st_gamestate = AutomapState;
+            st_firsttime = true;
+            break;
 
-      case AM_MSGEXITED:
-	//	fprintf(stderr, "AM exited\n");
-	st_gamestate = FirstPersonState;
-	break;
-    }
-  }
-
-  // if a user keypress...
-  else if (ev->type == ev_keydown)
-  {
-    if (!netgame && gameskill != sk_nightmare)
-    {
-      // 'dqd' cheat for toggleable god mode
-      if (cht_CheckCheat(&cheat_god, ev->data2))
-      {
-	plyr->cheats ^= CF_GODMODE;
-	if (plyr->cheats & CF_GODMODE)
-	{
-	  if (plyr->mo)
-	    plyr->mo->health = 100;
-
-	  plyr->health = deh_god_mode_health;
-	  plyr->message = DEH_String(STSTR_DQDON);
-	}
-	else
-	  plyr->message = DEH_String(STSTR_DQDOFF);
-      }
-      // 'fa' cheat for killer fucking arsenal
-      else if (cht_CheckCheat(&cheat_ammonokey, ev->data2))
-      {
-	plyr->armorpoints = deh_idfa_armor;
-	plyr->armortype = deh_idfa_armor_class;
-
-	for (i=0;i<NUMWEAPONS;i++)
-	  plyr->weaponowned[i] = true;
-
-	for (i=0;i<NUMAMMO;i++)
-	  plyr->ammo[i] = plyr->maxammo[i];
-
-	plyr->message = DEH_String(STSTR_FAADDED);
-      }
-      // 'kfa' cheat for key full ammo
-      else if (cht_CheckCheat(&cheat_ammo, ev->data2))
-      {
-	plyr->armorpoints = deh_idkfa_armor;
-	plyr->armortype = deh_idkfa_armor_class;
-
-	for (i=0;i<NUMWEAPONS;i++)
-	  plyr->weaponowned[i] = true;
-
-	for (i=0;i<NUMAMMO;i++)
-	  plyr->ammo[i] = plyr->maxammo[i];
-
-	for (i=0;i<NUMCARDS;i++)
-	  plyr->cards[i] = true;
-
-	plyr->message = DEH_String(STSTR_KFAADDED);
-      }
-      // 'mus' cheat for changing music
-      else if (cht_CheckCheat(&cheat_mus, ev->data2))
-      {
-
-	char	buf[3];
-	int		musnum;
-
-	plyr->message = DEH_String(STSTR_MUS);
-	cht_GetParam(&cheat_mus, buf);
-
-        // Note: The original v1.9 had a bug that tried to play back
-        // the Doom II music regardless of gamemode.  This was fixed
-        // in the Ultimate Doom executable so that it would work for
-        // the Doom 1 music as well.
-
-	if (gamemode == commercial || gameversion < exe_ultimate)
-	{
-	  musnum = mus_runnin + (buf[0]-'0')*10 + buf[1]-'0' - 1;
-
-	  if (((buf[0]-'0')*10 + buf[1]-'0') > 35)
-	    plyr->message = DEH_String(STSTR_NOMUS);
-	  else
-	    S_ChangeMusic(musnum, 1);
-	}
-	else
-	{
-	  musnum = mus_e1m1 + (buf[0]-'1')*9 + (buf[1]-'1');
-
-	  if (((buf[0]-'1')*9 + buf[1]-'1') > 31)
-	    plyr->message = DEH_String(STSTR_NOMUS);
-	  else
-	    S_ChangeMusic(musnum, 1);
-	}
-      }
-      else if ( (logical_gamemission == doom
-                 && cht_CheckCheat(&cheat_noclip, ev->data2))
-             || (logical_gamemission != doom
-                 && cht_CheckCheat(&cheat_commercial_noclip,ev->data2)))
-      {
-        // Noclip cheat.
-        // For Doom 1, use the idspipsopd cheat; for all others, use
-        // idclip
-
-	plyr->cheats ^= CF_NOCLIP;
-
-	if (plyr->cheats & CF_NOCLIP)
-	  plyr->message = DEH_String(STSTR_NCON);
-	else
-	  plyr->message = DEH_String(STSTR_NCOFF);
-      }
-      // 'behold?' power-up cheats
-      for (i=0;i<6;i++)
-      {
-	if (cht_CheckCheat(&cheat_powerup[i], ev->data2))
-	{
-	  if (!plyr->powers[i])
-	    P_GivePower( plyr, i);
-	  else if (i!=pw_strength)
-	    plyr->powers[i] = 1;
-	  else
-	    plyr->powers[i] = 0;
-
-	  plyr->message = DEH_String(STSTR_BEHOLDX);
-	}
-      }
-
-      // 'behold' power-up menu
-      if (cht_CheckCheat(&cheat_powerup[6], ev->data2))
-      {
-	plyr->message = DEH_String(STSTR_BEHOLD);
-      }
-      // 'choppers' invulnerability & chainsaw
-      else if (cht_CheckCheat(&cheat_choppers, ev->data2))
-      {
-	plyr->weaponowned[wp_chainsaw] = true;
-	plyr->powers[pw_invulnerability] = true;
-	plyr->message = DEH_String(STSTR_CHOPPERS);
-      }
-      // 'mypos' for player position
-      else if (cht_CheckCheat(&cheat_mypos, ev->data2))
-      {
-        static char buf[ST_MSGWIDTH];
-        M_snprintf(buf, sizeof(buf), "ang=0x%x;x,y=(0x%x,0x%x)",
-                   players[consoleplayer].mo->angle,
-                   players[consoleplayer].mo->x,
-                   players[consoleplayer].mo->y);
-        plyr->message = buf;
-      }
+          case AM_MSGEXITED:
+            //	fprintf(stderr, "AM exited\n");
+            st_gamestate = FirstPersonState;
+            break;
+        }
     }
 
-    // 'clev' change-level cheat
-    if (!netgame && cht_CheckCheat(&cheat_clev, ev->data2))
+    // if a user keypress...
+    else if (ev->type == ev_keydown)
     {
-      char		buf[3];
-      int		epsd;
-      int		map;
+        if (!netgame && gameskill != sk_nightmare)
+        {
+            // 'dqd' cheat for toggleable god mode
+            if (cht_CheckCheat(&cheat_god, ev->data2))
+            {
+                plyr->cheats ^= CF_GODMODE;
+                if (plyr->cheats & CF_GODMODE)
+                {
+                    if (plyr->mo)
+                        plyr->mo->health = 100;
 
-      cht_GetParam(&cheat_clev, buf);
+                    plyr->health = deh_god_mode_health;
+                    plyr->message = DEH_String(STSTR_DQDON);
+                }
+                else
+                    plyr->message = DEH_String(STSTR_DQDOFF);
+            }
+            // 'fa' cheat for killer fucking arsenal
+            else if (cht_CheckCheat(&cheat_ammonokey, ev->data2))
+            {
+                plyr->armorpoints = deh_idfa_armor;
+                plyr->armortype = deh_idfa_armor_class;
 
-      if (gamemode == commercial)
-      {
-	epsd = 1;
-	map = (buf[0] - '0')*10 + buf[1] - '0';
-      }
-      else
-      {
-	epsd = buf[0] - '0';
-	map = buf[1] - '0';
-      }
+                for (i=0;i<NUMWEAPONS;i++)
+                    plyr->weaponowned[i] = true;
 
-      // Chex.exe always warps to episode 1.
+                for (i=0;i<NUMAMMO;i++)
+                    plyr->ammo[i] = plyr->maxammo[i];
 
-      if (gameversion == exe_chex)
-      {
-        epsd = 1;
-      }
+                plyr->message = DEH_String(STSTR_FAADDED);
+            }
+            // 'kfa' cheat for key full ammo
+            else if (cht_CheckCheat(&cheat_ammo, ev->data2))
+            {
+                plyr->armorpoints = deh_idkfa_armor;
+                plyr->armortype = deh_idkfa_armor_class;
 
-      // Catch invalid maps.
-      if (epsd < 1)
-	return false;
+                for (i=0;i<NUMWEAPONS;i++)
+                    plyr->weaponowned[i] = true;
 
-      if (map < 1)
-	return false;
+                for (i=0;i<NUMAMMO;i++)
+                    plyr->ammo[i] = plyr->maxammo[i];
 
-      // Ohmygod - this is not going to work.
-      if ((gamemode == retail)
-	  && ((epsd > 4) || (map > 9)))
-	return false;
+                for (i=0;i<NUMCARDS;i++)
+                    plyr->cards[i] = true;
 
-      if ((gamemode == registered)
-	  && ((epsd > 3) || (map > 9)))
-	return false;
+                plyr->message = DEH_String(STSTR_KFAADDED);
+            }
+            // 'mus' cheat for changing music
+            else if (cht_CheckCheat(&cheat_mus, ev->data2))
+            {
 
-      if ((gamemode == shareware)
-	  && ((epsd > 1) || (map > 9)))
-	return false;
+                char	buf[3];
+                int		musnum;
 
-      // The source release has this check as map > 34. However, Vanilla
-      // Doom allows IDCLEV up to MAP40 even though it normally crashes.
-      if ((gamemode == commercial)
-	&& (( epsd > 1) || (map > 40)))
-	return false;
+                plyr->message = DEH_String(STSTR_MUS);
+                cht_GetParam(&cheat_mus, buf);
 
-      // So be it.
-      plyr->message = DEH_String(STSTR_CLEV);
-      G_DeferedInitNew(gameskill, epsd, map);
+                // Note: The original v1.9 had a bug that tried to play back
+                // the Doom II music regardless of gamemode.  This was fixed
+                // in the Ultimate Doom executable so that it would work for
+                // the Doom 1 music as well.
+
+                if (gamemode == commercial || gameversion < exe_ultimate)
+                {
+                    musnum = mus_runnin + (buf[0]-'0')*10 + buf[1]-'0' - 1;
+
+                    if (((buf[0]-'0')*10 + buf[1]-'0') > 35)
+                        plyr->message = DEH_String(STSTR_NOMUS);
+                    else
+                        S_ChangeMusic(musnum, 1);
+                }
+                else
+                {
+                    musnum = mus_e1m1 + (buf[0]-'1')*9 + (buf[1]-'1');
+
+                    if (((buf[0]-'1')*9 + buf[1]-'1') > 31)
+                        plyr->message = DEH_String(STSTR_NOMUS);
+                    else
+                        S_ChangeMusic(musnum, 1);
+                }
+            }
+            else if ( (logical_gamemission == doom
+                       && cht_CheckCheat(&cheat_noclip, ev->data2))
+                      || (logical_gamemission != doom
+                          && cht_CheckCheat(&cheat_commercial_noclip,ev->data2)))
+            {
+                // Noclip cheat.
+                // For Doom 1, use the idspipsopd cheat; for all others, use
+                // idclip
+
+                plyr->cheats ^= CF_NOCLIP;
+
+                if (plyr->cheats & CF_NOCLIP)
+                    plyr->message = DEH_String(STSTR_NCON);
+                else
+                    plyr->message = DEH_String(STSTR_NCOFF);
+            }
+            // 'behold?' power-up cheats
+            for (i=0;i<6;i++)
+            {
+                if (cht_CheckCheat(&cheat_powerup[i], ev->data2))
+                {
+                    if (!plyr->powers[i])
+                        P_GivePower( plyr, i);
+                    else if (i!=pw_strength)
+                        plyr->powers[i] = 1;
+                    else
+                        plyr->powers[i] = 0;
+
+                    plyr->message = DEH_String(STSTR_BEHOLDX);
+                }
+            }
+
+            // 'behold' power-up menu
+            if (cht_CheckCheat(&cheat_powerup[6], ev->data2))
+            {
+                plyr->message = DEH_String(STSTR_BEHOLD);
+            }
+            // 'choppers' invulnerability & chainsaw
+            else if (cht_CheckCheat(&cheat_choppers, ev->data2))
+            {
+                plyr->weaponowned[wp_chainsaw] = true;
+                plyr->powers[pw_invulnerability] = true;
+                plyr->message = DEH_String(STSTR_CHOPPERS);
+            }
+            // 'mypos' for player position
+            else if (cht_CheckCheat(&cheat_mypos, ev->data2))
+            {
+                static char buf[ST_MSGWIDTH];
+                M_snprintf(buf, sizeof(buf), "ang=0x%x;x,y=(0x%x,0x%x)",
+                           players[consoleplayer].mo->angle,
+                           players[consoleplayer].mo->x,
+                           players[consoleplayer].mo->y);
+                plyr->message = buf;
+            }
+        }
+
+        // 'clev' change-level cheat
+        if (!netgame && cht_CheckCheat(&cheat_clev, ev->data2))
+        {
+            char		buf[3];
+            int		epsd;
+            int		map;
+
+            cht_GetParam(&cheat_clev, buf);
+
+            if (gamemode == commercial)
+            {
+                epsd = 1;
+                map = (buf[0] - '0')*10 + buf[1] - '0';
+            }
+            else
+            {
+                epsd = buf[0] - '0';
+                map = buf[1] - '0';
+            }
+
+            // Chex.exe always warps to episode 1.
+
+            if (gameversion == exe_chex)
+            {
+                epsd = 1;
+            }
+
+            // Catch invalid maps.
+            if (epsd < 1)
+                return false;
+
+            if (map < 1)
+                return false;
+
+            // Ohmygod - this is not going to work.
+            if ((gamemode == retail)
+                && ((epsd > 4) || (map > 9)))
+                return false;
+
+            if ((gamemode == registered)
+                && ((epsd > 3) || (map > 9)))
+                return false;
+
+            if ((gamemode == shareware)
+                && ((epsd > 1) || (map > 9)))
+                return false;
+
+            // The source release has this check as map > 34. However, Vanilla
+            // Doom allows IDCLEV up to MAP40 even though it normally crashes.
+            if ((gamemode == commercial)
+                && (( epsd > 1) || (map > 40)))
+                return false;
+
+            // So be it.
+            plyr->message = DEH_String(STSTR_CLEV);
+            G_DeferedInitNew(gameskill, epsd, map);
+        }
     }
-  }
-  return false;
+    return false;
 }
 
 

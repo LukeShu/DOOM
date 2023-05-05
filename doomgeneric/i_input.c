@@ -226,7 +226,7 @@ static const char shiftxform[] =
 
 static unsigned char TranslateKey(unsigned char key)
 {
-	return key;
+    return key;
 
 #if 0
     if (key < sizeof(at_to_doom))
@@ -287,7 +287,7 @@ void I_GetEvent(void)
     unsigned char key;
 
 
-	while (DG_GetKey(&pressed, &key))
+    while (DG_GetKey(&pressed, &key))
     {
         UpdateShiftStatus(pressed, key);
 
@@ -329,13 +329,13 @@ void I_GetEvent(void)
 
 
 #if 0
-            case SDL_MOUSEMOTION:
-                event.type = ev_mouse;
-                event.data1 = mouse_button_state;
-                event.data2 = AccelerateMouse(sdlevent.motion.xrel);
-                event.data3 = -AccelerateMouse(sdlevent.motion.yrel);
-                D_PostEvent(&event);
-                break;
+    case SDL_MOUSEMOTION:
+      event.type = ev_mouse;
+      event.data1 = mouse_button_state;
+      event.data2 = AccelerateMouse(sdlevent.motion.xrel);
+      event.data3 = -AccelerateMouse(sdlevent.motion.yrel);
+      D_PostEvent(&event);
+      break;
 #endif
 }
 

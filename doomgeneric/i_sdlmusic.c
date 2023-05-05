@@ -158,7 +158,7 @@ static unsigned int ParseVorbisTime(unsigned int samplerate_hz, char *value)
         if (*p == '.')
         {
             return result * samplerate_hz
-	         + (unsigned int) (atof(p) * samplerate_hz);
+                + (unsigned int) (atof(p) * samplerate_hz);
         }
     }
 
@@ -356,14 +356,14 @@ static void ParseOggFile(file_metadata_t *metadata, FILE *fs)
         {
             switch (buf[0])
             {
-                case OGG_ID_HEADER:
-                    ParseOggIdHeader(metadata, fs);
-                    break;
-                case OGG_COMMENT_HEADER:
-		    ParseVorbisComments(metadata, fs);
-                    break;
-                default:
-                    break;
+              case OGG_ID_HEADER:
+                ParseOggIdHeader(metadata, fs);
+                break;
+              case OGG_COMMENT_HEADER:
+                ParseVorbisComments(metadata, fs);
+                break;
+              default:
+                break;
             }
         }
     }
@@ -898,11 +898,11 @@ static boolean I_SDL_InitMusic(void)
           < SDL_VERSIONNUM(1, 2, 11))
         {
             printf("\n"
-               "                   *** WARNING ***\n"
-               "      You are using an old version of SDL_mixer.\n"
-               "      Music playback on this version may cause crashes\n"
-               "      under OS X and is disabled by default.\n"
-               "\n");
+                   "                   *** WARNING ***\n"
+                   "      You are using an old version of SDL_mixer.\n"
+                   "      Music playback on this version may cause crashes\n"
+                   "      under OS X and is disabled by default.\n"
+                   "\n");
         }
     }
 #endif
