@@ -161,7 +161,9 @@ void DG_DrawFrame()
             for (int dy = -1; dy <= 1; dy++)
                 for (int dx = -1; dx <= 1; dx++)
                 {
-                    unsigned char px = screen.tmpbuf[bound(0, y+dy, screen.aa_resy-1)*screen.aa_resx + bound(0, x+dx, screen.aa_resx-1)];
+                    unsigned char px = screen.tmpbuf[
+                        bound(0, y+dy, screen.aa_resy-1)*screen.aa_resx +
+                        bound(0, x+dx, screen.aa_resx-1)];
                     gx += px * sobel_x[dy+1][dx+1];
                     gy += px * sobel_y[dy+1][dx+1];
                 }
