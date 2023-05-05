@@ -3,10 +3,11 @@
 #include "doomgeneric.h"
 
 #include <ctype.h>
+#include <math.h>
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
 #include <sys/time.h>
+#include <unistd.h>
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -26,6 +27,7 @@ static unsigned int s_KeyQueueWriteIndex = 0;
 static unsigned int s_KeyQueueReadIndex = 0;
 
 static unsigned char *g_Framebuffer;
+static unsigned char *s_Framebuffer;
 static char *x_Framebuffer;
 
 static unsigned char convertToDoomKey(unsigned int key)
@@ -133,6 +135,7 @@ void DG_Init()
     }
 
     g_Framebuffer = calloc(1, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
+    s_Framebuffer = calloc(1, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
     x_Framebuffer = calloc(4, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
 
     s_Image = XCreateImage(s_Display,                          // display
@@ -146,6 +149,18 @@ void DG_Init()
                            32,                                 // bitmap_pad
                            0);                                 // bytes_per_line
 }
+
+int sobel_x[3][3] = {
+    {-1, 0, 1},
+    {-2, 0, 2},
+    {-1, 0, 1}
+};
+
+int sobel_y[3][3] = {
+    {-1, -2, -1},
+    { 0,  0,  0},
+    { 1,  2,  1}
+};
 
 
 void DG_DrawFrame()
@@ -171,29 +186,42 @@ void DG_DrawFrame()
             }
         }
 
-        uint32_t r, g, b;
         for (int y = 0; y < DOOMGENERIC_RESY; y++)
-        {
             for (int x = 0; x < DOOMGENERIC_RESX; x++)
             {
-                r = (DG_ScreenBuffer[y*DOOMGENERIC_RESX+x] >> 24) & 0xFF;
-                g = (DG_ScreenBuffer[y*DOOMGENERIC_RESX+x] >> 16) & 0xFF;
-                b = (DG_ScreenBuffer[y*DOOMGENERIC_RESX+x] >>  8) & 0xFF;
+                uint32_t r = (DG_ScreenBuffer[y*DOOMGENERIC_RESX+x] >> 24) & 0xFF;
+                uint32_t g = (DG_ScreenBuffer[y*DOOMGENERIC_RESX+x] >> 16) & 0xFF;
+                uint32_t b = (DG_ScreenBuffer[y*DOOMGENERIC_RESX+x] >>  8) & 0xFF;
                 g_Framebuffer[y*DOOMGENERIC_RESX+x] = (r*30 + g*59 + b*11) / 100;
             }
-        }
+
+        for (int y = 1; y < DOOMGENERIC_RESY - 1; y++)
+            for (int x = 1; x < DOOMGENERIC_RESX - 1; x++)
+            {
+                int gx = 0;
+                int gy = 0;
+                for (int dy = -1; dy <= 1; dy++)
+                    for (int dx = -1; dx <= 1; dx++)
+                    {
+                        unsigned char px = DG_ScreenBuffer[(y+dy)*DOOMGENERIC_RESX+(x+dx)];
+                        gx += px * sobel_x[dy+1][dx+1];
+                        gy += px * sobel_y[dy+1][dx+1];
+                    }
+                int g = (int) sqrt(gx*gx + gy*gy);
+                if (g > 255)
+                    g = 255;
+                s_Framebuffer[y*DOOMGENERIC_RESX+x] = (unsigned char) g;
+            }
 
         for (int y = 0; y < DOOMGENERIC_RESY; y++)
-        {
             for (int x = 0; x < DOOMGENERIC_RESX; x++)
             {
                 int idx = y*DOOMGENERIC_RESX+x;
-                x_Framebuffer[idx*4 + 0] = g_Framebuffer[idx];
-                x_Framebuffer[idx*4 + 1] = g_Framebuffer[idx];
-                x_Framebuffer[idx*4 + 2] = g_Framebuffer[idx];
-                x_Framebuffer[idx*4 + 3] = g_Framebuffer[idx];
+                x_Framebuffer[idx*4 + 0] = s_Framebuffer[idx];
+                x_Framebuffer[idx*4 + 1] = s_Framebuffer[idx];
+                x_Framebuffer[idx*4 + 2] = s_Framebuffer[idx];
+                x_Framebuffer[idx*4 + 3] = s_Framebuffer[idx];
             }
-        }
 
         XPutImage(s_Display,         // display
                   s_Window,          // drawable
