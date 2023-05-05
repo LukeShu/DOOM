@@ -28,7 +28,6 @@ static unsigned int s_KeyQueueReadIndex = 0;
 
 #define XSCALE 3
 
-static unsigned char *g_Framebuffer;
 static unsigned char *s_Framebuffer;
 static char *x_Framebuffer;
 
@@ -136,7 +135,6 @@ void DG_Init()
         }
     }
 
-    g_Framebuffer = calloc(1, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
     s_Framebuffer = calloc(1, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
     x_Framebuffer = calloc(4, DOOMGENERIC_RESX*XSCALE * DOOMGENERIC_RESY*XSCALE);
 
@@ -196,10 +194,6 @@ void DG_DrawFrame()
 #define get_g(x, y) ((get_rgb_(x, y) >> 16) & 0xFF)
 #define get_b(x, y) ((get_rgb_(x, y) >>  8) & 0xFF)
 #define get_l(x, y) ((unsigned char)((get_r(x,y)*30 + get_g(x,y)*59 + get_b(x,y)*11) / 100))
-        for (int y = 0; y < DOOMGENERIC_RESY; y++)
-            for (int x = 0; x < DOOMGENERIC_RESX; x++)
-                g_Framebuffer[y*DOOMGENERIC_RESX+x] = get_l(x, y);
-
         for (int y = 1; y < DOOMGENERIC_RESY - 1; y++)
             for (int x = 1; x < DOOMGENERIC_RESX - 1; x++)
             {
@@ -208,7 +202,7 @@ void DG_DrawFrame()
                 for (int dy = -1; dy <= 1; dy++)
                     for (int dx = -1; dx <= 1; dx++)
                     {
-                        unsigned char px = g_Framebuffer[(y+dy)*DOOMGENERIC_RESX+(x+dx)];
+                        unsigned char px = get_l(x+dx, y+dy);
                         gx += px * sobel_x[dy+1][dx+1];
                         gy += px * sobel_y[dy+1][dx+1];
                     }
