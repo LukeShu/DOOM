@@ -139,7 +139,7 @@ void DG_Init()
         }
     }
 
-    g_Framebuffer = calloc(1, DOOMGENERIC_RESX * DOOMGENERIC_RESY);
+    g_Framebuffer = calloc(1, AA_RESX * AA_RESY);
     s_Framebuffer = calloc(1, AA_RESX * AA_RESY);
     x_Framebuffer = calloc(4, AA_RESX*XSCALE * AA_RESY*XSCALE);
 
@@ -199,24 +199,8 @@ void DG_DrawFrame()
 #define get_g(x, y) ((get_rgb_(x, y) >> 16) & 0xFF)
 #define get_b(x, y) ((get_rgb_(x, y) >>  8) & 0xFF)
 #define get_luma(x, y) ((unsigned char)((get_r(x,y)*30 + get_g(x,y)*59 + get_b(x,y)*11) / 100))
-        for (int y = 0; y < DOOMGENERIC_RESY; y++)
-            for (int x = 0; x < DOOMGENERIC_RESX; x++)
-            {
-                int gx = 0;
-                int gy = 0;
-                for (int dy = -1; dy <= 1; dy++)
-                    for (int dx = -1; dx <= 1; dx++)
-                    {
-                        unsigned char px = get_luma(x+dx, y+dy);
-                        gx += px * sobel_x[dy+1][dx+1];
-                        gy += px * sobel_y[dy+1][dx+1];
-                    }
-                int g = (int) sqrt(gx*gx + gy*gy);
-                if (g > 255)
-                    g = 255;
-                g_Framebuffer[y*DOOMGENERIC_RESX+x] = (unsigned char) g;
-            }
 
+	// Convert to greyscale and downscale
         double xscale = ((double)DOOMGENERIC_RESX)/((double)AA_RESX);
         double yscale = ((double)DOOMGENERIC_RESY)/((double)AA_RESY);
         for (int y = 0; y < AA_RESY; y++)
@@ -229,10 +213,30 @@ void DG_DrawFrame()
                 int sum = 0;
                 for (int s_y = lo_y; s_y < hi_y; s_y++)
                     for (int s_x = lo_x; s_x < hi_x; s_x++)
-                        sum += g_Framebuffer[s_y*DOOMGENERIC_RESX+s_x];
-                s_Framebuffer[y*AA_RESX+x] = sum / ( (hi_x-lo_x) * (hi_y-lo_y) );
+                        sum += get_luma(s_x, s_y);
+                g_Framebuffer[y*AA_RESX+x] = sum / ( (hi_x-lo_x) * (hi_y-lo_y) );
             }
 
+        // apply the Sobel operator
+        for (int y = 0; y < AA_RESY; y++)
+            for (int x = 0; x < AA_RESX; x++)
+            {
+                int gx = 0;
+                int gy = 0;
+                for (int dy = -1; dy <= 1; dy++)
+                    for (int dx = -1; dx <= 1; dx++)
+                    {
+                        unsigned char px = g_Framebuffer[bound(0, y+dy, AA_RESY-1)*AA_RESX + bound(0, x+dx, AA_RESX-1)];
+                        gx += px * sobel_x[dy+1][dx+1];
+                        gy += px * sobel_y[dy+1][dx+1];
+                    }
+                int g = (int) sqrt(gx*gx + gy*gy);
+                if (g > 255)
+                    g = 255;
+                s_Framebuffer[y*AA_RESX+x] = (unsigned char) g;
+            }
+
+        // Display to X
         for (int y = 0; y < AA_RESY*XSCALE; y++)
             for (int x = 0; x < AA_RESX*XSCALE; x++)
             {
@@ -243,7 +247,6 @@ void DG_DrawFrame()
                 x_Framebuffer[dst_idx*4 + 2] = s_Framebuffer[src_idx];
                 x_Framebuffer[dst_idx*4 + 3] = s_Framebuffer[src_idx];
             }
-
         XPutImage(s_Display,         // display
                   s_Window,          // drawable
                   s_Gc,              // Graphics Context
