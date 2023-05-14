@@ -35,5 +35,3 @@ $(O)/sndserver: \
 # Rule
 $(O)/%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
-
-

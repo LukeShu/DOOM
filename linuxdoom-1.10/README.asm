@@ -48,7 +48,7 @@ _R_DrawColumn:
 	js		done						// nothing to scale
 	shrl		eax,1						// double pixel count
 	movl		[loopcount],eax
-	
+
 	movl     ecx,[_dc_iscale]
 
 	movl		eax,[_centery]
@@ -59,7 +59,7 @@ _R_DrawColumn:
 	shll		ebp,9							// 7 significant bits, 25 frac
 
 	movl     esi,[_dc_source]
-	
+
 
 	movl		ebx,[_dc_iscale]
 	shll		ebx,9
@@ -67,14 +67,14 @@ _R_DrawColumn:
 	movl		[eax],ebx
 	movl		eax,OFFSET patch2+2		// convice tasm to modify code...
 	movl		[eax],ebx
-	
+
 // eax		aligned colormap
 // ebx		aligned colormap
 // ecx,edx	scratch
 // esi		virtual source
 // edi		moving destination pointer
 // ebp		frac
-	
+
 	movl	ecx,ebp					// begin calculating first pixel
 	addl	ebp,ebx					// advance frac pointer
 	shrl ecx,25					// finish calculation for first pixel
@@ -87,11 +87,11 @@ _R_DrawColumn:
 	movb	bl,[esi+edx]			// get second pixel
 	movb	al,[eax]				// color translate first pixel
 	movb	bl,[ebx]				// color translate second pixel
-	
+
 	testl	[pixelcount],0fffffffeh
 	jnz	doubleloop				// at least two pixels to map
 	jmp	checklast
-	
+
 	.align	16
 doubleloop:
 	movl	ecx,ebp					// begin calculating third pixel
@@ -111,17 +111,17 @@ patch2:
 	movb	al,[eax]				// color translate third pixel
 	movb	bl,[ebx]				// color translate fourth pixel
 	jnz	doubleloop
-	
+
 // check for final pixel
 checklast:
 	testl	[pixelcount],1
 	jz	done
 	movb	[edi],al				// write final pixel
-	
+
 done:
 	popad
 	ret
-	
+
 
 
 //================
@@ -140,7 +140,7 @@ _R_DrawSpan:
 
 //
 // find loop count
-//	
+//
 	movl		eax,[_ds_x2]
 	incl		eax
 	subl     eax,[_ds_x1]               	// pixel count
@@ -185,14 +185,14 @@ _R_DrawSpan:
 	movl		[eax],ebx
 	movl		eax,OFFSET hpatch2+2		// convice tasm to modify code...
 	movl		[eax],ebx
-	
+
 // eax		aligned colormap
 // ebx		aligned colormap
 // ecx,edx	scratch
 // esi		virtual source
 // edi		moving destination pointer
 // ebp		frac
-	
+
 	shldl ecx,ebp,22				// begin calculating third pixel (y units)
 	shldl ecx,ebp,6				// begin calculating third pixel (x units)
 	addl	ebp,ebx					// advance frac pointer
@@ -207,11 +207,11 @@ _R_DrawSpan:
 	movb	bl,[esi+edx]			// get second pixel
 	movb	al,[eax]				// color translate first pixel
 	movb	bl,[ebx]				// color translate second pixel
-	
+
 	testl	[pixelcount],0fffffffeh
 	jnz	hdoubleloop				// at least two pixels to map
 	jmp	hchecklast
-	
+
 
 	.align	16
 hdoubleloop:
@@ -240,7 +240,7 @@ hchecklast:
 	testl	[pixelcount],1
 	jz	hdone
 	movb	[edi],al				// write final pixel
-	
+
 hdone:
 	popad
 	ret
@@ -256,7 +256,7 @@ hdone:
 .text
 	.align 4
 .globl _FixedMul
-_FixedMul:	
+_FixedMul:
 	pushl %ebp
 	movl %esp,%ebp
 	movl 8(%ebp),%eax
@@ -280,4 +280,3 @@ _FixedDiv2:
 	ret
 
 #endif
-

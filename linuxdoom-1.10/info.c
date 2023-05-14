@@ -1,4 +1,4 @@
-// Emacs style mode select   -*- C++ -*- 
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
 // $Id:$
@@ -4668,4 +4668,3 @@ mobjinfo_t mobjinfo[NUMMOBJTYPES] = {
 	S_NULL		// raisestate
     }
 };
-

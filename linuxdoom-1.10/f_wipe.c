@@ -1,4 +1,4 @@
-// Emacs style mode select   -*- C++ -*- 
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
 // $Id:$
@@ -94,7 +94,7 @@ wipe_doColorXForm
     changed = false;
     w = wipe_scr;
     e = wipe_scr_end;
-    
+
     while (w!=wipe_scr+width*height)
     {
 	if (*w != *e)
@@ -145,15 +145,15 @@ wipe_initMelt
   int	ticks )
 {
     int i, r;
-    
+
     // copy start screen to main screen
     memcpy(wipe_scr, wipe_scr_start, width*height);
-    
+
     // makes this wipe faster (in theory)
     // to have stuff in column-major format
     wipe_shittyColMajorXform((short*)wipe_scr_start, width/2, height);
     wipe_shittyColMajorXform((short*)wipe_scr_end, width/2, height);
-    
+
     // setup initial column positions
     // (y<0 => not ready to scroll yet)
     y = (int *) Z_Malloc(width*sizeof(int), PU_STATIC, 0);
@@ -179,7 +179,7 @@ wipe_doMelt
     int		j;
     int		dy;
     int		idx;
-    
+
     short*	s;
     short*	d;
     boolean	done = true;

@@ -1,4 +1,4 @@
-// Emacs style mode select   -*- C++ -*- 
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
 // $Id: linux.c,v 1.3 1997/01/26 07:45:01 b1 Exp $
@@ -52,11 +52,11 @@ myioctl
 ( int	fd,
   int	command,
   int*	arg )
-{   
+{
     int		rc;
     extern int	errno;
-    
-    rc = ioctl(fd, command, arg);  
+
+    rc = ioctl(fd, command, arg);
     if (rc < 0)
     {
 	fprintf(stderr, "ioctl(dsp,%d,arg) failed\n", command);
@@ -76,23 +76,23 @@ I_InitSound
 {
 
     int i;
-                
+
     audio_fd = open("/dev/dsp", O_WRONLY);
     if (audio_fd<0)
         fprintf(stderr, "Could not open /dev/dsp\n");
-         
-                     
-    i = 11 | (2<<16);                                           
+
+
+    i = 11 | (2<<16);
     myioctl(audio_fd, SNDCTL_DSP_SETFRAGMENT, &i);
-                    
+
     myioctl(audio_fd, SNDCTL_DSP_RESET, 0);
     i=11025;
     myioctl(audio_fd, SNDCTL_DSP_SPEED, &i);
-    i=1;    
+    i=1;
     myioctl(audio_fd, SNDCTL_DSP_STEREO, &i);
-            
+
     myioctl(audio_fd, SNDCTL_DSP_GETFMTS, &i);
-    if (i&=AFMT_S16_LE)    
+    if (i&=AFMT_S16_LE)
         myioctl(audio_fd, SNDCTL_DSP_SETFMT, &i);
     else
         fprintf(stderr, "Could not play signed 16 data\n");

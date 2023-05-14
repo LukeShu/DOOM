@@ -47,7 +47,7 @@ process.  I should have looked into this more thoroughly.
 
 In Quake, I discovered that I could feed multiple
 acknowledgements to a SoundBlaster or compatible without
-any side-effects such as pops or other malfunctions. 
+any side-effects such as pops or other malfunctions.
 This discovery led me to switch to a completely synchronous
 model, much much easier to debug and understand, so I
 think this was fairly intelligent.  Although we had to
@@ -66,7 +66,7 @@ separated the sndserver target in another directory to avoid
 further redundancy. There seem to be a few bug-like things
 going on in the sndserver that do not receive penalty as
 the program has to do only a simple task. One example would
-be a libc realloc mixed with zone memory allocation. 
+be a libc realloc mixed with zone memory allocation.
 
 Ungraceful and untimely demise of Linuxdoom (core instead
 of I_Error) will leave idle sndserver processes in your
@@ -107,4 +107,3 @@ interferes with Workman controlling the CD drives
 SpeakerOut), so musci could be chosen and run completely
 independend of the game. You could try Linuxdoom with
 Q2 music that way.
-

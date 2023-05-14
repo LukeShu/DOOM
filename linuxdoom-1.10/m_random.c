@@ -1,4 +1,4 @@
-// Emacs style mode select   -*- C++ -*- 
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
 // $Id:$
@@ -71,7 +71,3 @@ void M_ClearRandom (void)
 {
     rndindex = prndindex = 0;
 }
-
-
-
-

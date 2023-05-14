@@ -1,4 +1,4 @@
-// Emacs style mode select   -*- C++ -*- 
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
 // $Id:$
@@ -51,7 +51,3 @@ int M_CheckParm (char *check)
 
     return 0;
 }
-
-
-
-

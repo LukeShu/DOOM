@@ -19,7 +19,7 @@
   320x200 is nothing viable nowadays.
   A 320x240 base (4:3) would be a lot better.
   See above on width/height.
- 
+
 - limited look up/down by y-shearing?
   Prolly not worth it, rather switch to GLDOOM.
 
@@ -28,7 +28,7 @@
   argument lists (no parameter, one, etc.).
   C++ doesn't like that much. A major rewrite.
 
-- switch to doommain.c plus libdoom? Have 
+- switch to doommain.c plus libdoom? Have
   libref, libgame etc.?
   Another major rewrite.
 
@@ -42,7 +42,7 @@
 
 - move info.h, info.c, sounds.h, sounds.c and
   other data to a separate lump in the WAD,
-  or into a libgame.so, to separate the 
+  or into a libgame.so, to separate the
   generic stuff (refresh, I/O) from the
   DOOM specifics.
 
@@ -100,7 +100,7 @@
 - correct handling of height in collision. This is
    not done, and the checks are scattered around in
    many places. It does require handling of "player
-   on top of monster" situations, too - we have to 
+   on top of monster" situations, too - we have to
    make sure the players falls off far enough to
    avoid getting "stuck in monster".
 

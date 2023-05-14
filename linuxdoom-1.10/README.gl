@@ -59,7 +59,7 @@ the OpenGL transformation at all), or rendering
 all the spans as textured rectangular slices
 instead of using glDrawBitmap. No, polys are the
 way to go.
-   
+
 "When I tackle the conversion to polys, one big problem
 I'll encounter is drawing floors. Since the world is
 stored in a 2D bsp tree, there is no information on

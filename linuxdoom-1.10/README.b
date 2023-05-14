@@ -25,7 +25,7 @@ or preferably post to the mailing list at
 (send mail to majordomo@gamers.org, content just
 a single "info doom-editing"). I will post any updates
 or notifcation of corrections there. I will probably
-put some stuff at 
+put some stuff at
 
           http://www.gamers.org/dEngine/doom/
 
@@ -44,12 +44,12 @@ modules more cleanly, and make certain parts easier
 to locate and modify. There is still much left to do, but
 I hope that the current source is a good base to start
 with, especially with a cooperative effort in mind. Those
-so inclined will find the source prepared for CVS.  
+so inclined will find the source prepared for CVS.
 
 There is a list of changes and fixes I did not get around
 to in TODO, and an incomplete worklog in ChangeLog, that
 also includes some minor ToDo statements scattered throughout
-the log. 
+the log.
 
 
 a) Linux SVGA
@@ -86,7 +86,7 @@ The BSP builder and other tools have
 been released by John Carmack long ago,
 and since improved/replaced by others.
 Again, I recommend taking a pick among
-the tools available for Linux.  
+the tools available for Linux.
 
 h) DOOM game tools
 There are a number of tools that have
@@ -136,5 +136,5 @@ guarantees, though.
 
 Enjoy!
 
- 
+
                           b. 97/12/22

@@ -1,4 +1,4 @@
-// Emacs style mode select   -*- C++ -*- 
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
 // $Id:$
@@ -41,7 +41,3 @@ Language_t   language = english;
 
 // Set if homebrew PWAD stuff has been added.
 boolean	modifiedgame;
-
-
-
-

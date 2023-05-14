@@ -11,14 +11,14 @@ Mon Dec 22 20:29:16 1997    <bk@gamers.org>
 
 Mon Dec 22 19:53:34 1997    <bk@gamers.org>
 
-	
+
 	* i_sound.c: enabled SNDSERV, as SNDINTR for
  	  some reason just gives ghastly results e.g.
 	  on E4M2. Frankly, I am at a loss. SNDSERV is
 	  now default, until the internal sound driver
 	  is a bit more reliable.
 	  Note that the current redundancy means that
-	  changes like the one below will have to 
+	  changes like the one below will have to
 	  be propagated manually to the soundserver
 	  sources.
 
@@ -75,7 +75,7 @@ Mon Dec 22 17:08:33 1997    <bk@gamers.org>
  	  a unique set (two of them, counting the german
 	  edition) of maps in one episode. Plus, TNT and
 	  Plutonia add some TITLE strings to the mixture.
-	  
+
 	  Well, Plutonia and TNT are treated as DOOM2 for
 	  now, so you will miss the startup message.
 
@@ -105,8 +105,8 @@ Mon Dec 22 17:08:33 1997    <bk@gamers.org>
 	  situation, screwing up the volume. I can't figure
 	  why latency of an external sound driver or screen
 	  size affect this, but I am running out of ideas.
-	
-	* i_sound.c: 
+
+	* i_sound.c:
 	  Some more experimentation with the timer driven
 	  sound. It doesn't work well using an intervall
 	  of less then 30 msecs - there will be artifacts
@@ -123,12 +123,12 @@ Mon Dec 22 00:36:54 1997    <bk@gamers.org>
 	  me why some Linux header files are different with
 	  gcc vs. g++, or what the complaint about the g++
   	  complaint info.c state table is all about:
-	  "initializer element for `states[..].action.acp1' 
+	  "initializer element for `states[..].action.acp1'
 	   is not constant"
 	  Undid some changes, compiled with gcc, playtested,
 	  seems okay. Done for today... yesterday.
 
-	* i_net.c (ntohl): okay, htons/htonl, ntohs,ntohl 
+	* i_net.c (ntohl): okay, htons/htonl, ntohs,ntohl
 	  are back to haunt me. Copied the macros that
 	  on my box aren't used for whatever reason directly
 	  into the source. Got rid of all other multiple and
@@ -159,11 +159,11 @@ Sun Dec 21 12:38:08 1997    <bk@gamers.org>
 	  missing #pragma implementation causing multiple
 	  definitions. Yet, this is the very first time DOOM
 	  was compiled as C++ without a parsing error. So there.
-	
+
 	* sounds.c: included doomtype.h and removed yet another
 	            enum { false, true } definition.
 
-	* p_saveg.c  (misc): several. 
+	* p_saveg.c  (misc): several.
 	* p_mobj.c   (P_SpawnMobj): (actionf_p1)P_MobjThinker
 	* p_spec.c   (EV_DoDonut): (action_p1) T_MoveFloor (twice).
 	* p_plats.c  (EV_DoPlat): (actionf_p1) T_PlatRaise.
@@ -191,11 +191,11 @@ Sun Dec 21 12:38:08 1997    <bk@gamers.org>
 	* p_tick.c: cast (actionf_v)(-1).
 
 	* p_telept.c: yet another (actionf_p1)P_MobjThinker.
- 	
+
 	* p_mobj.c (P_MobjThinker): cast (actionf_v)(-1).
 	* TODO:  decent NOP/NULL/Nil function pointer.
 	  I'd introduce a global A_NOP() function that
-	  chokes up an error message. 
+	  chokes up an error message.
 	  Why -1 instead of NULL?
 
 	* p_enemy.c: conversions (actionf_p1)P_MobjThinker.
@@ -216,16 +216,16 @@ Sun Dec 21 12:38:08 1997    <bk@gamers.org>
 	  (obviously, better "unused" checking with C++,
 	   lots of the usual int2enum suspects, implicit
 	   declarations, the works).
-	 
+
 
 	* p_mobj.c: action.acp1 used accordingly.
 	* p_pspr.c: action.acp2 used accordingly.
 	* TODO: info.c:144 warning
 	  "missing braces around initializer for `states[0].action'"
- 	
+
 	* info.h/info.c: some experimental stuff on
 	  action function pointers.
-	  
+
 	* TODO: still some sound glitches at startup.
 	* i_sound.c: few more cleanups. Made mixing use
 	  channel loop instead of unroll, set mixbuffer
@@ -243,10 +243,10 @@ Sun Dec 21 12:38:08 1997    <bk@gamers.org>
 	  like HU_TITLE, HU_TITLE2, HU_TITLEP etc.
 	  should definitely be removed.
 
-	* d_main.c (CheckBetaTest): 
+	* d_main.c (CheckBetaTest):
 	  Removed outdated, DOS specific BETATEST stuff.
 	  d_main.c (IdentifyVersion):
- 	  Numerous changes to gamemode handling. 
+ 	  Numerous changes to gamemode handling.
 
 	* TODO: currently, french language is enabled by
 	  detecting an doom2f.wad - yet it needs FRENCH
@@ -266,7 +266,7 @@ Sun Dec 21 12:38:08 1997    <bk@gamers.org>
 	  scattered everywhere. Declaration to be found
 	  in doomstat.h header.
 
-	* f_finale.c (F_StartFinale): 
+	* f_finale.c (F_StartFinale):
 	  Reworked the entire finale handling based on
 	  game mode enum.
 
@@ -278,7 +278,7 @@ Sun Dec 21 12:38:08 1997    <bk@gamers.org>
           Boolean for language was kinda limiting to 2
 	  alternatives (french, english), and five boolean
 	  plus #define SPECIAL for game version is just ugly.
-	
+
 	* wi_stuff.h: SPECIAL switch compiles two
 	  different EXE's, one for 3 episodes of 9 maps
 	  each (DOOM 1 registered), one for 4 episodes
@@ -294,7 +294,7 @@ Sun Dec 21 12:38:08 1997    <bk@gamers.org>
 
 	  Plus, it ties into runtime flags as "commercial"
 	  as well. Yuck.
-	
+
 	  Each change will change the game. Postponed.
 
 	* d_net.c,m_misc.c: removed last two NeXT remains.
@@ -311,13 +311,13 @@ Sat Dec 20 15:16:51 1997    <bk@gamers.org>
 	  dependend handling of stuff (double shotgun)
 	  comes to mind.
 
-	* doomdef.h: 
+	* doomdef.h:
 	  SNDSERV enables external sound server
 	  support. SNDINTR enables internal sound
 	  output with timer (asynchronous). Default
 	  is internal, synchronous.
 
-	* i_sound.c (I_HandleSoundTimer): 
+	* i_sound.c (I_HandleSoundTimer):
 	  Okay, the plasma/double shotgun sound bug
 	  (crapyy sund when firing nose-to-wall) is
 	  obviously a problem with blocking at
@@ -348,7 +348,7 @@ Fri Dec 19 10:02:48 1997    <bk@gamers.org>
 	  Now I am using the menu resolution
 	  everywhere, and scaling should only be done
 	  in the actual mixing/output.
-	
+
 	* OK, obviously this hasn't been updated in months.
 	  This is because: a) most of the time nothing
 	  happened, and b) when something got done, it was
@@ -364,7 +364,7 @@ Fri Dec 19 10:02:48 1997    <bk@gamers.org>
 	  be able to participate in a Mesa+Voodoo+Glide based
 	  GLDOOM port for Linux. I won't waste a minute on
 	  Win32 without getting paid for it.
-  
+
 	  Because of the legal issues involved with the
 	  DMX sound library id licensed for DOS DOOM, Linuxdoom
 	  is the only code base that has sound support at all.
@@ -401,16 +401,16 @@ Fri Dec 19 10:02:48 1997    <bk@gamers.org>
 	  I did remove DOS and Watcom specifics. I did also
 	  remove the texture mapping and fixed point assembly.
 	  From my experience, it isn't worth the trouble
-	  to ue GCC inline assembler, as performance of 
+	  to ue GCC inline assembler, as performance of
 	  the same loop written in C is perfectly sufficient.
 	  On demand I will put both assembly modules into some
 	  documentation, as they are probably of historic
 	  interest.
 
 	  There is no Sun DGA, Irix, or other non-Linux stuff
-	  in this code base (at least, not intentionally). 
-	  They will be back when ports to other UNIX 
-	  environments will be merged back (I can't do 
+	  in this code base (at least, not intentionally).
+	  They will be back when ports to other UNIX
+	  environments will be merged back (I can't do
 	  testing, and the modules were separate and not
 	  consistent, so I refrained from wasting time on
 	  this prior to a public release).
@@ -423,14 +423,14 @@ Fri Dec 19 10:02:48 1997    <bk@gamers.org>
  	  is bound to screw up CVS, so no CVS record anymore
 	  for the time being). I would introduce even more
 	  separation if I had the time. Splitting the
-	  animation/AI/behaviour code that defines 
+	  animation/AI/behaviour code that defines
 	  "DOOM - The Game" into a separate game.so (like
           Quake2 does) should definitely be done. Separating
 	  a ref_soft.so aka "DOOM - The Engine", and defining
 	  a clean interface prior to introducing a ref_gl.so
 	  is recommended as well.
 
-	  I am going to purge some more leftovers, remove 
+	  I am going to purge some more leftovers, remove
 	  the obsolete CVS history except for comments,
   	  and try to clean up the last "implicit declaration"
  	  and "unused variable" warnings. Except for enabling
@@ -442,7 +442,7 @@ Fri Dec 19 10:02:48 1997    <bk@gamers.org>
 	  or other stuff that it better addressed by a proper
 	  GLDOOM port.
 
-	
+
 Sat Aug 16 08:07:16 1997    <bk@hal.gamers.org>
 
 	* p_pspr.c:
@@ -460,7 +460,7 @@ Sat Aug 16 08:07:16 1997    <bk@hal.gamers.org>
           #include "doomdef.h"
           #include "doomstat.h"
 	  these should now be topmost includes.
-	
+
 	* doomstat.h, doomdef.h, wi_stuff.h, d_player.h:
 	  I moved wbstartstruct_t to d_player.h, and wminfo
 	  to doomstat.h. Basically, I will try to move all
@@ -469,7 +469,7 @@ Sat Aug 16 08:07:16 1997    <bk@hal.gamers.org>
 	  into doomdef.h - this will be kinda greek tragedy,
 	  and never finished, but a body can try.
 
-	* wi_stuff.h/c, wi_data.h: 
+	* wi_stuff.h/c, wi_data.h:
           Removed wi_data.h, put all local stuff blah... see
 	  below.
           I have found several unused global variables,
@@ -477,12 +477,12 @@ Sat Aug 16 08:07:16 1997    <bk@hal.gamers.org>
 	  them later. It might be Watcom/PC stuff, or
 	  somebody put the actual numbers into the implementation
 	  instead of using STARDIST, ANIMPERIOD & Cie.
-	
+
 	* st_stuff.h/c: from doomdef.h, local stuff moved
 	  into st_stuff.c, etc.
 	  In the current revisions, I am tolerating warnings
 	  of the "implicit declaration" kind - the linker
-	  resolves the stuff, and it will be handy in 
+	  resolves the stuff, and it will be handy in
 	  unmangling the modules once the headers contain
 	  only the globally visible stuff.
 
@@ -494,11 +494,11 @@ Sat Aug 16 08:07:16 1997    <bk@hal.gamers.org>
 	* p_saveg.h, p_setup.h, p_tick.h:
  	  created, stuff from doomde.h moved there
 
-	* d_main.c, d_net.c, doomdef.h: 
+	* d_main.c, d_net.c, doomdef.h:
 	  Decided to dump mprintf, as only needed for
 	  Watcom support which is not going to happen.
 
-	* doomdef.h: 
+	* doomdef.h:
 	  Moved function prototypes to appropriate headers:
 	  d_main.h, d_net.h.
 
@@ -512,11 +512,11 @@ Fri Aug 15 16:38:53 1997    <bk@hal.gamers.org>
 
 Thu Aug 14 10:38:37 1997    <bk@hal.gamers.org>
 
-	* g_game.c (G_DoLoadLevel): 
+	* g_game.c (G_DoLoadLevel):
 	  copied the skyflatnum determination here, from
 	  the R_InitSkyMap - once should be sufficient.
 
-	* Makefile, r_sky.h/c: 
+	* Makefile, r_sky.h/c:
 	  added r_sky module. The sky handling was scattered
 	  over r_bsp, r_main, r_plane, doomstat.h...
 
@@ -528,7 +528,7 @@ Thu Aug 14 10:38:37 1997    <bk@hal.gamers.org>
 	  code headers. Removed "drawbsp" flag from
 	  here, and r_main.c, too.
 
-	* r_data.c: 
+	* r_data.c:
 	  Started to remove NORMALUNIX switches, using
 	  LINUX instead. Basically, different UNIX
 	  platforms using the same code should simply
@@ -542,9 +542,9 @@ Thu Aug 14 10:38:37 1997    <bk@hal.gamers.org>
 	  will be removed, or the bug has to be fixed.
 
 	* r_bsp.h, r_draw.h, r_things.h, r_data.h,
-	  r_segs.h, r_main.h, r_plane.h: 
-          Created from r_local.h. 
-	
+	  r_segs.h, r_main.h, r_plane.h:
+          Created from r_local.h.
+
 	* Back to work.
 	  Till March 22nd, a lot of source shuffling and addition
 	  of new header files, separating stuff, and creating
@@ -564,30 +564,30 @@ Mon Feb  3 16:41:05 1997    <bk@gamers.org ()>
         * m_misc.c:
           Created m_argv, m_random and m_bbox, kept remains in m_misc
           for the time being. Misc. files changed to include only
-          necessary modules. Moved bbox definitions from doomdata.h. 
+          necessary modules. Moved bbox definitions from doomdata.h.
 
         * m_menu.h:
           Created from doomdef.h. Misc. changes in dependend modules.
           I am not going to list every affected file from now on.
-          See Log entries within each file. 
+          See Log entries within each file.
 
         * dstrings.h:
           Now handles multi-language support and switches.
-          So far, only english (default) and french are available. 
+          So far, only english (default) and french are available.
 
-        * d_englsh.h: 
-          Created from dstrings.h. 
+        * d_englsh.h:
+          Created from dstrings.h.
 
         * g_game.h:
-          Created, from doomdef.h. 
+          Created, from doomdef.h.
 
-        * am_map.c, st_stuff.c, wi_stuff.c: 
-        * Makefile: 
+        * am_map.c, st_stuff.c, wi_stuff.c:
+        * Makefile:
           Added m_cheat, removed dutils. Doubly linked list stuff unused.
 
         * m_cheat.h, m_cheat.c:
           Created, basci cheat string scrambling and check, from dutils.h
-          and dutils.c. 
+          and dutils.c.
 
         * doomdef.h
           Moved screen declaration to v_video.h.
@@ -599,16 +599,16 @@ Mon Feb  3 16:41:05 1997    <bk@gamers.org ()>
         * d_main.c,
           Added f_wipe files.
 
-        * f_wipe.h, f_wipe.c: 
+        * f_wipe.h, f_wipe.c:
           Created, screen wipe/melt at mission begin, from dutils.h
           and dutils.c.
 
         * d_textur.h:
           Created from doomdata.h. Separates all the patch/texture
-          defintions. Needed for v_video module. 
+          defintions. Needed for v_video module.
 
-        * r_local.h, wi_stuff.h, st_lib.h, hu_lib.h: 
-        * i_x.c, d_main.c, m_menu.c, m_misc.c: 
+        * r_local.h, wi_stuff.h, st_lib.h, hu_lib.h:
+        * i_x.c, d_main.c, m_menu.c, m_misc.c:
           Added v_video.h.
 
         * v_video.h:
@@ -620,7 +620,7 @@ Thu Jan 30 20:50:16 1997    <bk@gamers.org ()>
         * doomtype.h:
           Created, for fixed_t. Should add angle_t here, too.
 
-        * tables.c: 
+        * tables.c:
           Added SlopeDiv from r_main.c, added all defines and typedefs
           related to basic trig table use here, removed it.
           Currently "tables.h" is included in doomdef.h and
@@ -631,32 +631,32 @@ Thu Jan 30 20:50:16 1997    <bk@gamers.org ()>
           Created from doomdef.h.
           Note that tables.c had fixed size tables, while doomdef.h
           calculated from the value of FINEANGLES. In addition,
-	  entries were given as either "int" or "fixed_t". Bad boys.  
+	  entries were given as either "int" or "fixed_t". Bad boys.
 
-        * z_zone.c: 
-        * s_sound.c: 
-        * hu_stuff.c: 
-        * st_lib.c, st_stuff.c: 
-        * wi_stuff.c: 
-        * w_wad.c: 
-        * r_things.c, r_plane.c, r_draw.c, r_data.c: 
-        * p_tick.c, p_mobj.c, p_spec.c, p_setup.c, p_lights.c, 
-          p_plats.c, p_floor.c, p_doors.c, p_ceilng.c: 
-        * am_map.c: 
-        * m_misc.c, m_menu.c: 
-        * g_game.c: 
-        * d_main.c: 
+        * z_zone.c:
+        * s_sound.c:
+        * hu_stuff.c:
+        * st_lib.c, st_stuff.c:
+        * wi_stuff.c:
+        * w_wad.c:
+        * r_things.c, r_plane.c, r_draw.c, r_data.c:
+        * p_tick.c, p_mobj.c, p_spec.c, p_setup.c, p_lights.c,
+          p_plats.c, p_floor.c, p_doors.c, p_ceilng.c:
+        * am_map.c:
+        * m_misc.c, m_menu.c:
+        * g_game.c:
+        * d_main.c:
         * f_finale.c:
-          Added #include "z_zone.h". 
+          Added #include "z_zone.h".
 
-        * z_zone.h: 
+        * z_zone.h:
           Created, from stuff in doomdef.h
 
         * CVS checkin. Reformatting run, last one.
           Took a week to go through all the sources, w/o even
           looking to closely.
 
-        * st_stuff.c (ST_Responder): 
+        * st_stuff.c (ST_Responder):
           Removed a first tiny bit of redundancy (NO_CLIP checks).
 	  Should remove idspispod completely, later.
 
@@ -666,14 +666,14 @@ Wed Jan 29 19:53:43 1997    <bk@gamers.org ()>
 
         * CVS checkin. Reformatting run, all R (Refresh) files.
 
-        * r_draw.c (R_DrawSpanLow): 
+        * r_draw.c (R_DrawSpanLow):
           The non-Watcom, non-asm lowres mode was just a copy
 	  of the default mode. As detailshift was used to scale
 	  the image down, lowres mode just filled the left half
 	  of the buffer.
-        * r_draw.c (R_DrawColumnLow): 
+        * r_draw.c (R_DrawColumnLow):
           Tried the same hack for walls, horribly broken.
-	  Postponed. 
+	  Postponed.
 
 Tue Jan 28 19:32:48 1997    <bk@gamers.org ()>
 
@@ -771,7 +771,7 @@ Wed Jan 22 12:15:00 1997    <bk@gamers.org ()>
           m_misc.c: In function `M_ScreenShot':
            warning: implicit declaration of function `access'  <unistd.h>
 
-	p_pspr.c: In function `P_MovePsprites': 
+	p_pspr.c: In function `P_MovePsprites':
 	 suggest parentheses around assignment used as truth value
 
           p_spec.c: In function `P_SpawnSpecials':
@@ -794,9 +794,9 @@ Tue Jan 21 22:00:00 1997    <bk@gamers.org ()>
         * doomdata.h (__BYTEBOOL__):
           Use builtin ANSI C++ bool.
 
-        * d_main.c (IdentifyVersion): 
+        * d_main.c (IdentifyVersion):
           Bug fix: insufficient malloc created errors in malloc/realloc
-	  calls later on. Welcome to the risks of Copy'n'paste. 
+	  calls later on. Welcome to the risks of Copy'n'paste.
 
 Tue Jan 21 13:20:05 1997    <bk@gamers.org ()>
 
@@ -812,10 +812,10 @@ Tue Jan 21 13:20:05 1997    <bk@gamers.org ()>
 	  Warning: using "diff" to compare files of different states
 	  during the reformatting will not give useful results.
 
-        * hu_stuff.c: 
+        * hu_stuff.c:
           fixed "assignment discard const", the last remaining error
           message with default compilation.
-                      
+
 
 Sun Jan 19 14:27:06 1997    <bk@gamers.org ()>
 
@@ -823,12 +823,12 @@ Sun Jan 19 14:27:06 1997    <bk@gamers.org ()>
           Minor fix for sndserver target, removed linuxsdoom target
           for the time being, added CVS header (kind of).
 
-        * Initial CVS checkin. 
+        * Initial CVS checkin.
 
-        * soundsrv/irix/linux/sun.c: 
+        * soundsrv/irix/linux/sun.c:
           Changed includes (irix.h removed, soundsrv.h included).
 
-        * i_svga.c: 
+        * i_svga.c:
           Changed to DOS 8+3.
 
         * soundsrv.h/c:
@@ -837,8 +837,8 @@ Sun Jan 19 14:27:06 1997    <bk@gamers.org ()>
         * r_local.h:
           Same for PI, include math.h with Linux.
 
-        * doomdef.h: 
-          Got rid of multiply defined warnings for Linux, 
+        * doomdef.h:
+          Got rid of multiply defined warnings for Linux,
           included values.h.
 
         * FILES2:
@@ -857,7 +857,7 @@ Sun Jan 19 14:27:06 1997    <bk@gamers.org ()>
 
 Sat Jan 18 15:14:41 1997    <bk@gamers.org ()>
 
-        * r_draw.c: 
+        * r_draw.c:
           fixed !defined(USEASM) lines for R_DrawColumn/Span.
           Removed fpfunc.o/S from Makefile, now compiling
           X11 w/o any assembler.
@@ -867,7 +867,7 @@ Sat Jan 18 15:14:41 1997    <bk@gamers.org ()>
 
         * Tried a quick hack compiling it as COFF a.out instead
           of ELF, with "gcc -b i486-linuxaout". Same linker
-          errors. 
+          errors.
           Tried removing -DUSE_ASM. Still using fpfunc.S.
 
 
@@ -875,21 +875,21 @@ Sat Jan 18 15:14:41 1997    <bk@gamers.org ()>
           Compile run: some warnings (redefinition of MAX/MIN
            SHORT/INT/LONG) in doomdef.h and (PI redefined)
            r_local.h.
-          Link run: crashed, undefined references in 
+          Link run: crashed, undefined references in
             d_main.c: undefined reference to  `FixedDiv2'
             am_map.c:  undefined reference to `FixedMul'
             r_main.c:  undefined reference to `R_DrawColumn'
             r_main.c:  undefined reference to `R_DrawSpan'
             r_plane.c: undefined reference to `FixedMul'
-            
+
           This stuff is defined in fpfunc.S (Fixed point) and
           in r_draw.c (assembler in tmap.S not used).
           However, "nm," shows that r_draw.o does not include
           the drawing functions (see below - USE_ASM).
           Furthermore, the global symbols in fpfunc.S begin
           with an underscore, "_FixedMul" and "_FixedDiv2".
- 
-          More problems within fpfunc.o: undefined references to 
+
+          More problems within fpfunc.o: undefined references to
 
              `_dc_yl'      `_dc_yh'
              `_ylookup'
@@ -919,4 +919,3 @@ Sat Jan 18 15:14:41 1997    <bk@gamers.org ()>
         **************************************************************
 	DOOM source code ChangeLog file
 	**************************************************************
-

@@ -1,4 +1,4 @@
-// Emacs style mode select   -*- C++ -*- 
+// Emacs style mode select   -*- C++ -*-
 //-----------------------------------------------------------------------------
 //
 // $Id:$
@@ -58,8 +58,3 @@ M_AddToBox
     else if (y>box[BOXTOP])
 	box[BOXTOP] = y;
 }
-
-
-
-
-
