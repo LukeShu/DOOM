@@ -30,6 +30,7 @@ rcsid[] = "$Id: i_unix.c,v 1.5 1997/02/03 22:45:10 b1 Exp $";
 #include <stdarg.h>
 
 #include <math.h>
+#include <errno.h>
 
 #include <sys/time.h>
 #include <sys/types.h>
@@ -164,7 +165,6 @@ myioctl
   int*	arg )
 {
     int		rc;
-    extern int	errno;
 
     rc = ioctl(fd, command, arg);
     if (rc < 0)
