@@ -10,8 +10,8 @@ I mostly don't use Git tags for reconstructed historical commits; as I
 might update them, and `git fetch` mostly assumes that tags are
 immutable.
 
-Historical projects
--------------------
+Historical reconstruction
+-------------------------
 
  - [`linuxxdoom/original-release`]: The original 1997 source code
    release, under the non-free DOOM Source License (DSL).  This is
@@ -50,3 +50,17 @@ Historical projects
 [fbDOOM]: https://github.com/maximevince/fbDOOM
 [Frosted Doom]: https://github.com/insane-adding-machines/DOOM
 [Chocolate Doom]: https://github.com/chocolate-doom/chocolate-doom
+
+My own development, of historical interest
+------------------------------------------
+
+ - [`linuxxdoom/heirloom`]: Keeping the `linuxdoom/gpl-release`
+   building and running on modern GNU/Linux systems.
+
+[`linuxxdoom/heirloom`]: https://github.com/LukeShu/DOOM/tree/linuxxdoom/heirloom
+
+My own development, of modern interest
+--------------------------------------
+
+ - `doomgeneric/*`: In-progress or experimental contributions to
+   https://github.com/ozkl/doomgeneric
